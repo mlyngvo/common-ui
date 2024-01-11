@@ -1,0 +1,48 @@
+{
+  "name": "@mlyngvo/common-ui",
+  "version": "0.0.1",
+  "description": "Common UI components for project initiation.",
+  "module": "esm/index.js",
+  "types": "esm/index.d.ts",
+  "files": [
+    "esm/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlyngvo/common-ui.git"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "demo": "webpack serve --progress"
+  },
+  "author": "Ly Nguyen <contact@minhlynguyenvo.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.15.4",
+    "@mui/material": "^5.15.4",
+    "@mui/system": "^5.15.4",
+    "@mui/x-date-pickers": "^6.19.0",
+    "dayjs": "^1.11.10",
+    "react-async-hook": "^4.0.0"
+  },
+  "devDependencies": {
+    "@mlyngvo/eslint-config": "1.0.1",
+    "@types/react": "^18.2.47",
+    "@types/react-dom": "^18.2.18",
+    "html-webpack-plugin": "^5.6.0",
+    "rimraf": "^5.0.5",
+    "source-map-loader": "^4.0.2",
+    "ts-loader": "^9.5.1",
+    "typescript": "5.3.3",
+    "webpack": "^5.89.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  }
+}

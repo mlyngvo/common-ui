@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= htmlWebpackPlugin.options.title %></title>
+</head>
+<body>
+<div id="react-root">
+    <div class="loader">
+        <div class="content">
+            <h1>Hello there!</h1>
+            <p>Please wait a bit until the page is fully loaded...</p>
+            <small><%= htmlWebpackPlugin.options.title %></small>
+        </div>
+        <style>
+            .loader {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
+            .loader * {
+                font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", serif;
+                color: #000;
+                line-height: 1em;
+                box-sizing: border-box;
+            }
+            .loader .content {
+                position: relative;
+                padding: 1rem 3rem 1rem calc(3rem + 20px);
+                &:before {
+                    content: '';
+                    width: 10px;
+                    height: 100%;
+                    position: absolute;
+                    top: 0;
+                    left: 20px;
+                    background: black;
+                    animation: flip 3s cubic-bezier(0.455, 0.030, 0.515, 0.955) both infinite, color 3s steps(1) infinite;
+                }
+            }
+            .loader .content small {
+                font-family: monospace;
+                font-style: italic;
+                color: #78909C;
+            }
+            @keyframes flip {
+                0%, 20% {
+                    transform: rotateY(0);
+                }
+                40%, 60% {
+                    transform: rotateY(-180deg);
+                }
+                80%, 100% {
+                    transform: rotateY(0);
+                }
+            }
+            @keyframes color {
+                0%, 20% {
+                    background: black;
+                }
+                30%, 60% {
+                    background: #00E676;
+                }
+                70%, 100% {
+                    background: black;
+                }
+            }
+            noscript {
+                position: fixed;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 100000;
+                background: #fff;;
+                display: flex;
+                align-items: center;
+                padding: 5rem 10%;
+            }
+            .js-error h1 {
+                color: #B71C1C;
+            }
+            .js-error p {
+                line-height: 1.4em;
+            }
+            .js-error small {
+                font-family: monospace;
+                font-style: italic;
+                color: #78909C;
+            }
+        </style>
+        <noscript>
+            <div class="js-error">
+                <h1>JavaScript required</h1>
+                <p>
+                    This application uses JavaScript. Unfortunately, it doesn't seem to be available.
+                    Please enable JavaScript or contact your administrator to do so in order to use this application.
+                </p>
+                <small><%= htmlWebpackPlugin.options.title %></small>
+            </div>
+        </noscript>
+    </div>
+</div>
+</body>
+</html>

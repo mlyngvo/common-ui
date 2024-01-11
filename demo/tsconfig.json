@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "module": "ESNext",
+    "target": "ES6",
+    "declaration": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+  ]
+}

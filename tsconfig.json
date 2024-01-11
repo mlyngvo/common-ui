@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "Node",
+    "sourceMap": true,
+    "module": "ESNext",
+    "target": "ESNext",
+    "outDir": "./esm",
+    "declaration": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "demo/**/*"
+  ]
+}
