@@ -18,8 +18,5 @@ module.exports = {
     ],
     rules: {
         'import/export': 'off',
-        'import/prefer-default-export': 'off',
-        'react/jsx-props-no-spreading': 'off',
-        'no-prototype-builtins': 'off',
     }
 }

@@ -1,24 +1,27 @@
-import React, {useState} from 'react';
-import dayjs from 'dayjs';
-import {CommonDatePicker, CommonDateTimePicker, CommonTimePicker, render} from '../src';
+import React from 'react';
+import {render} from '../src';
+import {Demo} from './demo';
 
-function Demo() {
-
-    const [locale, setLocale] = useState('en');
-
-    return (
-        <div>
-            <CommonDatePicker locale={locale} value={dayjs()} />
-            <CommonTimePicker locale={locale} value={dayjs()} />
-            <CommonDateTimePicker  locale={locale} value={dayjs()} />
-
-            <button onClick={() => { setLocale('en'); }}>EN</button>
-            <button onClick={() => { setLocale('de'); }}>DE</button>
-            <button onClick={() => { setLocale('vi'); }}>VI</button>
-            <button onClick={() => { setLocale('ja'); }}>JA</button>
-        </div>
-    );
-}
+// function Demo() {
+//
+//     const [locale, setLocale] = useState('en');
+//
+//     return (
+//         <div>
+//             <Demo />
+//
+//
+//             {/*<CommonDatePicker locale={locale} value={dayjs()} />*/}
+//             {/*<CommonTimePicker locale={locale} value={dayjs()} />*/}
+//             {/*<CommonDateTimePicker  locale={locale} value={dayjs()} />*/}
+//
+//             {/*<button onClick={() => { setLocale('en'); }}>EN</button>*/}
+//             {/*<button onClick={() => { setLocale('de'); }}>DE</button>*/}
+//             {/*<button onClick={() => { setLocale('vi'); }}>VI</button>*/}
+//             {/*<button onClick={() => { setLocale('ja'); }}>JA</button>*/}
+//         </div>
+//     );
+// }
 
 render(<Demo />);
 

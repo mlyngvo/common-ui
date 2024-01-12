@@ -1,7 +1,7 @@
 import {type ReactNode} from 'react';
 import {createRoot} from 'react-dom/client';
 
-export default function render(element: ReactNode) {
+export function render(element: ReactNode) {
     const dom = document.querySelector('#react-root');
     if (dom !== null) {
         try {

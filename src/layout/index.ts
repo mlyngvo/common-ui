@@ -1,1 +1,2 @@
-export {default as render} from './render';
+export {render} from './render';
+export {ErrorBoundary} from './error-boundary';

@@ -1,7 +1,7 @@
 import React from 'react';
 import {afterEach, describe, expect, it} from '@jest/globals';
 import {act} from '@testing-library/react';
-import render from './render';
+import {render} from './render';
 
 afterEach(() => {
     document.body.innerHTML = '';

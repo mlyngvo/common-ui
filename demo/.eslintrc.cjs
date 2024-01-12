@@ -5,4 +5,7 @@ module.exports = {
     parserOptions: {
         ecmaVersion: 'latest',
     },
+    rules: {
+        'import/no-extraneous-dependencies': 'off'
+    }
 }
