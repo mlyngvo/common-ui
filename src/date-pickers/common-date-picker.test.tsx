@@ -10,7 +10,7 @@ describe('common-date-picker tests', () => {
 
         await waitFor(() => {
             const labelInput = screen.getByLabelText('Blank Date Picker');
-            expect(labelInput).not.toBeNull();
+            expect(labelInput).toBeVisible();
         });
     });
 
@@ -23,7 +23,7 @@ describe('common-date-picker tests', () => {
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).not.toBeNull();
+            expect(valueInput).toBeVisible();
         });
     });
 

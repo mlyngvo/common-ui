@@ -10,7 +10,7 @@ describe('common-time-picker tests', () => {
 
         await waitFor(() => {
             const labelInput = screen.getByLabelText('Blank Time Picker');
-            expect(labelInput).not.toBeNull();
+            expect(labelInput).toBeVisible()
         });
     });
 
@@ -23,7 +23,7 @@ describe('common-time-picker tests', () => {
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).not.toBeNull();
+            expect(valueInput).toBeVisible()
         });
     });
 
