@@ -9,13 +9,13 @@
     "resolveJsonModule": true,
     "strict": true,
     "jsx": "react",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*"
   ],
   "exclude": [
-    "src/**/*.spec.ts",
     "demo/**/*"
   ]
 }

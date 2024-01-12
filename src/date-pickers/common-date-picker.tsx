@@ -3,7 +3,6 @@ import {DatePicker, type DatePickerProps, LocalizationProvider} from '@mui/x-dat
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import useDayJsLocales from './dayjs-locales';
 
-
 interface CommonDatePickerProperties extends DatePickerProps<any> {
     locale?: string
 }
