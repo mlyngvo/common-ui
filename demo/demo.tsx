@@ -1,7 +1,7 @@
-import React, {Fragment, PropsWithChildren, type ReactElement} from 'react';
+import React, {type PropsWithChildren, type ReactElement} from 'react';
+import {Box, Button, Stack} from '@mui/joy';
 import {HashRouter, Route, Routes, useNavigate} from 'react-router-dom';
 import {DemoErrorBoundary} from './page/error-boundary';
-import {Box, Button, Stack} from "@mui/material";
 
 const routes: Record<string, ReactElement> = {
     '/error-boundary': <DemoErrorBoundary />
@@ -11,14 +11,17 @@ function Shell({children}: PropsWithChildren) {
     const navigate = useNavigate();
 
     return (
-        <Fragment>
-            <Stack>
-                <Button variant="outlined" onClick={() => navigate('/error-boundary')}>Error Boundary</Button>
+        <>
+            <Stack
+                direction="row"
+                justifyContent="center"
+            >
+                <Button variant="outlined" onClick={() => { navigate('/error-boundary'); }}>Error Boundary</Button>
             </Stack>
             <Box my={3} />
             {children}
-        </Fragment>
-    )
+        </>
+    );
 }
 
 export function Demo() {

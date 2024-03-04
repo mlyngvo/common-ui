@@ -1,6 +1,15 @@
 import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
-import {Accordion, AccordionDetails, AccordionSummary, Box, Typography} from '@mui/material';
-import {ExpandMore} from '@mui/icons-material';
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionGroup,
+    AccordionSummary,
+    Box,
+    Modal,
+    ModalDialog, Stack,
+    Typography
+} from '@mui/joy';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 
 interface ErrorContext {
     url: string;
@@ -92,7 +101,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                 }
                 return (
                     <Fragment key={`kv-${index}`} >
-                        <Typography variant="caption">{key}</Typography>
+                        <Typography level="body-xs">{key}</Typography>
                         <Box component="code" sx={{ ...codeSx, mb: 2 }}>
                             {value}
                         </Box>
@@ -112,41 +121,66 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                 userAgent
             } = {}} = ErrorBoundary;
         return (
-            <Box p={3}>
-                {/* <NotFound style={{ width: '100%', maxHeight: 300 }} /> */}
-                {/* <Box p={4} /> */}
-                <Typography variant="h2" align="center">Oops, something went wrong!</Typography>
-                <Box p={2} />
-                <Accordion>
-                    <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Typography>{error?.message}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails
+            <Modal open>
+                <ModalDialog>
+                    <Box
                         sx={{
-                            display: 'flex',
-                            flexDirection: 'column'
+                            overflow: 'scroll',
+                            mx: 'calc(-1 * var(--ModalDialog-padding))',
+                            px: 'var(--ModalDialog-padding)',
                         }}
                     >
-                        <Typography variant="overline"><strong>URL</strong></Typography>
-                        <Box component="code" sx={codeSx}>{url}</Box>
-                        <Box my={1} />
-                        <Typography variant="overline"><strong>Referrer</strong></Typography>
-                        <Box component="code" sx={codeSx}>{referrer}</Box>
-                        <Box my={1} />
-                        <Typography variant="overline"><strong>User-Agent</strong></Typography>
-                        <Box component="code" sx={codeSx}>{userAgent}</Box>
-                        <Box my={1} />
-                        <Typography variant="overline"><strong>Trace</strong></Typography>
-                        <Box component="code" sx={codeSx}>{error?.stack}</Box>
-                        <Box my={1} />
-                        <Typography variant="overline"><strong>Session Storage</strong></Typography>
-                        {this.renderStorage(sessionStorage)}
-                        <Box my={1} />
-                        <Typography variant="overline"><strong>Local Storage</strong></Typography>
-                        {this.renderStorage(localStorage)}
-                    </AccordionDetails>
-                </Accordion>
-            </Box>
+                        <Stack
+                            direction="column"
+                            alignItems="center"
+                        >
+                            <ErrorOutlineRoundedIcon fontSize="large" color="error" />
+                            <Typography level="h3" textAlign="center" sx={{ mb: 3 }}>Oops, something went wrong!</Typography>
+                        </Stack>
+
+                        <AccordionGroup>
+                            <Accordion>
+                                <AccordionSummary
+                                    sx={theme => ({
+                                        '& > button': {
+                                            background: theme.palette.background.level3,
+                                            borderRadius: 5,
+                                            '&:hover': {
+                                                background: `${theme.palette.background.level2} !important`,
+                                            }
+                                        }
+
+                                        // '&:hover > button': {
+
+                                        // }
+                                    })}
+                                >
+                                    {error?.message}
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography level="body-sm"><strong>URL</strong></Typography>
+                                    <Box component="code" sx={codeSx}>{url}</Box>
+                                    <Box my={1} />
+                                    <Typography level="body-sm"><strong>Referrer</strong></Typography>
+                                    <Box component="code" sx={codeSx}>{referrer}</Box>
+                                    <Box my={1} />
+                                    <Typography level="body-sm"><strong>User-Agent</strong></Typography>
+                                    <Box component="code" sx={codeSx}>{userAgent}</Box>
+                                    <Box my={1} />
+                                    <Typography level="body-sm"><strong>Trace</strong></Typography>
+                                    <Box component="code" sx={codeSx}>{error?.stack}</Box>
+                                    <Box my={1} />
+                                    <Typography level="body-sm"><strong>Session Storage</strong></Typography>
+                                    {this.renderStorage(sessionStorage)}
+                                    <Box my={1} />
+                                    <Typography level="body-sm"><strong>Local Storage</strong></Typography>
+                                    {this.renderStorage(localStorage)}
+                                </AccordionDetails>
+                            </Accordion>
+                        </AccordionGroup>
+                    </Box>
+                </ModalDialog>
+            </Modal>
         );
     }
 }

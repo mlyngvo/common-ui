@@ -10,7 +10,7 @@ describe('common-time-picker tests', () => {
 
         await waitFor(() => {
             const labelInput = screen.getByLabelText('Blank Time Picker');
-            expect(labelInput).toBeVisible()
+            expect(labelInput).toBeVisible();
         });
     });
 
@@ -23,7 +23,7 @@ describe('common-time-picker tests', () => {
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toBeVisible()
+            expect(valueInput).toBeVisible();
         });
     });
 
@@ -32,12 +32,12 @@ describe('common-time-picker tests', () => {
 
         await act(() => render(<CommonTimePicker label="Common Time Picker" locale="en" value={now} />));
 
-        const valueText = dayjs().add(2, 'd').format('hh:mm A');
+        const value = dayjs().add(2, 'd').format('hh:mm A');
         const labelInput = screen.getByLabelText('Common Time Picker');
-        fireEvent.change(labelInput, { target: { value: valueText } });
+        fireEvent.change(labelInput, { target: { value } });
 
         await waitFor(() => {
-            const valueInput = screen.getByDisplayValue(valueText);
+            const valueInput = screen.getByDisplayValue(value);
             expect(valueInput).toEqual(labelInput);
         });
     });

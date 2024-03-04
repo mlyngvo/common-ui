@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Typography} from '@mui/material';
+import {Typography} from '@mui/joy';
 import {ErrorBoundary} from '../../src';
 
 function ErrorContent() {
@@ -12,7 +12,7 @@ function ErrorContent() {
 
     return (
         <div>
-            <Typography variant="h1">YOU CAN&apos;T SEE ME</Typography>
+            <Typography level="h1">YOU CAN&apos;T SEE ME</Typography>
             <img src="https://i.imgur.com/TaLcpjR.jpg" alt="THE TIME IS NOW"/>
         </div>
     );
@@ -25,7 +25,7 @@ export function DemoErrorBoundary() {
         localStorage.setItem('secret', 'very-strong-password');
         localStorage.setItem('publicKey', 'you-can-read-this-key-1234');
         setShowError(true);
-    }, [])
+    }, []);
 
     return (
         <ErrorBoundary

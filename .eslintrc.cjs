@@ -14,7 +14,8 @@ module.exports = {
         'react'
     ],
     ignorePatterns: [
-        '*.config.js'
+        '*.config.js',
+        'setupTests.ts',
     ],
     rules: {
         'import/export': 'off',

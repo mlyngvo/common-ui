@@ -10,7 +10,7 @@ describe('common-date-time-picker tests', () => {
 
         await waitFor(() => {
             const labelInput = screen.getByLabelText('Blank Date Time Picker');
-            expect(labelInput).toBeVisible()
+            expect(labelInput).toBeVisible();
         });
     });
 
@@ -23,7 +23,7 @@ describe('common-date-time-picker tests', () => {
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toBeVisible()
+            expect(valueInput).toBeVisible();
         });
     });
 
@@ -32,12 +32,12 @@ describe('common-date-time-picker tests', () => {
 
         await act(() => render(<CommonDateTimePicker label="Common Date Time Picker" locale="en" value={now} />));
 
-        const valueText = dayjs().add(2, 'd').format('MM/DD/YYYY hh:mm A');
+        const value = dayjs().add(2, 'd').format('MM/DD/YYYY hh:mm A');
         const labelInput = screen.getByLabelText('Common Date Time Picker');
-        fireEvent.change(labelInput, { target: { value: valueText } });
+        fireEvent.change(labelInput, { target: { value } });
 
         await waitFor(() => {
-            const valueInput = screen.getByDisplayValue(valueText);
+            const valueInput = screen.getByDisplayValue(value);
             expect(valueInput).toEqual(labelInput);
         });
     });

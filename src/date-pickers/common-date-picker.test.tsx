@@ -32,12 +32,12 @@ describe('common-date-picker tests', () => {
 
         await act(() => render(<CommonDatePicker label="Common Date Picker" locale="en" value={now} />));
 
-        const valueText = dayjs().add(2, 'd').format('MM/DD/YYYY');
+        const value = dayjs().add(2, 'd').format('MM/DD/YYYY');
         const labelInput = screen.getByLabelText('Common Date Picker');
-        fireEvent.change(labelInput, { target: { value: valueText } });
+        fireEvent.change(labelInput, { target: { value } });
 
         await waitFor(() => {
-            const valueInput = screen.getByDisplayValue(valueText);
+            const valueInput = screen.getByDisplayValue(value);
             expect(valueInput).toEqual(labelInput);
         });
     });
