@@ -11,9 +11,10 @@
     "url": "git+https://github.com/mlyngvo/common-ui.git"
   },
   "scripts": {
-    "build": "npm run lint; tsc --p tsconfig.build.json",
+    "build": "npm run lint; tsc --p tsconfig.build.json; npm run copy:html",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "copy:html": "cpy 'src/layout/*.html' esm/layout",
     "demo": "webpack serve --progress",
     "clean": "rimraf ./esm",
     "test": "jest"
@@ -42,6 +43,7 @@
     "@types/react": "^18.2.47",
     "@types/react-dom": "^18.2.18",
     "babel-jest": "^29.7.0",
+    "cpy-cli": "^5.0.0",
     "html-webpack-plugin": "^5.6.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
