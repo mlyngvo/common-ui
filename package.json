@@ -1,6 +1,5 @@
 {
   "name": "@mlyngvo/common-ui",
-  "version": "0.0.1",
   "description": "Common UI components for project initiation.",
   "module": "esm/index.js",
   "types": "esm/index.d.ts",
