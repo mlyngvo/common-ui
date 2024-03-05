@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig",
+  "compilerOptions": {
+    "sourceMap": false
+  },
   "exclude": [
     "src/**/*.test.*",
-    "src/setupTests.ts",
+    "src/setupTests.ts"
   ]
 }
