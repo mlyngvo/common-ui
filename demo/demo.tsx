@@ -1,26 +1,46 @@
 import React, {type PropsWithChildren, type ReactElement} from 'react';
-import {Box, Button, Stack} from '@mui/joy';
+import {Box, Button, Container, Divider, Stack} from '@mui/joy';
 import {HashRouter, Route, Routes, useNavigate} from 'react-router-dom';
 import {DemoErrorBoundary} from './page/error-boundary';
+import {AppThemeProvider} from '../src';
+import {DemoTypography} from './page/typography';
 
-const routes: Record<string, ReactElement> = {
-    '/error-boundary': <DemoErrorBoundary />
+const routes: Record<string, { title: string, element: ReactElement }> = {
+    '/error-boundary': { title: 'Error Boundary', element: <DemoErrorBoundary /> },
+    '/typography': { title: 'Typography', element: <DemoTypography /> },
 };
 
 function Shell({children}: PropsWithChildren) {
     const navigate = useNavigate();
 
     return (
-        <>
-            <Stack
-                direction="row"
-                justifyContent="center"
+        <AppThemeProvider>
+            <Container
+                sx={{
+                    mt: 10
+                }}
             >
-                <Button variant="outlined" onClick={() => { navigate('/error-boundary'); }}>Error Boundary</Button>
-            </Stack>
-            <Box my={3} />
-            {children}
-        </>
+                <Stack
+                    direction="row"
+                    spacing={2}
+                >
+                    {Object.entries(routes).map(([path, { title }]) => (
+                        <Button
+                            key={path}
+                            variant="solid"
+                            size="sm"
+                            onClick={() => { navigate(path); }}
+                        >
+                            {title}
+                        </Button>
+                    ))}
+                </Stack>
+                <Box my={3}>
+                    <Divider />
+                </Box>
+                {children}
+            </Container>
+        </AppThemeProvider>
     );
 }
 
@@ -29,8 +49,8 @@ export function Demo() {
         <HashRouter>
             <Shell>
                 <Routes>
-                    {Object.entries(routes).map(([path, element], index) => (
-                        <Route key={`route-${  index}`} {...{path, element}} />
+                    {Object.entries(routes).map(([path, { element }]) => (
+                        <Route key={path} {...{path, element}} />
                     ))}
                 </Routes>
             </Shell>

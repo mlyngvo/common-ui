@@ -35,8 +35,12 @@ module.exports = {
                 ]
             },
             {
-                test: /\.woff(2?)$/,
-                type: "asset/resource"
+                test: /\.css$/i,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf)$/i,
+                type: 'asset/resource',
             },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             {

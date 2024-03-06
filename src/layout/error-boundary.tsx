@@ -120,6 +120,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                 referrer,
                 userAgent
             } = {}} = ErrorBoundary;
+
         return (
             <Modal open>
                 <ModalDialog>
@@ -134,7 +135,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                             direction="column"
                             alignItems="center"
                         >
-                            <ErrorOutlineRoundedIcon fontSize="large" color="error" />
+                            <ErrorOutlineRoundedIcon sx={{ color: 'var(--joy-palette-danger-500)', fontSize: '4rem' }} />
                             <Typography level="h3" textAlign="center" sx={{ mb: 3 }}>Oops, something went wrong!</Typography>
                         </Stack>
 
@@ -149,10 +150,6 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                                                 background: `${theme.palette.background.level2} !important`,
                                             }
                                         }
-
-                                        // '&:hover > button': {
-
-                                        // }
                                     })}
                                 >
                                     {error?.message}
