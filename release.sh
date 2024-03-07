@@ -28,7 +28,7 @@ echo "${RELEASE}"
 
 echo
 
-read -p "Are you sure you want to create this release (${RELEASE})? (yYN)" -n 1 -r
+read -p "${LOG_PREFIX} Are you sure you want to create this release (${RELEASE})? (yYN) " -n 1 -r
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]
 then
