@@ -19,5 +19,7 @@ module.exports = {
     ],
     rules: {
         'import/export': 'off',
+        'no-restricted-syntax': 'off',
+        'max-classes-per-file': 'off',
     }
 }

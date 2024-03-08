@@ -27,6 +27,7 @@
     "@fontsource-variable/martian-mono": "^5.0.12",
     "@fontsource/be-vietnam-pro": "^5.0.19",
     "@mui/material": "^5.15.12",
+    "js-cookie": "^3.0.5",
     "react-async-hook": "^4.0.0"
   },
   "devDependencies": {
@@ -38,6 +39,7 @@
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",
     "@testing-library/user-event": "^14.5.2",
+    "@types/js-cookie": "^3.0.6",
     "@types/react": "^18.2.64",
     "@types/react-dom": "^18.2.20",
     "babel-jest": "^29.7.0",
@@ -61,11 +63,11 @@
     "webpack-dev-server": "^5.0.2"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "@mui/icons-material": "^5.0.0",
     "@mui/joy": "^5.0.0-beta.0",
     "@mui/x-date-pickers": "^6.0.0",
-    "dayjs": "^1.0.0"
+    "dayjs": "^1.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
   }
 }

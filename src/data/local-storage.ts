@@ -1,70 +1,71 @@
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
+import Cookies from 'js-cookie';
 
 interface LocalStorage {
-    get<T>(key: string): T|undefined;
-    save<T>(key: string, value: T): void;
-    delete(key: string): void;
+    get: <T>(key: string) => T|undefined;
+    save: <T>(key: string, value: T) => void;
+    delete: (key: string) => void;
 }
 
 class LocalStorageImpl implements LocalStorage {
 
+    private readonly engine = localStorage;
+
     get<T>(key: string): T | undefined {
-        const data = localStorage.getItem(key);
-        return data
-            ? JSON.parse(data)
-            : undefined;
+        const data = this.engine.getItem(key);
+        return data === null
+            ? undefined
+            : JSON.parse(data);
     }
 
     save<T>(key: string, value: T): void {
-        localStorage.setItem(key, JSON.stringify(value));
+        this.engine.setItem(key, JSON.stringify(value));
     }
 
     delete(key: string): void {
-        localStorage.removeItem(key);
+        this.engine.removeItem(key);
     }
 }
 
 class CookieStorageImpl implements LocalStorage {
 
     private static readonly EXPIRATION_DAYS = 365;
+    private readonly engine = Cookies;
 
     get<T>(key: string): T | undefined {
-        for (let cookie of decodeURIComponent(document.cookie).split(';')) {
-            const [name, value] = cookie.split('=');
-            if (name === key) {
-                return JSON.parse(value) as T;
-            }
-        }
+        const data = this.engine.get(key);
+        return data === undefined
+            ? undefined
+            : JSON.parse(data);
     }
 
     save<T>(key: string, value: T): void {
         const expires = dayjs()
-            .add(CookieStorageImpl.EXPIRATION_DAYS, "days")
-            .toDate()
-            .toUTCString();
-        document.cookie = `${key}=${value};expires=${expires};path=/`;
+            .add(CookieStorageImpl.EXPIRATION_DAYS, 'days')
+            .toDate();
+        this.engine.set(key, JSON.stringify(value), {
+            expires
+        });
     }
 
     delete(key: string): void {
-        document.cookie = `${key}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+        this.engine.remove(key);
     }
 }
 
 class StorageEngine {
 
-    private _storage: LocalStorage;
+    private readonly engine: LocalStorage;
 
     constructor() {
-        if (!window.localStorage) {
-            this._storage = new LocalStorageImpl();
-        } else {
-            this._storage = new CookieStorageImpl();
-        }
+        this.engine = window.localStorage === undefined
+            ? new LocalStorageImpl()
+            : new CookieStorageImpl();
     }
 
     get storage() {
-        return this._storage;
+        return this.engine;
     }
 }
 
-export const storage = new StorageEngine().storage;
+export const {storage} = new StorageEngine();
