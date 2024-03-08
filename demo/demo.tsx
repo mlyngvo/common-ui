@@ -4,10 +4,12 @@ import {HashRouter, Route, Routes, useNavigate} from 'react-router-dom';
 import {DemoErrorBoundary} from './page/error-boundary';
 import {AppThemeProvider} from '../src';
 import {DemoTypography} from './page/typography';
+import {DemoLocalization} from "./page/localization";
 
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/error-boundary': { title: 'Error Boundary', element: <DemoErrorBoundary /> },
     '/typography': { title: 'Typography', element: <DemoTypography /> },
+    '/localization': { title: 'Localization', element: <DemoLocalization /> },
 };
 
 function Shell({children}: PropsWithChildren) {

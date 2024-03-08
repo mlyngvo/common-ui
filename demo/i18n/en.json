@@ -1,0 +1,9 @@
+{
+  "foo": "bar EN",
+  "key": "value EN",
+  "depth": {
+    "findMe": {
+      "theValue": "deep EN"
+    }
+  }
+}
