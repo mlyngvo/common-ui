@@ -21,10 +21,10 @@ const titles = {
 };
 
 const bodies = {
-    'body-lg': computeTypoSize(1),
-    'body-md': computeTypoSize(0.87),
-    'body-sm': computeTypoSize(0.79),
-    'body-xs': computeTypoSize(0.79),
+    'body-lg': computeTypoSize(0.93),
+    'body-md': computeTypoSize(0.79),
+    'body-sm': computeTypoSize(0.70, 500),
+    'body-xs': computeTypoSize(0.62, 500),
 };
 
 const theme = extendTheme({
@@ -179,9 +179,10 @@ const theme = extendTheme({
     }
 });
 
-function computeTypoSize(factor: number): CSSObject {
+function computeTypoSize(factor: number, weight?: number): CSSObject {
     return {
-        fontSize: `${BASE_FONT_SIZE * factor  }rem`
+        fontSize: `${BASE_FONT_SIZE * factor  }rem`,
+        fontWeight: weight
     };
 }
 

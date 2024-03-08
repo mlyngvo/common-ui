@@ -14,6 +14,9 @@ dependencies:
   '@fontsource-variable/martian-mono':
     specifier: ^5.0.12
     version: 5.0.12
+  '@fontsource-variable/plus-jakarta-sans':
+    specifier: ^5.0.20
+    version: 5.0.20
   '@fontsource/be-vietnam-pro':
     specifier: ^5.0.19
     version: 5.0.19
@@ -1595,6 +1598,10 @@ packages:
 
   /@fontsource-variable/martian-mono@5.0.12:
     resolution: {integrity: sha512-EkfFxXLhXenDYYkiiNLd+aPcCmmjLh9+aYmrd5axrdcQifKkWELvYUBnzHSZY2A5lf4iQMHlqIflrtBcsddpKQ==}
+    dev: false
+
+  /@fontsource-variable/plus-jakarta-sans@5.0.20:
+    resolution: {integrity: sha512-huGRbvrF0dVCF8za32BnDy+W9UqKHOO148C5mFoDW77CARW3pgrZG+r35VKBZjqTM/kZJzbVctsxfXOiP5EUFw==}
     dev: false
 
   /@fontsource/be-vietnam-pro@5.0.19:

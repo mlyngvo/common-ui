@@ -25,6 +25,7 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fontsource-variable/martian-mono": "^5.0.12",
+    "@fontsource-variable/plus-jakarta-sans": "^5.0.20",
     "@fontsource/be-vietnam-pro": "^5.0.19",
     "@mui/material": "^5.15.12",
     "js-cookie": "^3.0.5",
