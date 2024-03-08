@@ -42,6 +42,10 @@ module.exports = {
                 test: /\.(woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
+            {
+                test: /\.svg$/,
+                loader: 'svg-inline-loader'
+            },
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             {
                 enforce: "pre",

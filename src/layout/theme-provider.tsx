@@ -16,14 +16,14 @@ const headings = {
 
 const titles = {
     'title-lg': computeTypoSize(1),
-    'title-md': computeTypoSize(0.87),
-    'title-sm': computeTypoSize(0.79),
+    'title-md': computeTypoSize(0.83),
+    'title-sm': computeTypoSize(0.75),
 };
 
 const bodies = {
     'body-lg': computeTypoSize(0.93),
     'body-md': computeTypoSize(0.79),
-    'body-sm': computeTypoSize(0.70, 500),
+    'body-sm': computeTypoSize(0.7, 500),
     'body-xs': computeTypoSize(0.62, 500),
 };
 

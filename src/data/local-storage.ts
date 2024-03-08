@@ -58,9 +58,9 @@ class StorageEngine {
     private readonly engine: LocalStorage;
 
     constructor() {
-        this.engine = window.localStorage !== undefined
-            ? new LocalStorageImpl()
-            : new CookieStorageImpl();
+        this.engine = window.localStorage === undefined
+            ? new CookieStorageImpl()
+            : new LocalStorageImpl();
     }
 
     get storage() {
