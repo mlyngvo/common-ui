@@ -6,12 +6,15 @@ import {AppThemeProvider} from '../src';
 import {DemoTypography} from './page/typography';
 import {DemoLocalization} from './page/localization';
 import {DemoLayout} from './page/layout';
+import {DemoAuthForgotPassword, DemoAuthLogin} from './page/auth';
 
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/error-boundary': { title: 'Error Boundary', element: <DemoErrorBoundary /> },
     '/typography': { title: 'Typography', element: <DemoTypography /> },
     '/localization': { title: 'Localization', element: <DemoLocalization /> },
     '/layout': { title: 'Layout', element: <DemoLayout /> },
+    '/auth/login': { title: 'Auth Login', element: <DemoAuthLogin /> },
+    '/auth/forgot': { title: 'Auth Forgot Password', element: <DemoAuthForgotPassword /> },
 };
 
 function Shell({children}: PropsWithChildren) {

@@ -33,13 +33,13 @@ interface SidebarProfile {
 }
 
 interface SidebarProperties {
-    title: string;
+    appTitle: string;
     logo: ReactElement;
     navItems: SidebarNavItem[];
     profile: SidebarProfile|undefined;
 }
 
-export function Sidebar({title, logo, navItems, profile}: SidebarProperties) {
+export function Sidebar({appTitle, logo, navItems, profile}: SidebarProperties) {
     return (
         <Sheet
             sx={{
@@ -95,7 +95,7 @@ export function Sidebar({title, logo, navItems, profile}: SidebarProperties) {
                 <IconButton color="neutral" size="sm" sx={{ p: 0.75 }}>
                     {logo}
                 </IconButton>
-                <Typography level="title-md"><strong>{title}</strong></Typography>
+                <Typography level="title-md"><strong>{appTitle}</strong></Typography>
                 <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
             <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
