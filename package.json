@@ -35,7 +35,7 @@
     "@babel/preset-env": "^7.24.0",
     "@babel/preset-react": "^7.23.3",
     "@jest/globals": "^29.7.0",
-    "@mlyngvo/eslint-config": "1.0.3",
+    "@mlyngvo/eslint-config": "1.0.5",
     "@testing-library/dom": "^9.3.4",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/react": "^14.2.1",

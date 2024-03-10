@@ -1,5 +1,6 @@
 import React, {type ReactElement} from 'react';
 import {
+    Alert,
     Box, Button,
     Checkbox,
     FormControl,
@@ -7,6 +8,7 @@ import {
     Input, Link,
     Stack,
 } from '@mui/joy';
+import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import {FormModal} from './modal';
 
 interface FormElements extends HTMLFormControlsCollection {
@@ -37,10 +39,11 @@ interface LoginDialogProperties {
         forgotPassword?: string;
         submit?: string;
     }|undefined;
+    error: string|undefined;
     forgotPasswordUrl: string|undefined;
 }
 
-export function LoginDialog({appTitle, logo, onSubmit, formText, forgotPasswordUrl}: LoginDialogProperties) {
+export function LoginDialog({appTitle, logo, onSubmit, formText, error, forgotPasswordUrl}: LoginDialogProperties) {
     const {
         form,
         email,
@@ -77,6 +80,18 @@ export function LoginDialog({appTitle, logo, onSubmit, formText, forgotPasswordU
                     <FormLabel>{password ?? 'Password'}</FormLabel>
                     <Input type="password" name="password"/>
                 </FormControl>
+
+                {error !== undefined && (
+                    <Alert
+                        color="danger"
+                        variant="soft"
+                        sx={{ mt: 2 }}
+                        startDecorator={<ErrorOutlineRoundedIcon />}
+                    >
+                        {error}
+                    </Alert>
+                )}
+
                 <Stack gap={4} sx={{mt: 3}}>
                     <Box
                         sx={theme => ({

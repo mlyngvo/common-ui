@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
-import {LoginDialog} from '../../src';
 import {Logo} from '../logo';
-import {ForgotPasswordDialog, ForgotPasswordFormData} from '../../src/auth/forgot-password';
+import {LoginDialog, ForgotPasswordDialog, ForgotPasswordFormData} from '../../src';
 import {useFlag} from '../../src/utils';
 
 export function DemoAuthLogin() {

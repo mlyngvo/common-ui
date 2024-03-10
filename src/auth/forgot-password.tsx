@@ -121,6 +121,7 @@ export function ForgotPasswordDialog(properties: ForgotPasswordDialogProperties)
                         {error}
                     </Alert>
                 )}
+
                 <Stack gap={4} sx={{mt: 3}}>
                     <Button type="submit" fullWidth>
                         {submit ?? 'Submit'}
