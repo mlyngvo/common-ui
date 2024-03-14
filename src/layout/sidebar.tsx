@@ -15,7 +15,10 @@ import {
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {ColorSchemeToggle} from './color-scheme-toggle';
+import {useFlag} from '../utils';
 
 interface SidebarNavItem {
     title: string;
@@ -39,7 +42,105 @@ interface SidebarProperties {
     profile: SidebarProfile|undefined;
 }
 
-export function Sidebar({appTitle, logo, navItems, profile}: SidebarProperties) {
+export function Sidebar(properties: SidebarProperties) {
+    const [slidedIn, setSlidedIn, clearSlidedIn] = useFlag(false);
+
+    function toggleSidebar() {
+        if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+            const slideIn = window
+                .getComputedStyle(document.documentElement)
+                .getPropertyValue('--SideNavigation-slideIn');
+            if (slideIn.length > 0) {
+                closeSidebar();
+            } else {
+                openSidebar();
+            }
+        }
+    }
+
+    function openSidebar() {
+        if (typeof window !== 'undefined') {
+            document.body.style.overflow = 'hidden';
+            document.documentElement.style.setProperty('--SideNavigation-slideIn', '1');
+            setSlidedIn();
+        }
+    }
+
+    function closeSidebar() {
+        if (typeof window !== 'undefined') {
+            document.documentElement.style.removeProperty('--SideNavigation-slideIn');
+            document.body.style.removeProperty('overflow');
+            clearSlidedIn();
+        }
+    }
+
+    const compProperties = {
+        ...properties,
+        active: slidedIn,
+        onToggle: toggleSidebar
+    };
+
+    return (
+        <>
+            <SidebarNav {...compProperties} />
+            <MobileSidebarToggler {...compProperties} />
+        </>
+    );
+}
+
+interface TogglerState {
+    active: boolean,
+    onToggle: () => void
+}
+
+function MobileSidebarToggler({logo, active, onToggle}: Pick<SidebarProperties, 'logo'> & TogglerState) {
+    return (
+        <Sheet
+            sx={{
+                display: { xs: 'flex', md: 'none' },
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                position: 'fixed',
+                top: 0,
+                width: '100vw',
+                height: 'var(--Header-height)',
+                zIndex: 9995,
+                p: 2,
+                gap: 1,
+                borderBottom: '1px solid',
+                borderColor: 'background.level2',
+                borderRadius: 0
+            }}
+        >
+            <GlobalStyles
+                styles={(theme) => ({
+                    ':root': {
+                        '--Header-height': '52px',
+                        [theme.breakpoints.up('md')]: {
+                            '--Header-height': '0px',
+                        },
+                    },
+                })}
+            />
+            <IconButton color="neutral" size="sm" sx={{ p: 0.75 }}>
+                {logo}
+            </IconButton>
+            <IconButton
+                onClick={() => { onToggle(); }}
+                variant="outlined"
+                color="neutral"
+                size="sm"
+            >
+                {active
+                    ? <CloseRoundedIcon />
+                    : <MenuIcon />
+                }
+            </IconButton>
+        </Sheet>
+    );
+}
+
+function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProperties & Omit<TogglerState, 'active'>) {
     return (
         <Sheet
             sx={{
@@ -89,7 +190,7 @@ export function Sidebar({appTitle, logo, navItems, profile}: SidebarProperties) 
                         lg: 'translateX(-100%)',
                     },
                 }}
-                onClick={() => {}}
+                onClick={() => { onToggle(); }}
             />
             <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
                 <IconButton color="neutral" size="sm" sx={{ p: 0.75 }}>
@@ -241,3 +342,4 @@ function Toggler({renderToggle, children, defaultExpanded = false}: TogglerPrope
         </>
     );
 }
+

@@ -189,7 +189,10 @@ function computeTypoSize(factor: number, weight?: number): CSSObject {
 export function AppThemeProvider({children}: PropsWithChildren) {
 
     return (
-        <CssVarsProvider theme={theme}>
+        <CssVarsProvider
+            disableTransitionOnChange
+            theme={theme}
+        >
             <CssBaseline />
             {children}
         </CssVarsProvider>

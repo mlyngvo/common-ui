@@ -47,6 +47,9 @@ dependencies:
   react-dom:
     specifier: ^18.0.0
     version: 18.2.0(react@18.2.0)
+  react-helmet:
+    specifier: ^6.1.0
+    version: 6.1.0(react@18.2.0)
 
 devDependencies:
   '@babel/preset-env':
@@ -59,8 +62,8 @@ devDependencies:
     specifier: ^29.7.0
     version: 29.7.0
   '@mlyngvo/eslint-config':
-    specifier: 1.0.5
-    version: 1.0.5(@typescript-eslint/eslint-plugin@6.21.0)(@typescript-eslint/parser@6.21.0)(eslint-config-airbnb-base@15.0.0)(eslint-config-airbnb-typescript@17.1.0)(eslint-config-airbnb@19.0.4)(eslint-config-prettier@9.1.0)(eslint-config-standard-with-typescript@43.0.1)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.34.0)(eslint-plugin-simple-import-sort@10.0.0)(eslint-plugin-unicorn@50.0.1)(eslint@8.57.0)
+    specifier: 1.0.6
+    version: 1.0.6(@typescript-eslint/eslint-plugin@6.21.0)(@typescript-eslint/parser@6.21.0)(eslint-config-airbnb-base@15.0.0)(eslint-config-airbnb-typescript@17.1.0)(eslint-config-airbnb@19.0.4)(eslint-config-prettier@9.1.0)(eslint-config-standard-with-typescript@43.0.1)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.34.0)(eslint-plugin-simple-import-sort@10.0.0)(eslint-plugin-unicorn@50.0.1)(eslint@8.57.0)
   '@testing-library/dom':
     specifier: ^9.3.4
     version: 9.3.4
@@ -82,6 +85,9 @@ devDependencies:
   '@types/react-dom':
     specifier: ^18.2.20
     version: 18.2.20
+  '@types/react-helmet':
+    specifier: ^6.1.11
+    version: 6.1.11
   babel-jest:
     specifier: ^29.7.0
     version: 29.7.0(@babel/core@7.24.0)
@@ -1911,8 +1917,8 @@ packages:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
 
-  /@mlyngvo/eslint-config@1.0.5(@typescript-eslint/eslint-plugin@6.21.0)(@typescript-eslint/parser@6.21.0)(eslint-config-airbnb-base@15.0.0)(eslint-config-airbnb-typescript@17.1.0)(eslint-config-airbnb@19.0.4)(eslint-config-prettier@9.1.0)(eslint-config-standard-with-typescript@43.0.1)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.34.0)(eslint-plugin-simple-import-sort@10.0.0)(eslint-plugin-unicorn@50.0.1)(eslint@8.57.0):
-    resolution: {integrity: sha512-CPsLyw3XEkhJxqcjaCIHGIy+lUdrhKk01v6GXix9irHyh4V1Xi1uKZ8AF4au+CjE6RR6cMUMqi1M/N4yk1UpHA==, tarball: https://npm.pkg.github.com/download/@mlyngvo/eslint-config/1.0.5/0137cfc67f10883ee59240f7fd95c803ff1cae07}
+  /@mlyngvo/eslint-config@1.0.6(@typescript-eslint/eslint-plugin@6.21.0)(@typescript-eslint/parser@6.21.0)(eslint-config-airbnb-base@15.0.0)(eslint-config-airbnb-typescript@17.1.0)(eslint-config-airbnb@19.0.4)(eslint-config-prettier@9.1.0)(eslint-config-standard-with-typescript@43.0.1)(eslint-import-resolver-typescript@3.6.1)(eslint-plugin-jsx-a11y@6.8.0)(eslint-plugin-react-hooks@4.6.0)(eslint-plugin-react@7.34.0)(eslint-plugin-simple-import-sort@10.0.0)(eslint-plugin-unicorn@50.0.1)(eslint@8.57.0):
+    resolution: {integrity: sha512-hX58kZ+ASWaA4h9/QqHfOVgxX9v+MhQ71xdCO5X9wWImV5TRdGwNVFlPNXOHK03DcYLZG4d5Q7M4uIuwJM45Ig==, tarball: https://npm.pkg.github.com/download/@mlyngvo/eslint-config/1.0.6/11f556621937bc84f62c51b85f7ff8d799163332}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^6.18.1
       '@typescript-eslint/parser': ^6.18.1
@@ -2553,6 +2559,12 @@ packages:
 
   /@types/react-dom@18.2.20:
     resolution: {integrity: sha512-HXN/biJY8nv20Cn9ZbCFq3liERd4CozVZmKbaiZ9KiKTrWqsP7eoGDO6OOGvJQwoVFuiXaiJ7nBBjiFFbRmQMQ==}
+    dependencies:
+      '@types/react': 18.2.64
+    dev: true
+
+  /@types/react-helmet@6.1.11:
+    resolution: {integrity: sha512-0QcdGLddTERotCXo3VFlUSWO3ztraw8nZ6e3zJSgG7apwV5xt+pJUS8ewPBqT4NYB1optGLprNQzFleIY84u/g==}
     dependencies:
       '@types/react': 18.2.64
     dev: true
@@ -7318,6 +7330,22 @@ packages:
       react: 18.2.0
       scheduler: 0.23.0
 
+  /react-fast-compare@3.2.2:
+    resolution: {integrity: sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==}
+    dev: false
+
+  /react-helmet@6.1.0(react@18.2.0):
+    resolution: {integrity: sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==}
+    peerDependencies:
+      react: '>=16.3.0'
+    dependencies:
+      object-assign: 4.1.1
+      prop-types: 15.8.1
+      react: 18.2.0
+      react-fast-compare: 3.2.2
+      react-side-effect: 2.1.2(react@18.2.0)
+    dev: false
+
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -7360,6 +7388,14 @@ packages:
       react: 18.2.0
       react-is: 18.2.0
     dev: true
+
+  /react-side-effect@2.1.2(react@18.2.0):
+    resolution: {integrity: sha512-PVjOcvVOyIILrYoyGEpDN3vmYNLdy1CajSFNt4TDsVQC5KpTijDvWVoR+/7Rz2xT978D8/ZtFceXxzsPwZEDvw==}
+    peerDependencies:
+      react: ^16.3.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /react-test-renderer@18.2.0(react@18.2.0):
     resolution: {integrity: sha512-JWD+aQ0lh2gvh4NM3bBM42Kx+XybOxCpgYK7F8ugAlpaTSnWsX+39Z4XkOykGZAHrjwwTZT3x3KxswVWxHPUqA==}
