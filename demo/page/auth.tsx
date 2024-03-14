@@ -12,6 +12,7 @@ export function DemoAuthLogin() {
             formText={{
                 submit: 'Sign in'
             }}
+            error={undefined}
             forgotPasswordUrl="/#/auth/forgot"
         />
     );
