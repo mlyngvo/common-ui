@@ -92,7 +92,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                 activePage: indexActivePage
             };
         }
-        const indexTotalPages = page.totalPages + (oneIndexed ? 0 : 1);
+        const indexTotalPages = page.totalPages;
         if (indexTotalPages > 6) {
             const indexStartPages = [1, 2, 3];
             const indexEndPages = [2, 1, 0].map(index => indexTotalPages - index);
