@@ -17,8 +17,8 @@ export interface SortKey<T> {
 }
 
 export interface Pageable<T> {
-    size: number;
-    page: number,
+    pageSize: number;
+    pageNumber: number,
     sort?: SortKey<T>;
     filter?: Record<string, any>;
 }
@@ -28,10 +28,10 @@ interface PaginationOptions<T> {
     fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
 }
 
-export function createPageableParameters<T>({size, page, sort, filter}: Pageable<T>) {
+export function createPageableParameters<T>({pageSize, pageNumber, sort, filter}: Pageable<T>) {
     const parameters = [
-        `size=${size}`,
-        `page=${page}`
+        `pageSize=${pageSize}`,
+        `pageNumber=${pageNumber}`
     ];
     if (sort !== undefined) {
         for (const field of sort.fields) {
@@ -64,7 +64,7 @@ export function createPageableParameters<T>({size, page, sort, filter}: Pageable
 
 export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
     const [pageable, setPageable] = useState<Pageable<T>>({
-        size: 25, page: 0
+        pageSize: 25, pageNumber: 0
     });
 
     const {result: page, loading, error, execute: onReload} = useAsync(async () =>
@@ -74,7 +74,7 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         , [pageable]);
 
     useEffect(() => {
-        const stored = storage.get<Pageable<T>>(paginationKey) ?? { size: 25, page: 0 };
+        const stored = storage.get<Pageable<T>>(paginationKey) ?? { pageSize: 25, pageNumber: 0 };
         updatePageable(stored);
     }, []);
 
@@ -97,21 +97,21 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
     function onPageNumber(number: number) {
         updatePageable({
             ...pageable,
-            page: number
+            pageNumber: number
         });
     }
 
     function onPageSize(size: number) {
         updatePageable({
             ...pageable,
-            size,
+            pageSize: size,
         });
     }
 
     function onClear() {
         updatePageable({
-            size: 25,
-            page: 0
+            pageSize: 25,
+            pageNumber: 0
         });
     }
 

@@ -299,9 +299,9 @@ const fetch = async (pageable: Pageable<Order>) => {
     const total = 23;
     return {
         content: orders,
-        size: pageable.size,
-        isLast: pageable.page === total,
-        number: pageable.page,
+        size: pageable.pageSize,
+        isLast: pageable.pageNumber === total,
+        number: pageable.pageNumber,
         totalElements: 50,
         totalPages: total
     };
