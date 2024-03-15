@@ -105,6 +105,7 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         updatePageable({
             ...(pageable ?? DEFAULT_PAGEABLE),
             size,
+            page: 0
         });
     }
 
