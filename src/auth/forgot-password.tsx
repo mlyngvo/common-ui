@@ -28,7 +28,7 @@ interface ForgotPasswordDialogProperties {
     onSubmit: (data: ForgotPasswordFormData) => void;
     verificationMode: boolean;
     newPasswordMode: boolean;
-    formText?: {
+    i18n?: {
         form?: string;
         email?: string;
         code?: string;
@@ -48,7 +48,7 @@ export function ForgotPasswordDialog(properties: ForgotPasswordDialogProperties)
         onSubmit,
         verificationMode,
         newPasswordMode,
-        formText: {
+        i18n: {
             form,
             email,
             code,

@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {Logo} from '../logo';
-import {LoginDialog, ForgotPasswordDialog, ForgotPasswordFormData} from '../../src';
-import {useFlag} from '../../src/utils';
+import {LoginDialog, ForgotPasswordDialog, ForgotPasswordFormData, useFlag} from '../../src';
 
 export function DemoAuthLogin() {
     return (
@@ -9,7 +8,7 @@ export function DemoAuthLogin() {
             appTitle="Common UI"
             logo={<Logo />}
             onSubmit={console.info}
-            formText={{
+            i18n={{
                 submit: 'Sign in'
             }}
             error={undefined}
@@ -39,7 +38,7 @@ export function DemoAuthForgotPassword() {
             onSubmit={data => { handleSubmit(data); }}
             verificationMode={verificationMode}
             newPasswordMode={passMode}
-            formText={{
+            i18n={{
                 submit: label
             }}
             loginUrl="/#/auth/login"

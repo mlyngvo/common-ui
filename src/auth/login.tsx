@@ -31,7 +31,7 @@ interface LoginDialogProperties {
     appTitle: string;
     logo: ReactElement;
     onSubmit: (data: LoginFormData) => void;
-    formText: {
+    i18n: {
         form?: string;
         email?: string;
         password?: string;
@@ -43,7 +43,7 @@ interface LoginDialogProperties {
     forgotPasswordUrl: string|undefined;
 }
 
-export function LoginDialog({appTitle, logo, onSubmit, formText, error, forgotPasswordUrl}: LoginDialogProperties) {
+export function LoginDialog({appTitle, logo, onSubmit, i18n, error, forgotPasswordUrl}: LoginDialogProperties) {
     const {
         form,
         email,
@@ -51,7 +51,7 @@ export function LoginDialog({appTitle, logo, onSubmit, formText, error, forgotPa
         persistent,
         forgotPassword,
         submit,
-    } = formText ?? {};
+    } = i18n ?? {};
 
     function handleFormSubmit(event: React.FormEvent<LoginFormElement>) {
         event.preventDefault();
