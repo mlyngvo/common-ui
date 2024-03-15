@@ -1,5 +1,6 @@
 import {useAsync} from 'react-async-hook';
 import {useEffect, useState} from 'react';
+import {debounce} from 'lodash';
 import {storage} from '../utils';
 
 export interface Page<T> {
@@ -109,6 +110,14 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         });
     }
 
+    const onFilter = debounce((filter: Record<string, any>) => {
+        updatePageable({
+            ...(pageable ?? DEFAULT_PAGEABLE),
+            filter,
+            page: 0
+        });
+    }, 500);
+
     function onClear() {
         updatePageable(DEFAULT_PAGEABLE);
     }
@@ -121,6 +130,7 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         onSort,
         onPageNumber,
         onPageSize,
+        onFilter,
         onClear,
         onReload,
     };

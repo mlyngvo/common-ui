@@ -1,9 +1,9 @@
-import React, {type ReactElement, useMemo} from 'react';
+import React, {type ReactElement, useEffect, useMemo, useState} from 'react';
 import {
     Alert,
-    Box, Button, CircularProgress,
-    Dropdown, IconButton, iconButtonClasses, LinearProgress,
-    Link, List, ListItem, Menu, MenuButton, MenuItem,
+    Box, Button, CircularProgress, Divider,
+    Dropdown, FormControl, FormLabel, IconButton, iconButtonClasses, Input, LinearProgress,
+    Link, List, ListItem, Menu, MenuButton, MenuItem, Modal, ModalClose, ModalDialog,
     Sheet,
     Table as MuiTable, Tooltip,
     Typography
@@ -11,11 +11,15 @@ import {
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import WarningIcon from '@mui/icons-material/Warning';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import KeyboardArrowRightRoundedIcon from '@mui/icons-material/KeyboardArrowRightRounded';
+import ArrowDropDownRoundedIcon from '@mui/icons-material/ArrowDropDownRounded';
 import RotateLeftRoundedIcon from '@mui/icons-material/RotateLeftRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
+import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
 import {type Page, type Pageable, type SortKey} from './use-pagination';
+import {useFlag} from '../utils';
 
 interface DataTableHeaderItem<T> {
     sortKey?: Array<keyof T>;
@@ -32,10 +36,12 @@ interface DataTableProperties<T> {
     onSort: (sortKey: SortKey<T>) => void;
     onPageNumber: (number: number) => void;
     onPageSize: (size: number) => void;
+    onFilter: (filter: Record<string, any>) => void;
     onClear: () => void;
     onReload: () => void;
     renderTableRow: (item: T) => ReactElement;
     renderListRow: (item: T) => ReactElement;
+    renderFilter?: ReactElement;
     oneIndexed?: boolean;
     i18n?: {
         next?: string;
@@ -45,6 +51,10 @@ interface DataTableProperties<T> {
         pageSize?: string;
         resetTable?: string;
         reloadData?: string;
+        searchLabel?: string;
+        searchPlaceholder?: string;
+        filterLabel?: string;
+        filterDone?: string;
     }
 }
 
@@ -55,16 +65,19 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         error,
         pageable: {
             size: pSize,
-            sort: pSort
+            sort: pSort,
+            filter: pFilter,
         } = {},
         headers,
         onSort,
         onPageNumber,
         onPageSize,
+        onFilter,
         onClear,
         onReload,
         renderTableRow,
         renderListRow,
+        renderFilter,
         oneIndexed = false,
         i18n: {
             next,
@@ -74,6 +87,10 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
             pageSize,
             resetTable,
             reloadData,
+            searchLabel,
+            searchPlaceholder,
+            filterLabel,
+            filterDone,
         } = {}
     } = properties;
 
@@ -118,6 +135,18 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         };
     }, [page, oneIndexed]);
 
+    const [filterOpen, setFilterOpen, clearFilterOpen] = useFlag(false);
+    const [needle, setNeedle] = useState('');
+
+    useEffect(() => {
+        if (typeof pFilter?.needle === 'string'
+            && pFilter.needle !== ''
+            && pFilter.needle !== needle
+        ) {
+            setNeedle(pFilter.needle);
+        }
+    }, [pFilter?.needle, needle]);
+
     function compareKey(array1: Array<keyof T>, array2: Array<keyof T>) {
         return array1.toString() === array2.toString();
     }
@@ -157,6 +186,14 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         onPageSize(size);
     }
 
+    function handleNeedle(n: string) {
+        setNeedle(n);
+        onFilter({
+            ...pFilter,
+            needle: n
+        });
+    }
+
     function renderPageButton(number: number) {
         return (
             <PageButton
@@ -171,6 +208,79 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
 
     return (
         <>
+            <Sheet
+                sx={{
+                    display: { xs: 'flex', sm: 'none' },
+                    mb: 1,
+                    gap: 1,
+                    background: 'none'
+                }}
+            >
+                <FormControl component="form" sx={{flex: 1}} size="sm">
+                    <Input
+
+                        size="sm"
+                        value={needle}
+                        onChange={event_ => { handleNeedle(event_.target.value); }}
+                        placeholder={searchPlaceholder}
+                        startDecorator={<SearchRoundedIcon />}
+                        sx={{ flexGrow: 1, background: 'none' }}
+                    />
+                </FormControl>
+                {renderFilter !== undefined && (
+                    <>
+                        <IconButton
+                            size="sm"
+                            variant="outlined"
+                            color="neutral"
+                            onClick={() => { setFilterOpen(); }}
+                        >
+                            <FilterAltRoundedIcon />
+                        </IconButton>
+                        <Modal open={filterOpen} onClose={() => { clearFilterOpen(); }}>
+                            <ModalDialog layout="fullscreen" sx={{ pt: '4rem' }}>
+                                <ModalClose />
+                                <Typography level="h3">
+                                    {filterLabel ?? 'Filter'}
+                                </Typography>
+                                <Divider />
+                                <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                                    {renderFilter}
+                                    <Button color="primary" onClick={() => { clearFilterOpen(); }}>
+                                        {filterDone ?? 'Done'}
+                                    </Button>
+                                </Sheet>
+                            </ModalDialog>
+                        </Modal>
+                    </>
+                )}
+            </Sheet>
+            <Box
+                sx={{
+                    borderRadius: 'sm',
+                    pb: 2,
+                    display: {xs: 'none', sm: 'flex'},
+                    alignItems: 'flex-end',
+                    flexWrap: 'wrap',
+                    gap: 1.5,
+                    '& > *': {
+                        minWidth: {sm: '110px', md: '120px'},
+                    },
+                }}
+            >
+                <FormControl sx={{flex: 1}} size="sm" >
+                    <FormLabel>{searchLabel ?? 'Search for item'}</FormLabel>
+                    <Input
+                        size="sm"
+                        value={needle}
+                        onChange={event_ => { handleNeedle(event_.target.value); }}
+                        placeholder={searchPlaceholder ?? 'Search'}
+                        startDecorator={<SearchRoundedIcon/>}
+                    />
+                </FormControl>
+                {renderFilter}
+            </Box>
+
             <Sheet
                 variant="outlined"
                 sx={{
@@ -212,7 +322,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                                                 component="button"
                                                 onClick={() => { handleSort(sortKey); }}
                                                 fontWeight="lg"
-                                                endDecorator={<ArrowDropDownIcon />}
+                                                endDecorator={<ArrowDropDownRoundedIcon />}
                                                 sx={{
                                                     '& svg': {
                                                         transition: '0.2s',
@@ -247,7 +357,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                                             invertedColors
                                             startDecorator={
                                                 <CircularProgress size="lg" color="danger">
-                                                    <WarningIcon  />
+                                                    <WarningRoundedIcon  />
                                                 </CircularProgress>
 
                                             }
@@ -289,7 +399,6 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
                 {page?.content.map(index => renderListRow(index))}
             </Box>
-
 
             {loading && (
                 <Box>
@@ -388,7 +497,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                             <MenuButton
                                 variant="plain"
                                 size="sm"
-                                endDecorator={<ArrowDropDownIcon />}
+                                endDecorator={<ArrowDropDownRoundedIcon />}
                                 disabled={loading}
                             >
                                 {pageSize ?? 'Page size'}: {pSize}
@@ -404,7 +513,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                             size="sm"
                             variant="outlined"
                             color="neutral"
-                            endDecorator={<KeyboardArrowRightIcon />}
+                            endDecorator={<KeyboardArrowRightRoundedIcon />}
                             disabled={loading || page?.isLast}
                             onClick={() => { handleNext(); }}
                         >
