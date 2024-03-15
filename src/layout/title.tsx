@@ -2,29 +2,19 @@ import React, {
     createContext,
     type PropsWithChildren,
     type ReactElement,
-    useContext,
+    useContext, useEffect,
     useMemo,
     useState
 } from 'react';
 import {Typography} from '@mui/joy';
 import {Helmet} from 'react-helmet';
 
-interface TitleProperties {
-    title: string;
-    actions?: ReactElement;
-}
+const PageTitleContext = createContext<IPageTitleContext>({
+    title: '',
+    setTitle: () => {},
+});
 
-export function Title({title, actions}: TitleProperties) {
-
-    return (
-        <>
-            <Typography level="h2" component="h1">
-                {title}
-            </Typography>
-            {actions}
-        </>
-    );
-}
+const usePageTitle = () => useContext(PageTitleContext);
 
 interface IPageTitleContext {
     title: string;
@@ -32,10 +22,6 @@ interface IPageTitleContext {
 }
 
 export function createPageTitleProvider(appTitle: string) {
-    const PageTitleContext = createContext<IPageTitleContext>({
-        title: '',
-        setTitle: () => {},
-    });
 
     function PageTitleProvider({children}: PropsWithChildren) {
         const [title, setTitle] = useState('');
@@ -50,17 +36,38 @@ export function createPageTitleProvider(appTitle: string) {
                 value={value}
             >
                 <Helmet>
-                    <title>{[title, appTitle].filter(index => index !== undefined).join(' | ')}</title>
+                    <title>{[title, appTitle].filter(index => !!index).join(' | ')}</title>
                 </Helmet>
                 {children}
             </PageTitleContext.Provider>
         );
     }
 
-    const usePageTitle = () => useContext(PageTitleContext);
-
     return {
         PageTitleProvider,
         usePageTitle
     };
 }
+
+interface TitleProperties {
+    title: string;
+    actions?: ReactElement;
+}
+
+export function Title({title, actions}: TitleProperties) {
+    const {setTitle} = usePageTitle();
+
+    useEffect(() => {
+        setTitle(title)
+    }, [title]);
+
+    return (
+        <>
+            <Typography level="h2" component="h1">
+                {title}
+            </Typography>
+            {actions}
+        </>
+    );
+}
+
