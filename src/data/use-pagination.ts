@@ -28,6 +28,40 @@ interface PaginationOptions<T> {
     fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
 }
 
+export function createPageableParameters<T>({size, page, sort, filter}: Pageable<T>) {
+    const parameters = [
+        `size=${size}`,
+        `page=${page}`
+    ];
+    if (sort !== undefined) {
+        for (const field of sort.fields) {
+            parameters.push(`sort=${encodeURIComponent(String(field))},${sort.order}`);
+        }
+    }
+    if (filter !== undefined) {
+        /* eslint-disable no-continue */
+        for (const [k, v] of filter.entries) {
+            if (v === undefined) continue;
+            if (Array.isArray(v)) {
+                for (const index of v) parameters.push(`${k}=${encodeURIComponent(String(index))}`);
+                continue;
+            }
+            switch (typeof v) {
+                case 'string':
+                case 'number': {
+                    parameters.push(`${k}=${encodeURIComponent(String(v))}`);
+                    break;
+                }
+                default: {
+                    console.warn(`Key (${k}) has the value of unsupported type (${typeof v}). This param will be ignored.`);
+                }
+            }
+        }
+        /* eslint-enable no-continue */
+    }
+    return parameters.join('&');
+}
+
 export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
     const [pageable, setPageable] = useState<Pageable<T>>({
         size: 25, page: 0
