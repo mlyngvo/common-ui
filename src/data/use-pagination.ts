@@ -25,7 +25,7 @@ export interface Pageable<T> {
 
 interface PaginationOptions<T> {
     paginationKey: string;
-    fetch: (pageable: Pageable<T>) => Promise<Page<T>>;
+    fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
 }
 
 export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
