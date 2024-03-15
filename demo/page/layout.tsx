@@ -418,6 +418,7 @@ function DemoTable() {
                                     <Typography level="body-xs">{item.id}</Typography>
                                 </Box>
                                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
                                     <Link level="body-sm" component="button">
                                         Download
                                     </Link>

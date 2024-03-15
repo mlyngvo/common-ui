@@ -287,7 +287,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
             </Sheet>
 
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                {page?.content.map(i => renderListRow(i))}
+                {page?.content.map(index => renderListRow(index))}
             </Box>
 
 
