@@ -21,9 +21,8 @@ import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import AutorenewRoundedIcon from '@mui/icons-material/AutorenewRounded';
 import BlockIcon from '@mui/icons-material/Block';
 import MoreHorizRoundedIcon from '@mui/icons-material/MoreHorizRounded';
-import {Pageable} from '../../src/data/use-pagination';
 import {Logo} from '../logo';
-import {Body, Breadcrumbs, createPageTitleProvider, Sidebar, DataTable, Title, usePagination} from '../../src';
+import {Body, Breadcrumbs, createPageTitleProvider, Sidebar, DataTable, Title, usePagination, Pageable} from '../../src';
 
 const {
     PageTitleProvider,
