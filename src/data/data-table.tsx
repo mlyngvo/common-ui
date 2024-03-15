@@ -54,7 +54,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         loading,
         error,
         pageable: {
-            pageSize: pSize,
+            size: pSize,
             sort: pSort
         },
         headers,

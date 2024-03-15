@@ -17,8 +17,8 @@ export interface SortKey<T> {
 }
 
 export interface Pageable<T> {
-    pageSize: number;
-    pageNumber: number,
+    size: number;
+    page: number,
     sort?: SortKey<T>;
     filter?: Record<string, any>;
 }
@@ -28,10 +28,10 @@ interface PaginationOptions<T> {
     fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
 }
 
-export function createPageableParameters<T>({pageSize, pageNumber, sort, filter}: Pageable<T>) {
+export function createPageableParameters<T>({size, page, sort, filter}: Pageable<T>) {
     const parameters = [
-        `pageSize=${pageSize}`,
-        `pageNumber=${pageNumber}`
+        `size=${size}`,
+        `page=${page}`
     ];
     if (sort !== undefined) {
         for (const field of sort.fields) {
@@ -62,10 +62,10 @@ export function createPageableParameters<T>({pageSize, pageNumber, sort, filter}
     return parameters.join('&');
 }
 
+const DEFAULT_PAGEABLE = { size: 25, page: 0 };
+
 export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
-    const [pageable, setPageable] = useState<Pageable<T>>({
-        pageSize: 25, pageNumber: 0
-    });
+    const [pageable, setPageable] = useState<Pageable<T>>();
 
     const {result: page, loading, error, execute: onReload} = useAsync(async () =>
             (pageable === undefined)
@@ -74,7 +74,7 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         , [pageable]);
 
     useEffect(() => {
-        const stored = storage.get<Pageable<T>>(paginationKey) ?? { pageSize: 25, pageNumber: 0 };
+        const stored = storage.get<Pageable<T>>(paginationKey) ?? { size: 25, page: 0 };
         updatePageable(stored);
     }, []);
 
@@ -89,30 +89,27 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
 
     function onSort(sortKey: SortKey<T>) {
         updatePageable({
-            ...pageable,
+            ...(pageable ?? DEFAULT_PAGEABLE),
             sort: sortKey
         });
     }
 
     function onPageNumber(number: number) {
         updatePageable({
-            ...pageable,
-            pageNumber: number
+            ...(pageable ?? DEFAULT_PAGEABLE),
+            page: number
         });
     }
 
     function onPageSize(size: number) {
         updatePageable({
-            ...pageable,
-            pageSize: size,
+            ...(pageable ?? DEFAULT_PAGEABLE),
+            size,
         });
     }
 
     function onClear() {
-        updatePageable({
-            pageSize: 25,
-            pageNumber: 0
-        });
+        updatePageable(DEFAULT_PAGEABLE);
     }
 
     return {
