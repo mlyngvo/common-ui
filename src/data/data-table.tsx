@@ -27,7 +27,7 @@ interface DataTableProperties<T> {
     page: Page<T>|undefined;
     loading: boolean;
     error: Error|undefined;
-    pageable: Pageable<T>;
+    pageable: Pageable<T>|undefined;
     headers: Array<DataTableHeaderItem<T>>;
     onSort: (sortKey: SortKey<T>) => void;
     onPageNumber: (number: number) => void;
@@ -56,7 +56,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         pageable: {
             size: pSize,
             sort: pSort
-        },
+        } = {},
         headers,
         onSort,
         onPageNumber,
