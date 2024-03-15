@@ -17,7 +17,6 @@ import RotateLeftRoundedIcon from '@mui/icons-material/RotateLeftRounded';
 import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import {type Page, type Pageable, type SortKey} from './use-pagination';
 
-
 interface DataTableHeaderItem<T> {
     sortKey?: Array<keyof T>;
     label: string;
@@ -35,7 +34,8 @@ interface DataTableProperties<T> {
     onPageSize: (size: number) => void;
     onClear: () => void;
     onReload: () => void;
-    renderTable: (item: T) => ReactElement;
+    renderTableRow: (item: T) => ReactElement;
+    renderListRow: (item: T) => ReactElement;
     oneIndexed?: boolean;
     i18n?: {
         next?: string;
@@ -63,7 +63,8 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         onPageSize,
         onClear,
         onReload,
-        renderTable,
+        renderTableRow,
+        renderListRow,
         oneIndexed = false,
         i18n: {
             next,
@@ -171,7 +172,6 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
     return (
         <>
             <Sheet
-                className="OrderTableContainer"
                 variant="outlined"
                 sx={{
                     display: { xs: 'none', sm: 'initial' },
@@ -237,7 +237,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                         }}
                     >
                         {error === undefined
-                            ? page?.content.map(item => renderTable(item))
+                            ? page?.content.map(item => renderTableRow(item))
                             : (
                                 <tr>
                                     <td colSpan={headers.length} style={{ padding: 30 }}>
@@ -285,6 +285,11 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                     </Box>
                 </MuiTable>
             </Sheet>
+
+            <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+                {page?.content.map(i => renderListRow(i))}
+            </Box>
+
 
             {loading && (
                 <Box>
@@ -453,13 +458,13 @@ interface PageButtonProperties {
 }
 
 function PageButton({active, number, onClick, disabled}: PageButtonProperties) {
-  return <IconButton
-            size="sm"
-            variant={active ? 'solid' : 'outlined'}
-            color={active ? 'primary' : 'neutral'}
-            onClick={() => { onClick(number); }}
-            disabled={disabled}
-        >
-            {number}
-        </IconButton>;
+    return <IconButton
+        size="sm"
+        variant={active ? 'solid' : 'outlined'}
+        color={active ? 'primary' : 'neutral'}
+        onClick={() => { onClick(number); }}
+        disabled={disabled}
+    >
+        {number}
+    </IconButton>;
 }

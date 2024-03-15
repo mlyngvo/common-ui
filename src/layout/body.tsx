@@ -35,7 +35,7 @@ export function Body({top, title, children}: PropsWithChildren<BodyProperties>) 
                 <Box
                     sx={{
                         display: 'flex',
-                        mb: 1,
+                        mb: 3,
                         gap: 1,
                         flexDirection: { xs: 'column', sm: 'row' },
                         alignItems: { xs: 'start', sm: 'center' },

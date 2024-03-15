@@ -8,7 +8,7 @@ import {
     type ColorPaletteProp, Divider,
     Dropdown,
     IconButton,
-    Link, Menu,
+    Link, List, ListDivider, ListItem, ListItemContent, ListItemDecorator, Menu,
     MenuButton, MenuItem,
     Typography
 } from '@mui/joy';
@@ -325,7 +325,7 @@ function DemoTable() {
                     { label: '', width: 140 },
                 ]
             }
-            renderTable={item => (
+            renderTableRow={item => (
                 <tr key={item.id}>
                     <td>
                         <Typography level="body-xs">
@@ -377,6 +377,77 @@ function DemoTable() {
                         </Box>
                     </td>
                 </tr>
+            )}
+            renderListRow={item => (
+                <List
+                    key={item.id}
+                    size="sm"
+                    sx={{
+                        '--ListItem-paddingX': 0,
+                    }}
+                >
+                    <ListItem
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'start',
+                        }}
+                    >
+                        <ListItemContent sx={{ display: 'flex', gap: 2, alignItems: 'start' }}>
+                            <ListItemDecorator>
+                                <Avatar size="sm">{item.customer.initial}</Avatar>
+                            </ListItemDecorator>
+                            <div>
+                                <Typography fontWeight={600} gutterBottom>
+                                    {item.customer.name}
+                                </Typography>
+                                <Typography level="body-xs" gutterBottom>
+                                    {item.customer.email}
+                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        gap: 0.5,
+                                        mb: 1,
+                                    }}
+                                >
+                                    <Typography level="body-xs">{item.date}</Typography>
+                                    <Typography level="body-xs">&bull;</Typography>
+                                    <Typography level="body-xs">{item.id}</Typography>
+                                </Box>
+                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                                    <Link level="body-sm" component="button">
+                                        Download
+                                    </Link>
+                                    <RowMenu />
+                                </Box>
+                            </div>
+                        </ListItemContent>
+                        <Chip
+                            variant="soft"
+                            size="sm"
+                            startDecorator={
+                                {
+                                    Paid: <CheckRoundedIcon />,
+                                    Refunded: <AutorenewRoundedIcon />,
+                                    Cancelled: <BlockIcon />,
+                                }[item.status]
+                            }
+                            color={
+                                {
+                                    Paid: 'success',
+                                    Refunded: 'neutral',
+                                    Cancelled: 'danger',
+                                }[item.status] as ColorPaletteProp
+                            }
+                        >
+                            {item.status}
+                        </Chip>
+                    </ListItem>
+                    <ListDivider />
+                </List>
             )}
         />
     );
