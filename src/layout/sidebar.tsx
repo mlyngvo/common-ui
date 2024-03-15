@@ -20,7 +20,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {ColorSchemeToggle} from './color-scheme-toggle';
 import {useFlag} from '../utils';
 
-interface SidebarNavItem {
+export interface SidebarNavItem {
     title: string;
     icon: ReactElement;
     onClick?: () => void;
