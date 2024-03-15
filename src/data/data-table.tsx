@@ -18,6 +18,7 @@ import DeleteForeverRoundedIcon from '@mui/icons-material/DeleteForeverRounded';
 import FilterAltRoundedIcon from '@mui/icons-material/FilterAltRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import WarningRoundedIcon from '@mui/icons-material/WarningRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {type Page, type Pageable, type SortKey} from './use-pagination';
 import {useFlag} from '../utils';
 
@@ -138,14 +139,17 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
     const [filterOpen, setFilterOpen, clearFilterOpen] = useFlag(false);
     const [needle, setNeedle] = useState('');
 
-    useEffect(() => {
-        if (typeof pFilter?.needle === 'string'
-            && pFilter.needle !== ''
-            && pFilter.needle !== needle
-        ) {
-            setNeedle(pFilter.needle);
-        }
-    }, [pFilter?.needle, needle]);
+    useEffect(() =>
+        {
+            if (typeof pFilter?.needle === 'string'
+                && pFilter.needle !== needle
+            ) {
+                setNeedle(pFilter.needle);
+            }
+        },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        [pFilter?.needle]
+    );
 
     function compareKey(array1: Array<keyof T>, array2: Array<keyof T>) {
         return array1.toString() === array2.toString();
@@ -218,12 +222,16 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
             >
                 <FormControl component="form" sx={{flex: 1}} size="sm">
                     <Input
-
                         size="sm"
                         value={needle}
                         onChange={event_ => { handleNeedle(event_.target.value); }}
                         placeholder={searchPlaceholder}
                         startDecorator={<SearchRoundedIcon />}
+                        endDecorator={
+                            needle === ''
+                                ? undefined
+                                : <CloseRoundedIcon onClick={() => { handleNeedle(''); }} />
+                        }
                         sx={{ flexGrow: 1, background: 'none' }}
                     />
                 </FormControl>
@@ -276,6 +284,11 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                         onChange={event_ => { handleNeedle(event_.target.value); }}
                         placeholder={searchPlaceholder ?? 'Search'}
                         startDecorator={<SearchRoundedIcon/>}
+                        endDecorator={
+                            needle === ''
+                                ? undefined
+                                : <CloseRoundedIcon sx={{ cursor: 'pointer' }} onClick={() => { handleNeedle(''); }} />
+                        }
                     />
                 </FormControl>
                 {renderFilter}
