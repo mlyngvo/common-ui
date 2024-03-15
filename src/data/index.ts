@@ -1,2 +1,2 @@
 export {DataTable} from './data-table';
-export {Page, SortKey, Pageable, usePagination} from './use-pagination';
+export {type Page, type SortKey, type Pageable, usePagination} from './use-pagination';
