@@ -9,17 +9,17 @@ import React, {
 import {Typography} from '@mui/joy';
 import {Helmet} from 'react-helmet';
 
+interface IPageTitleContext {
+    title: string;
+    setTitle: (lang: string) => void;
+}
+
 const PageTitleContext = createContext<IPageTitleContext>({
     title: '',
     setTitle: () => {},
 });
 
 const usePageTitle = () => useContext(PageTitleContext);
-
-interface IPageTitleContext {
-    title: string;
-    setTitle: (lang: string) => void;
-}
 
 export function createPageTitleProvider(appTitle: string) {
 
@@ -36,6 +36,7 @@ export function createPageTitleProvider(appTitle: string) {
                 value={value}
             >
                 <Helmet>
+                    {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
                     <title>{[title, appTitle].filter(index => !!index).join(' | ')}</title>
                 </Helmet>
                 {children}
@@ -58,8 +59,8 @@ export function Title({title, actions}: TitleProperties) {
     const {setTitle} = usePageTitle();
 
     useEffect(() => {
-        setTitle(title)
-    }, [title]);
+        setTitle(title);
+    }, [title, setTitle]);
 
     return (
         <>
