@@ -41,7 +41,7 @@ export function createPageableParameters<T>({size, page, sort, filter}: Pageable
     }
     if (filter !== undefined) {
         /* eslint-disable no-continue */
-        for (const [k, v] of filter.entries) {
+        for (const [k, v] of Object.entries(filter)) {
             if (v === undefined) continue;
             if (Array.isArray(v)) {
                 for (const index of v) parameters.push(`${k}=${encodeURIComponent(String(index))}`);
