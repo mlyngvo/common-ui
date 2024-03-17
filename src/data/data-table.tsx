@@ -44,6 +44,7 @@ interface DataTableProperties<T> {
     renderListRow: (item: T) => ReactElement;
     renderFilter?: (filter: Record<string, any>|undefined, onFilter: (filter: Record<string, any>) => void) => ReactElement;
     oneIndexed?: boolean;
+    stickyLastColumn?: boolean;
     i18n?: {
         next?: string;
         prev?: string;
@@ -80,6 +81,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         renderListRow,
         renderFilter,
         oneIndexed = false,
+        stickyLastColumn = false,
         i18n: {
             next,
             prev,
@@ -315,6 +317,16 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                         '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
                         '--TableCell-paddingY': '4px',
                         '--TableCell-paddingX': '8px',
+                        ...(stickyLastColumn
+                            ? {
+                                '& tr > *:last-child': {
+                                    position: 'sticky',
+                                    right: 0,
+                                    bgcolor: 'var(--TableCell-headBackground)',
+                                },
+                            }
+                            : {}
+                        )
                     }}
                 >
                     <thead>

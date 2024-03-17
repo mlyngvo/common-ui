@@ -328,6 +328,7 @@ function DemoTable() {
                     { label: '', width: 140 },
                 ]
             }
+            stickyLastColumn
             renderTableRow={item => (
                 <tr key={item.id}>
                     <td>
