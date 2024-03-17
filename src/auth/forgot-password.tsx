@@ -25,7 +25,7 @@ export interface ForgotPasswordFormData {
 interface ForgotPasswordDialogProperties {
     appTitle: string;
     logo: ReactElement;
-    onSubmit: (data: ForgotPasswordFormData) => void;
+    onSubmit: (data: ForgotPasswordFormData) => Promise<void>;
     verificationMode: boolean;
     newPasswordMode: boolean;
     i18n?: {
@@ -74,7 +74,8 @@ export function ForgotPasswordDialog(properties: ForgotPasswordDialogProperties)
             data.newPassword = formElements.newPassword.value;
             data.confirmNewPassword = formElements.confirmNewPassword.value;
         }
-        onSubmit(data);
+        onSubmit(data)
+            .catch(console.error);
     }
 
     return (

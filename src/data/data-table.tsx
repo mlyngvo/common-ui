@@ -42,7 +42,7 @@ interface DataTableProperties<T> {
     onReload: () => void;
     renderTableRow: (item: T) => ReactElement;
     renderListRow: (item: T) => ReactElement;
-    renderFilter?: (filter: Record<string, any>|undefined, onFilter: (filter: Record<string, any>) => void) => ReactElement;
+    renderFilter?: (onFilter: (filter: Record<string, any>) => void, filter: Record<string, any>|undefined) => ReactElement;
     oneIndexed?: boolean;
     stickyLastColumn?: boolean;
     i18n?: {
@@ -255,7 +255,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                                 </Typography>
                                 <Divider />
                                 <Sheet sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                                    {renderFilter(pFilter, onFilter)}
+                                    {renderFilter(onFilter, pFilter)}
                                     <Button color="primary" onClick={() => { clearFilterOpen(); }}>
                                         {filterDone ?? 'Done'}
                                     </Button>
@@ -294,7 +294,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                     />
                 </FormControl>
                 {/* eslint-disable-next-line @typescript-eslint/prefer-optional-chain */}
-                {renderFilter !== undefined && renderFilter(pFilter, onFilter)}
+                {renderFilter !== undefined && renderFilter(onFilter, pFilter)}
             </Box>
 
             <Sheet

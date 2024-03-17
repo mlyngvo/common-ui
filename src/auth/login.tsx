@@ -30,7 +30,7 @@ export interface LoginFormData {
 interface LoginDialogProperties {
     appTitle: string;
     logo: ReactElement;
-    onSubmit: (data: LoginFormData) => void;
+    onSubmit: (data: LoginFormData) => Promise<void>;
     i18n: {
         form?: string;
         email?: string;
@@ -61,7 +61,8 @@ export function LoginDialog({appTitle, logo, onSubmit, i18n, error, forgotPasswo
             password: formElements.password.value,
             persistent: formElements.persistent.checked,
         };
-        onSubmit(data);
+        onSubmit(data)
+            .catch(console.error);
     }
 
     return (
