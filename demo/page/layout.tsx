@@ -453,7 +453,7 @@ function DemoTable() {
                     <ListDivider />
                 </List>
             )}
-            renderFilter={(
+            renderFilter={() => (
                 <>
                     <FormControl size="sm">
                         <FormLabel>Status</FormLabel>
