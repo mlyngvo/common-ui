@@ -104,12 +104,12 @@ function MobileSidebarToggler({logo, active, onToggle}: Pick<SidebarProperties, 
                 top: 0,
                 width: '100vw',
                 height: 'var(--Header-height)',
-                zIndex: 9995,
+                zIndex: 995,
                 p: 2,
                 gap: 1,
                 borderBottom: '1px solid',
                 borderColor: 'background.level2',
-                borderRadius: 0
+                borderRadius: 0,
             }}
         >
             <GlobalStyles
@@ -150,7 +150,7 @@ function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProper
                     md: 'none',
                 },
                 transition: 'transform 0.4s, width 0.4s',
-                zIndex: 10_000,
+                zIndex: 1000,
                 height: '100dvh',
                 width: 'var(--Sidebar-width)',
                 top: 0,
@@ -177,7 +177,7 @@ function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProper
             <Box
                 sx={{
                     position: 'fixed',
-                    zIndex: 9998,
+                    zIndex: 998,
                     top: 0,
                     left: 0,
                     width: '100vw',
