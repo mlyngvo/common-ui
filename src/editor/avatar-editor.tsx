@@ -126,7 +126,7 @@ export function AvatarEditor({defaultImageUrl, onSave, onCancel, i18n}: AvatarEd
             )}
 
             <Button
-                variant="outlined"
+                variant="soft"
                 color="neutral"
                 startDecorator={<CloseRoundedIcon />}
                 onClick={onCancel}
