@@ -24,6 +24,7 @@ export function Body({top, title, children}: PropsWithChildren<BodyProperties>) 
                 minWidth: 0,
                 height: '100dvh',
                 gap: 1,
+                overflow: 'auto'
             }}
         >
             {top !== undefined && (
