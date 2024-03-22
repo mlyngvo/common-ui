@@ -7,6 +7,7 @@ import {DemoTypography} from './page/typography';
 import {DemoLocalization} from './page/localization';
 import {DemoLayout} from './page/layout';
 import {DemoAuthForgotPassword, DemoAuthLogin} from './page/auth';
+import {DemoAvatarEditor} from "./page/avatar-editor";
 
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/error-boundary': { title: 'Error Boundary', element: <DemoErrorBoundary /> },
@@ -15,6 +16,7 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
     '/layout': { title: 'Layout', element: <DemoLayout /> },
     '/auth/login': { title: 'Auth Login', element: <DemoAuthLogin /> },
     '/auth/forgot': { title: 'Auth Forgot Password', element: <DemoAuthForgotPassword /> },
+    '/avatar': { title: 'Avatar Editor', element: <DemoAvatarEditor /> },
 };
 
 function Shell({children}: PropsWithChildren) {

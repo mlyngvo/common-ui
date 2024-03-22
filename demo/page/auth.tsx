@@ -7,7 +7,7 @@ export function DemoAuthLogin() {
         <LoginDialog
             appTitle="Common UI"
             logo={<Logo />}
-            onSubmit={console.info}
+            onSubmit={async (data) => console.info(data)}
             i18n={{
                 submit: 'Sign in'
             }}
@@ -22,7 +22,7 @@ export function DemoAuthForgotPassword() {
     const [passMode, setPasswordMode] = useFlag(false);
     const [label, setLabel] = useState('Next');
 
-    function handleSubmit(data: ForgotPasswordFormData) {
+    async function handleSubmit(data: ForgotPasswordFormData) {
         if (!verificationMode) setVerificationMode();
         else if (!passMode) {
             setPasswordMode();
@@ -35,7 +35,7 @@ export function DemoAuthForgotPassword() {
         <ForgotPasswordDialog
             appTitle="Common UI"
             logo={<Logo />}
-            onSubmit={data => { handleSubmit(data); }}
+            onSubmit={handleSubmit}
             verificationMode={verificationMode}
             newPasswordMode={passMode}
             i18n={{
