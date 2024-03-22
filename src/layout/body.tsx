@@ -1,12 +1,14 @@
 import React, {type PropsWithChildren, type ReactElement} from 'react';
-import {Box} from '@mui/joy';
+import {Alert, Box, LinearProgress} from '@mui/joy';
 
 interface BodyProperties {
     top?: ReactElement;
     title?: ReactElement;
+    error?: Error;
+    loading?: boolean;
 }
 
-export function Body({top, title, children}: PropsWithChildren<BodyProperties>) {
+export function Body({top, title, error, loading, children}: PropsWithChildren<BodyProperties>) {
     return (
         <Box
             component="main"
@@ -47,6 +49,17 @@ export function Body({top, title, children}: PropsWithChildren<BodyProperties>) 
                     {title}
                 </Box>
             )}
+
+            {loading && (
+                <LinearProgress />
+            )}
+
+            {error !== undefined && (
+                <Alert color="danger" variant="soft">
+                    {error?.message}
+                </Alert>
+            )}
+
             {children}
         </Box>
     );
