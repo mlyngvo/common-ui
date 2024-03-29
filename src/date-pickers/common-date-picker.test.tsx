@@ -2,8 +2,8 @@ import React from 'react';
 import dayjs from 'dayjs';
 import {describe, expect, it} from '@jest/globals';
 import {act, fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {FormControl, FormLabel} from '@mui/joy';
 import {CommonDatePicker} from './common-date-picker';
-import {FormControl, FormLabel} from "@mui/joy";
 
 describe('common-date-picker tests', () => {
     it('can render blank date picker', async () => {
@@ -15,7 +15,7 @@ describe('common-date-picker tests', () => {
         );
 
         await waitFor(() => {
-            const input = container.getElementsByTagName('input').item(0);
+            const input = container.querySelectorAll('input').item(0);
             expect(input).toBeVisible();
         });
     });
@@ -29,8 +29,8 @@ describe('common-date-picker tests', () => {
         );
 
         const value = dayjs().format('MM/DD/YYYY');
-        const input = container.getElementsByTagName('input').item(0);
-        fireEvent.change(input!, { target: { value } });
+        const input = container.querySelectorAll('input').item(0);
+        fireEvent.change(input, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
@@ -49,8 +49,8 @@ describe('common-date-picker tests', () => {
         ));
 
         const value = dayjs().add(2, 'd').format('MM/DD/YYYY');
-        const input = container.getElementsByTagName('input').item(0);
-        fireEvent.change(input!, { target: { value } });
+        const input = container.querySelectorAll('input').item(0);
+        fireEvent.change(input, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);

@@ -9,7 +9,7 @@ describe('common-date-time-picker tests', () => {
         const {container} = render(<CommonDateTimePicker />);
 
         await waitFor(() => {
-            const input = container.getElementsByTagName('input').item(0);
+            const input = container.querySelectorAll('input').item(0);
             expect(input).toBeVisible();
         });
     });
@@ -18,8 +18,8 @@ describe('common-date-time-picker tests', () => {
         const {container} = render(<CommonDateTimePicker />);
 
         const value = dayjs().format('MM/DD/YYYY hh:mm A');
-        const input = container.getElementsByTagName('input').item(0);
-        fireEvent.change(input!, { target: { value } });
+        const input = container.querySelectorAll('input').item(0);
+        fireEvent.change(input, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
@@ -33,8 +33,8 @@ describe('common-date-time-picker tests', () => {
         const {container} = await act(() => render(<CommonDateTimePicker locale="en" value={now} />));
 
         const value = dayjs().add(2, 'd').format('MM/DD/YYYY hh:mm A');
-        const input = container.getElementsByTagName('input').item(0);
-        fireEvent.change(input!, { target: { value } });
+        const input = container.querySelectorAll('input').item(0);
+        fireEvent.change(input, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
