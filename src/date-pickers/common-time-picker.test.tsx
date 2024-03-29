@@ -6,20 +6,20 @@ import {CommonTimePicker} from './common-time-picker';
 
 describe('common-time-picker tests', () => {
     it('can render blank time picker', async () => {
-        render(<CommonTimePicker label="Blank Time Picker" />);
+        const {container} = render(<CommonTimePicker />);
 
         await waitFor(() => {
-            const labelInput = screen.getByLabelText('Blank Time Picker');
-            expect(labelInput).toBeVisible();
+            const input = container.getElementsByTagName('input').item(0);
+            expect(input).toBeVisible();
         });
     });
 
     it('can edit time picker', async () => {
-        render(<CommonTimePicker label="Edit Time Picker" />);
+        const {container} = render(<CommonTimePicker />);
 
         const value = dayjs().format('hh:mm A');
-        const input = screen.getByLabelText('Edit Time Picker');
-        fireEvent.change(input, { target: { value } });
+        const input = container.getElementsByTagName('input').item(0);
+        fireEvent.change(input!, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
@@ -30,15 +30,15 @@ describe('common-time-picker tests', () => {
     it('can render blank time picker', async () => {
         const now = dayjs();
 
-        await act(() => render(<CommonTimePicker label="Common Time Picker" locale="en" value={now} />));
+        const {container} = await act(() => render(<CommonTimePicker locale="en" value={now} />));
 
         const value = dayjs().add(2, 'd').format('hh:mm A');
-        const labelInput = screen.getByLabelText('Common Time Picker');
-        fireEvent.change(labelInput, { target: { value } });
+        const input = container.getElementsByTagName('input').item(0);
+        fireEvent.change(input!, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toEqual(labelInput);
+            expect(valueInput).toEqual(input);
         });
     });
 });

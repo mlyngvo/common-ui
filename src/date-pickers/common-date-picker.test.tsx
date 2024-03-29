@@ -3,23 +3,34 @@ import dayjs from 'dayjs';
 import {describe, expect, it} from '@jest/globals';
 import {act, fireEvent, render, screen, waitFor} from '@testing-library/react';
 import {CommonDatePicker} from './common-date-picker';
+import {FormControl, FormLabel} from "@mui/joy";
 
 describe('common-date-picker tests', () => {
     it('can render blank date picker', async () => {
-        render(<CommonDatePicker label="Blank Date Picker" />);
+        const {container} = render(
+            <FormControl id="blank-date-picker">
+                <FormLabel>Blank Date Picker</FormLabel>
+                <CommonDatePicker />
+            </FormControl>
+        );
 
         await waitFor(() => {
-            const labelInput = screen.getByLabelText('Blank Date Picker');
-            expect(labelInput).toBeVisible();
+            const input = container.getElementsByTagName('input').item(0);
+            expect(input).toBeVisible();
         });
     });
 
     it('can edit date picker', async () => {
-        render(<CommonDatePicker label="Edit Date Picker" />);
+        const {container} = render(
+            <FormControl id="edit-date-picker">
+                <FormLabel>Edit Date Picker</FormLabel>
+                <CommonDatePicker />
+            </FormControl>
+        );
 
         const value = dayjs().format('MM/DD/YYYY');
-        const input = screen.getByLabelText('Edit Date Picker');
-        fireEvent.change(input, { target: { value } });
+        const input = container.getElementsByTagName('input').item(0);
+        fireEvent.change(input!, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
@@ -27,18 +38,23 @@ describe('common-date-picker tests', () => {
         });
     });
 
-    it('can render blank date picker', async () => {
+    it('can render date picker', async () => {
         const now = dayjs();
 
-        await act(() => render(<CommonDatePicker label="Common Date Picker" locale="en" value={now} />));
+        const {container} = await act(() => render(
+            <FormControl id="date-picker">
+                <FormLabel>Date Picker</FormLabel>
+                <CommonDatePicker locale="en" value={now} />
+            </FormControl>
+        ));
 
         const value = dayjs().add(2, 'd').format('MM/DD/YYYY');
-        const labelInput = screen.getByLabelText('Common Date Picker');
-        fireEvent.change(labelInput, { target: { value } });
+        const input = container.getElementsByTagName('input').item(0);
+        fireEvent.change(input!, { target: { value } });
 
         await waitFor(() => {
             const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toEqual(labelInput);
+            expect(valueInput).toEqual(input);
         });
     });
 });
