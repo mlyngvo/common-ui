@@ -10,7 +10,7 @@ import {type Dayjs} from 'dayjs';
 import useDayJsLocales from './dayjs-locales';
 import {useStyleOverride} from './style-override';
 
-interface CommonDatePickerProperties extends Omit<DatePickerProps<Dayjs>, 'label'> {
+export interface CommonDatePickerProperties extends Omit<DatePickerProps<Dayjs>, 'label'> {
     locale?: string
 }
 
