@@ -50,7 +50,7 @@ export function Body({top, title, error, loading, children}: PropsWithChildren<B
                 </Box>
             )}
 
-            {loading && (
+            {loading === true && (
                 <LinearProgress />
             )}
 

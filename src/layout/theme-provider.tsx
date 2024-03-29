@@ -5,6 +5,12 @@ import {type CSSObject} from '@emotion/styled';
 import '@fontsource/be-vietnam-pro';
 import '@fontsource-variable/martian-mono';
 
+import {
+    experimental_extendTheme as materialExtendTheme,
+    Experimental_CssVarsProvider as MaterialCssVariablesProvider,
+    THEME_ID as MATERIAL_THEME_ID,
+} from '@mui/material/styles';
+
 const BASE_FONT_SIZE = 1.2;
 
 const headings = {
@@ -186,15 +192,19 @@ function computeTypoSize(factor: number, weight?: number): CSSObject {
     };
 }
 
+const materialTheme = materialExtendTheme();
+
 export function AppThemeProvider({children}: PropsWithChildren) {
 
     return (
-        <CssVarsProvider
-            disableTransitionOnChange
-            theme={theme}
-        >
-            <CssBaseline />
-            {children}
-        </CssVarsProvider>
+        <MaterialCssVariablesProvider theme={{ [MATERIAL_THEME_ID]: materialTheme }}>
+            <CssVarsProvider
+                disableTransitionOnChange
+                theme={theme}
+            >
+                <CssBaseline enableColorScheme/>
+                {children}
+            </CssVarsProvider>
+        </MaterialCssVariablesProvider>
     );
 }
