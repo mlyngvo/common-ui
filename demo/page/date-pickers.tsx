@@ -1,5 +1,5 @@
 import React from 'react';
-import {Box, Container, FormControl, FormHelperText, FormLabel, Input, Sheet} from '@mui/joy';
+import {Box, Container, FormControl, FormLabel, Sheet} from '@mui/joy';
 import dayjs from 'dayjs';
 import {CommonDatePicker, CommonDateTimePicker, CommonTimePicker} from '../../src';
 
@@ -9,16 +9,19 @@ export function DemoDatePickers() {
         <Container>
             <Sheet variant="outlined" sx={{ p: 3 }}>
                 <FormControl>
-                    <FormLabel>Label</FormLabel>
-                    <Input placeholder="Placeholder" />
-                    <FormHelperText>This is a helper text.</FormHelperText>
+                    <FormLabel>Date Picker</FormLabel>
+                    <CommonDatePicker locale="de" value={dayjs()} />
                 </FormControl>
                 <Box my={3} />
-                <CommonDatePicker locale="de" value={dayjs()} />
+                <FormControl>
+                    <FormLabel>Date Time Picker</FormLabel>
+                    <CommonDateTimePicker locale="en" value={dayjs()} />
+                </FormControl>
                 <Box my={3} />
-                <CommonDateTimePicker locale="en" value={dayjs()} />
-                <Box my={3} />
-                <CommonTimePicker locale="vi" value={dayjs()} />
+                <FormControl>
+                    <FormLabel>Time Picker</FormLabel>
+                    <CommonTimePicker locale="vi" value={dayjs()} />
+                </FormControl>
             </Sheet>
         </Container>
     );
