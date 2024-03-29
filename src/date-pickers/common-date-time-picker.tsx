@@ -5,10 +5,11 @@ import {
     LocalizationProvider
 } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {type Dayjs} from 'dayjs';
 import useDayJsLocales from './dayjs-locales';
 import {useStyleOverride} from './style-override';
 
-interface CommonDateTimePickerProperties extends DateTimePickerProps<any> {
+interface CommonDateTimePickerProperties extends Omit<DateTimePickerProps<Dayjs>, 'label'> {
     locale?: string
 }
 

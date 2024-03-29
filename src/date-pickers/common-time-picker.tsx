@@ -6,10 +6,11 @@ import {
     type TimePickerSlotsComponentsProps
 } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
+import {type Dayjs} from 'dayjs';
 import useDayJsLocales from './dayjs-locales';
 import {useStyleOverride} from './style-override';
 
-interface CommonTimePickerProperties extends TimePickerProps<any> {
+interface CommonTimePickerProperties extends Omit<TimePickerProps<Dayjs>, 'label'> {
     locale?: string
 }
 

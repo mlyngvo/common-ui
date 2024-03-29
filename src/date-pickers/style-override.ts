@@ -24,6 +24,9 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                     },
                     '&.Mui-focused fieldset': {
                         borderColor: `${theme.palette.focusVisible} !important`,
+                    },
+                    '&:hover fieldset': {
+                        borderColor: `${theme.palette.primary.outlinedBorder} !important`,
                     }
                 }
             }
@@ -43,7 +46,7 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                 backgroundColor: theme.palette.background.surface,
                 border: `1px solid ${theme.palette.neutral.outlinedBorder}`,
                 borderRadius: '10px',
-                overflow: 'hidden'
+                overflow: 'hidden',
             }
         }
     };
@@ -60,9 +63,14 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                     color: theme.palette.text.primary,
                 },
                 '& .MuiPickersDay-root': {
+                    borderRadius: '7px',
+                    '&.MuiPickersDay-today': {
+                        borderColor: theme.palette.primary.solidBg,
+                        color: theme.palette.primary.solidBg,
+                    },
                     '&.Mui-selected': {
-                        borderRadius: '7px',
                         backgroundColor: `${theme.palette.primary.solidBg} !important`,
+                        color: `${theme.palette.primary.solidColor} !important`,
                     },
                 },
                 '& .MuiPickersYear-root': {
@@ -70,6 +78,7 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                         fontSize: theme.fontSize.sm,
                     },
                     '& .Mui-selected': {
+                        color: `${theme.palette.primary.solidColor} !important`,
                         borderRadius: '7px',
                         backgroundColor: `${theme.palette.primary.solidBg} !important`,
                     },
@@ -87,6 +96,7 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                     fontSize: theme.fontSize.sm,
                     color: theme.palette.text.primary,
                     '&.Mui-selected': {
+                        color: theme.palette.primary.solidColor,
                         borderRadius: '7px',
                         background: `${theme.palette.primary.solidBg} !important`,
                     }
@@ -98,7 +108,7 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
                         fontSize: theme.fontSize.sm,
                         fontWeight: theme.fontWeight.md,
                         background: theme.palette.primary.solidBg,
-                        color: theme.palette.text.primary,
+                        color: theme.palette.primary.solidColor,
                         padding: '0.2rem 1rem'
                     }
                 }
