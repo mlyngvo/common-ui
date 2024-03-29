@@ -7,7 +7,7 @@ export function DemoAuthLogin() {
         <LoginDialog
             appTitle="Common UI"
             logo={<Logo />}
-            onSubmit={async (data) => console.info(data)}
+            onSubmit={async (data) => { console.info(data); }}
             i18n={{
                 submit: 'Sign in'
             }}

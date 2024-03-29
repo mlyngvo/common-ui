@@ -11,7 +11,6 @@ import {Demo} from './demo';
 //             <Demo />
 //
 //
-//             {/*<CommonDatePicker locale={locale} value={dayjs()} />*/}
 //             {/*<CommonTimePicker locale={locale} value={dayjs()} />*/}
 //             {/*<CommonDateTimePicker  locale={locale} value={dayjs()} />*/}
 //
