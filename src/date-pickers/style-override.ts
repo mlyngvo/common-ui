@@ -38,7 +38,9 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
         },
         desktopPaper: {
             sx: {
-                background: 'none !important'
+                background: 'none',
+                boxShadow: 'none',
+                mt: 1
             }
         },
         layout: {
