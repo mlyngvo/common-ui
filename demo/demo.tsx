@@ -9,6 +9,7 @@ import {DemoLayout} from './page/layout';
 import {DemoAuthForgotPassword, DemoAuthLogin} from './page/auth';
 import {DemoAvatarEditor} from './page/avatar-editor';
 import {DemoDatePickers} from './page/date-pickers';
+import {DemoTable} from './page/table';
 
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/error-boundary': { title: 'Error Boundary', element: <DemoErrorBoundary /> },
@@ -19,6 +20,7 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
     '/auth/forgot': { title: 'Auth Forgot Password', element: <DemoAuthForgotPassword /> },
     '/avatar': { title: 'Avatar Editor', element: <DemoAvatarEditor /> },
     '/date-pickers': { title: 'Date Pickers', element: <DemoDatePickers /> },
+    '/table': { title: 'Plain Table', element: <DemoTable /> },
 };
 
 function Shell({children}: PropsWithChildren) {
