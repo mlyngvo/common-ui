@@ -11,7 +11,7 @@ interface TabsProperties {
 export function Tabs({value, onChange, items, expandMx}: TabsProperties) {
     return (
         <MuiTabs
-            defaultValue={value}
+            value={value}
             onChange={(_, v) => { onChange(v as number); }}
             sx={{
                 bgcolor: 'transparent',
