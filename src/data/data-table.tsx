@@ -40,8 +40,8 @@ interface DataTableProperties<T> {
     onFilter: (filter: Record<string, any>) => void;
     onClear: () => void;
     onReload: () => void;
-    renderTableRow: (item: T) => ReactElement;
-    renderListRow: (item: T) => ReactElement;
+    renderTableRow: (item: T, index: number) => ReactElement;
+    renderListRow: (item: T, index: number) => ReactElement;
     renderFilter?: (onFilter: (filter: Record<string, any>) => void, filter: Record<string, any>|undefined) => ReactElement;
     oneIndexed?: boolean;
     stickyLastColumn?: boolean;
@@ -373,7 +373,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                         }}
                     >
                         {error === undefined
-                            ? page?.content.map(item => renderTableRow(item))
+                            ? page?.content.map((item, index) => renderTableRow(item, index))
                             : (
                                 <tr>
                                     <td colSpan={headers.length} style={{ padding: 30 }}>
@@ -423,7 +423,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
             </Sheet>
 
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                {page?.content.map(index => renderListRow(index))}
+                {page?.content.map((item, index) => renderListRow(item, index))}
             </Box>
 
             {loading && (

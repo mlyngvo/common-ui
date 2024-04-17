@@ -20,8 +20,8 @@ interface PlainTableProperties<T> {
     loading: boolean;
     error: Error|undefined;
     headers: PlainTableHeaderItem[];
-    renderTableRow: (item: T) => ReactElement;
-    renderListRow: (item: T) => ReactElement;
+    renderTableRow: (item: T, index: number) => ReactElement;
+    renderListRow: (item: T, index: number) => ReactElement;
 }
 
 export function PlainTable<T>(properties: PlainTableProperties<T>) {
@@ -74,7 +74,7 @@ export function PlainTable<T>(properties: PlainTableProperties<T>) {
                         }}
                     >
                         {error === undefined
-                            ? items?.map(item => renderTableRow(item))
+                            ? items?.map((item, index) => renderTableRow(item, index))
                             : (
                                 <tr>
                                     <td colSpan={headers.length} style={{ padding: 30 }}>
@@ -106,7 +106,7 @@ export function PlainTable<T>(properties: PlainTableProperties<T>) {
             </Sheet>
 
             <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
-                {items?.map(index => renderListRow(index))}
+                {items?.map((item, index) => renderListRow(item, index))}
             </Box>
 
             {loading && (
