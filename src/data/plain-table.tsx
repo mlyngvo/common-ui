@@ -22,6 +22,7 @@ interface PlainTableProperties<T> {
     headers: PlainTableHeaderItem[];
     renderTableRow: (item: T, index: number) => ReactElement;
     renderListRow: (item: T, index: number) => ReactElement;
+    stickyLastColumn?: boolean;
 }
 
 export function PlainTable<T>(properties: PlainTableProperties<T>) {
@@ -32,6 +33,7 @@ export function PlainTable<T>(properties: PlainTableProperties<T>) {
         headers,
         renderTableRow,
         renderListRow,
+        stickyLastColumn = false,
     } = properties;
 
     return (
@@ -56,6 +58,16 @@ export function PlainTable<T>(properties: PlainTableProperties<T>) {
                         '--TableRow-hoverBackground': 'var(--joy-palette-background-level1)',
                         '--TableCell-paddingY': '4px',
                         '--TableCell-paddingX': '8px',
+                        ...(stickyLastColumn
+                                ? {
+                                    '& tr > *:last-child': {
+                                        position: 'sticky',
+                                        right: 0,
+                                        bgcolor: 'var(--TableCell-headBackground)',
+                                    },
+                                }
+                                : {}
+                        )
                     }}
                 >
                     <thead>
