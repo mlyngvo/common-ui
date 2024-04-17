@@ -7,3 +7,4 @@ export {Body} from './body';
 export {Breadcrumbs} from './breadcrumbs';
 export {Title, createPageTitleProvider} from './title';
 export {Tabs} from './tabs';
+export {useTabs} from './use-tabs';
