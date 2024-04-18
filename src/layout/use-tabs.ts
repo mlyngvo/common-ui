@@ -8,13 +8,25 @@ export function useTabs(key: string) {
     const [tab, setTab] = useState(0);
 
     useEffect(() => {
+        const parameters = new URLSearchParams(window.location.search);
+        const tabParameter = parameters.get('tab');
+        if (tabParameter !== null) {
+            try {
+                // eslint-disable-next-line radix
+                setTab(Number.parseInt(tabParameter));
+                return;
+            } catch {
+                console.error('Invalid tab param.');
+            }
+        }
+
         const stored = storage.get<number>(key);
         if (stored !== undefined) {
-            changeTab(stored);
+            changeTab(stored, true);
         }
     }, []);
 
-    function changeTab(index: number) {
+    function changeTab(index: number, replace: boolean|undefined = false) {
         setTab(index);
         storage.save(key, index);
 
@@ -27,7 +39,7 @@ export function useTabs(key: string) {
         }
         accu.push(`tab=${index}`);
 
-        navigate(`${window.location.pathname}?${accu.join('&')}`);
+        navigate(`${window.location.pathname}?${accu.join('&')}`, { replace });
     }
 
     return {
