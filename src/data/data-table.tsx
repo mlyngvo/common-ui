@@ -45,6 +45,7 @@ interface DataTableProperties<T> {
     renderFilter?: (onFilter: (filter: Record<string, any>) => void, filter: Record<string, any>|undefined) => ReactElement;
     oneIndexed?: boolean;
     stickyLastColumn?: boolean;
+    searchDisabled?: boolean;
     i18n?: {
         next?: string;
         prev?: string;
@@ -82,6 +83,7 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
         renderFilter,
         oneIndexed = false,
         stickyLastColumn = false,
+        searchDisabled = false,
         i18n: {
             next,
             prev,
@@ -265,37 +267,40 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                     </>
                 )}
             </Sheet>
-            <Box
-                sx={{
-                    borderRadius: 'sm',
-                    pb: 2,
-                    display: {xs: 'none', sm: 'flex'},
-                    alignItems: 'flex-end',
-                    flexWrap: 'wrap',
-                    gap: 1.5,
-                    '& > *': {
-                        minWidth: {sm: '110px', md: '120px'},
-                    },
-                }}
-            >
-                <FormControl sx={{flex: 1}} size="sm" >
-                    <FormLabel>{searchLabel ?? 'Search for item'}</FormLabel>
-                    <Input
-                        size="sm"
-                        value={needle}
-                        onChange={event_ => { handleNeedle(event_.target.value); }}
-                        placeholder={searchPlaceholder ?? 'Search'}
-                        startDecorator={<SearchRoundedIcon/>}
-                        endDecorator={
-                            needle === ''
-                                ? undefined
-                                : <CloseRoundedIcon sx={{ cursor: 'pointer' }} onClick={() => { handleNeedle(''); }} />
-                        }
-                    />
-                </FormControl>
-                {/* eslint-disable-next-line @typescript-eslint/prefer-optional-chain */}
-                {renderFilter !== undefined && renderFilter(onFilter, pFilter)}
-            </Box>
+
+            {!searchDisabled && (
+                <Box
+                    sx={{
+                        borderRadius: 'sm',
+                        pb: 2,
+                        display: {xs: 'none', sm: 'flex'},
+                        alignItems: 'flex-end',
+                        flexWrap: 'wrap',
+                        gap: 1.5,
+                        '& > *': {
+                            minWidth: {sm: '110px', md: '120px'},
+                        },
+                    }}
+                >
+                    <FormControl sx={{flex: 1}} size="sm" >
+                        <FormLabel>{searchLabel ?? 'Search for item'}</FormLabel>
+                        <Input
+                            size="sm"
+                            value={needle}
+                            onChange={event_ => { handleNeedle(event_.target.value); }}
+                            placeholder={searchPlaceholder ?? 'Search'}
+                            startDecorator={<SearchRoundedIcon/>}
+                            endDecorator={
+                                needle === ''
+                                    ? undefined
+                                    : <CloseRoundedIcon sx={{ cursor: 'pointer' }} onClick={() => { handleNeedle(''); }} />
+                            }
+                        />
+                    </FormControl>
+                    {/* eslint-disable-next-line @typescript-eslint/prefer-optional-chain */}
+                    {renderFilter !== undefined && renderFilter(onFilter, pFilter)}
+                </Box>
+            )}
 
             <Sheet
                 variant="outlined"
