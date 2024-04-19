@@ -224,21 +224,23 @@ export function DataTable<T>(properties: DataTableProperties<T>) {
                     background: 'none'
                 }}
             >
-                <FormControl component="form" sx={{flex: 1}} size="sm">
-                    <Input
-                        size="sm"
-                        value={needle}
-                        onChange={event_ => { handleNeedle(event_.target.value); }}
-                        placeholder={searchPlaceholder}
-                        startDecorator={<SearchRoundedIcon />}
-                        endDecorator={
-                            needle === ''
-                                ? undefined
-                                : <CloseRoundedIcon onClick={() => { handleNeedle(''); }} />
-                        }
-                        sx={{ flexGrow: 1, background: 'none' }}
-                    />
-                </FormControl>
+                {!searchDisabled && (
+                    <FormControl component="form" sx={{flex: 1}} size="sm">
+                        <Input
+                            size="sm"
+                            value={needle}
+                            onChange={event_ => { handleNeedle(event_.target.value); }}
+                            placeholder={searchPlaceholder}
+                            startDecorator={<SearchRoundedIcon />}
+                            endDecorator={
+                                needle === ''
+                                    ? undefined
+                                    : <CloseRoundedIcon onClick={() => { handleNeedle(''); }} />
+                            }
+                            sx={{ flexGrow: 1, background: 'none' }}
+                        />
+                    </FormControl>
+                )}
                 {renderFilter !== undefined && (
                     <>
                         <IconButton
