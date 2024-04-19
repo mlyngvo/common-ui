@@ -9,11 +9,12 @@ export function useTabs(key: string) {
 
     useEffect(() => {
         const parameters = new URLSearchParams(window.location.search);
-        const tabParameter = parameters.get('tab');
-        if (tabParameter !== null) {
+        // eslint-disable-next-line radix
+        const tabParameter = Number.parseInt(parameters.get('tab') ?? '');
+        if (!Number.isNaN(tabParameter)) {
             try {
-                // eslint-disable-next-line radix
-                setTab(Number.parseInt(tabParameter));
+                setTab((tabParameter));
+                storage.save(key, tabParameter);
                 return;
             } catch {
                 console.error('Invalid tab param.');
