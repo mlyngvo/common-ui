@@ -76,10 +76,10 @@ export function usePagination<T>({paginationKey, fetch, inMemory = false}: Pagin
         , [pageable]);
 
     useEffect(() => {
-        if (!inMemory) {
-            const stored = storage.get<Pageable<T>>(paginationKey) ?? { size: 25, page: 0 };
-            updatePageable(stored);
-        }
+        let initialPageable = (!inMemory)
+            ? storage.get<Pageable<T>>(paginationKey) ?? DEFAULT_PAGEABLE
+            : DEFAULT_PAGEABLE
+        updatePageable(initialPageable);
     }, []);
 
     function updatePageable(p: Pageable<T>) {
