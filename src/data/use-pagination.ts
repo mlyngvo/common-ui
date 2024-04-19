@@ -24,11 +24,6 @@ export interface Pageable<T> {
     filter?: Record<string, any>;
 }
 
-interface PaginationOptions<T> {
-    paginationKey: string;
-    fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
-}
-
 export function createPageableParameters<T>({size, page, sort, filter}: Pageable<T>) {
     const parameters = [
         `size=${size}`,
@@ -65,7 +60,13 @@ export function createPageableParameters<T>({size, page, sort, filter}: Pageable
 
 const DEFAULT_PAGEABLE = { size: 25, page: 0 };
 
-export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
+interface PaginationOptions<T> {
+    paginationKey: string;
+    fetch: (pageable: Pageable<T>) => Promise<Page<T>|undefined>;
+    inMemory?: boolean;
+}
+
+export function usePagination<T>({paginationKey, fetch, inMemory = false}: PaginationOptions<T>) {
     const [pageable, setPageable] = useState<Pageable<T>>();
 
     const {result: page, loading, error, execute: onReload} = useAsync(async () =>
@@ -75,13 +76,17 @@ export function usePagination<T>({paginationKey, fetch}: PaginationOptions<T>) {
         , [pageable]);
 
     useEffect(() => {
-        const stored = storage.get<Pageable<T>>(paginationKey) ?? { size: 25, page: 0 };
-        updatePageable(stored);
+        if (!inMemory) {
+            const stored = storage.get<Pageable<T>>(paginationKey) ?? { size: 25, page: 0 };
+            updatePageable(stored);
+        }
     }, []);
 
     function updatePageable(p: Pageable<T>) {
         setPageable(p);
-        updateStorage(p);
+        if (!inMemory) {
+            updateStorage(p);
+        }
     }
 
     function updateStorage(p: Pageable<T>) {
