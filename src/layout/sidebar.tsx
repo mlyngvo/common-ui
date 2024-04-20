@@ -39,6 +39,7 @@ interface SidebarProperties {
     appTitle: string;
     logo: ReactElement;
     navItems: SidebarNavItem[];
+    bottomNavItems?: SidebarNavItem[];
     profile: SidebarProfile|undefined;
 }
 
@@ -140,7 +141,10 @@ function MobileSidebarToggler({logo, active, onToggle}: Pick<SidebarProperties, 
     );
 }
 
-function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProperties & Omit<TogglerState, 'active'>) {
+function SidebarNav({appTitle, logo, navItems, bottomNavItems, profile, onToggle}: SidebarProperties & Omit<TogglerState, 'active'>) {
+
+
+
     return (
         <Sheet
             sx={{
@@ -221,71 +225,24 @@ function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProper
                         '--ListItem-radius': (theme) => theme.vars.radius.sm,
                     }}
                 >
-                    {navItems.map(({title: itemTitle, icon, onClick, selected, children}) => {
-                        const renderItemButton = (handler?: () => void, dropDown?: boolean) => (
-                            <ListItemButton onClick={handler} selected={selected}>
-                                {icon}
-                                <ListItemContent>
-                                    <Typography level="title-sm">{itemTitle}</Typography>
-                                </ListItemContent>
-                                {dropDown !== undefined && (
-                                    <KeyboardArrowDownIcon
-                                        sx={{ transform: dropDown ? 'rotate(180deg)' : 'none' }}
-                                    />
-                                )}
-                            </ListItemButton>
-                        );
-
-                        return (
-                            <ListItem key={itemTitle} nested={children !== undefined}>
-                                {children === undefined && (
-                                    renderItemButton(onClick)
-                                )}
-                                {children !== undefined && (
-                                    <Toggler
-                                        renderToggle={({ open, setOpen }) => (
-                                            renderItemButton(() => { setOpen(!open); }, open)
-                                        )}
-                                        defaultExpanded={selected}
-                                    >
-                                        <List sx={{ gap: 0.5 }}>
-                                            {children.map(c => (
-                                                <ListItem key={c.title} sx={{ mt: 0.5 }}>
-                                                    <ListItemButton onClick={c.onClick}>{c.title}</ListItemButton>
-                                                </ListItem>
-                                            ))}
-                                        </List>
-                                    </Toggler>
-                                )}
-                            </ListItem>
-                        );
-                    })}
+                    {navItems.map(item => <NavItem key={item.title} item={item} />)}
                 </List>
 
                 {/* BOTTOM NAV ITEMS */}
-                {/* <List */}
-                {/*    size="sm" */}
-                {/*    sx={{ */}
-                {/*        mt: 'auto', */}
-                {/*        flexGrow: 0, */}
-                {/*        '--ListItem-radius': (theme) => theme.vars.radius.sm, */}
-                {/*        '--List-gap': '8px', */}
-                {/*        mb: 2, */}
-                {/*    }} */}
-                {/* > */}
-                {/*    <ListItem> */}
-                {/*        <ListItemButton> */}
-                {/*            /!*<SupportRoundedIcon />*!/ */}
-                {/*            Support */}
-                {/*        </ListItemButton> */}
-                {/*    </ListItem> */}
-                {/*    <ListItem> */}
-                {/*        <ListItemButton> */}
-                {/*            /!*<SettingsRoundedIcon />*!/ */}
-                {/*            Settings */}
-                {/*        </ListItemButton> */}
-                {/*    </ListItem> */}
-                {/* </List> */}
+                {bottomNavItems !== undefined && (
+                    <List
+                        size="sm"
+                        sx={{
+                            mt: 'auto',
+                            flexGrow: 0,
+                            '--ListItem-radius': (theme) => theme.vars.radius.sm,
+                            '--List-gap': '8px',
+                            mb: 2,
+                        }}
+                    >
+                        {bottomNavItems.map(item => <NavItem key={item.title} item={item} />)}
+                    </List>
+                )}
 
                 {profile !== undefined && (
                     <>
@@ -310,6 +267,49 @@ function SidebarNav({appTitle, logo, navItems, profile, onToggle}: SidebarProper
                 )}
             </Box>
         </Sheet>
+    );
+}
+
+function NavItem({item: {title: itemTitle, icon, onClick, selected, children}}: { item: SidebarNavItem }) {
+
+    function renderItemButton(handler?: () => void, dropDown?: boolean) {
+        return (
+            <ListItemButton onClick={handler} selected={selected}>
+                {icon}
+                <ListItemContent>
+                    <Typography level="title-sm">{itemTitle}</Typography>
+                </ListItemContent>
+                {dropDown !== undefined && (
+                    <KeyboardArrowDownIcon
+                        sx={{ transform: dropDown ? 'rotate(180deg)' : 'none' }}
+                    />
+                )}
+            </ListItemButton>
+        );
+    }
+
+    return (
+        <ListItem nested={children !== undefined}>
+            {children === undefined && (
+                renderItemButton(onClick)
+            )}
+            {children !== undefined && (
+                <Toggler
+                    renderToggle={({ open, setOpen }) => (
+                        renderItemButton(() => { setOpen(!open); }, open)
+                    )}
+                    defaultExpanded={selected}
+                >
+                    <List sx={{ gap: 0.5 }}>
+                        {children.map(c => (
+                            <ListItem key={c.title} sx={{ mt: 0.5 }}>
+                                <ListItemButton onClick={c.onClick}>{c.title}</ListItemButton>
+                            </ListItem>
+                        ))}
+                    </List>
+                </Toggler>
+            )}
+        </ListItem>
     );
 }
 
