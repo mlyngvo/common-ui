@@ -235,6 +235,7 @@ function SidebarNav({appTitle, logo, navItems, bottomNavItems, profile, onToggle
                         sx={{
                             mt: 'auto',
                             flexGrow: 0,
+                            '--List-nestedInsetStart': '30px',
                             '--ListItem-radius': (theme) => theme.vars.radius.sm,
                             '--List-gap': '8px',
                             mb: 2,
