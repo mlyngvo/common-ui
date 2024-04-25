@@ -1,5 +1,5 @@
-name: Package maintenance
-on: [ push, release ]
+name: Package versions retention
+on: [ release ]
 
 permissions:
   packages: write
@@ -8,7 +8,7 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/delete-package-versions@v5.0.0
+      - uses: actions/delete-package-versions@v5
         with:
           package-name: 'common-ui'
           package-type: 'npm'
