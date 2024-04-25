@@ -1,13 +1,14 @@
 import {useTheme} from '@mui/joy';
 import {
-    type DatePickerSlotsComponentsProps,
-    type DateTimePickerSlotsComponentsProps,
-    type TimePickerSlotsComponentsProps
+    type DatePickerSlotProps,
+    type DateTimePickerSlotProps,
+    type TimePickerSlotProps
 } from '@mui/x-date-pickers';
+import {type Dayjs} from 'dayjs';
 
 export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
     const theme = useTheme();
-    const base: TimePickerSlotsComponentsProps<any>|DatePickerSlotsComponentsProps<any>|DateTimePickerSlotsComponentsProps<any> = {
+    const base: DatePickerSlotProps<Dayjs, false>|DateTimePickerSlotProps<Dayjs, false>|TimePickerSlotProps<Dayjs, false> = {
         textField: {
             InputProps: {
                 sx: {
@@ -55,7 +56,7 @@ export function useStyleOverride(hasDate: boolean, hasTime: boolean) {
     if (hasDate) {
         base.leftArrowIcon = { sx: { color: theme.palette.text.primary } };
         base.rightArrowIcon = { sx: { color: theme.palette.text.primary } };
-        (base as DatePickerSlotsComponentsProps<any>).switchViewButton = { sx: { color: theme.palette.text.primary } };
+        (base as DatePickerSlotProps<Dayjs, false>).switchViewButton = { sx: { color: theme.palette.text.primary } };
         base.layout = {
             ...base.layout,
             sx: {

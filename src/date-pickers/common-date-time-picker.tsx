@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     DateTimePicker,
-    type DateTimePickerProps, type DateTimePickerSlotsComponentsProps,
+    type DateTimePickerProps,
+    type DateTimePickerSlotProps,
     LocalizationProvider
 } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
@@ -21,7 +22,7 @@ export function CommonDateTimePicker(properties: CommonDateTimePickerProperties)
 
     const locale = useDayJsLocales(pLocale);
 
-    const slotProperties = useStyleOverride(true, true) as DateTimePickerSlotsComponentsProps<any>;
+    const slotProperties = useStyleOverride(true, true) as DateTimePickerSlotProps<Dayjs, false>;
     return (
         <LocalizationProvider
             dateAdapter={AdapterDayjs}

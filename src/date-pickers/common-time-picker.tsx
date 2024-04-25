@@ -3,7 +3,7 @@ import {
     TimePicker,
     type TimePickerProps,
     LocalizationProvider,
-    type TimePickerSlotsComponentsProps
+    type TimePickerSlotProps
 } from '@mui/x-date-pickers';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {type Dayjs} from 'dayjs';
@@ -22,7 +22,7 @@ export function CommonTimePicker(properties: CommonTimePickerProperties) {
 
     const locale = useDayJsLocales(pLocale);
 
-    const slotProperties = useStyleOverride(false, true) as TimePickerSlotsComponentsProps<any>;
+    const slotProperties = useStyleOverride(false, true) as TimePickerSlotProps<Dayjs, false>;
     return (
         <LocalizationProvider
             dateAdapter={AdapterDayjs}

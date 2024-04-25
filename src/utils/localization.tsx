@@ -97,7 +97,7 @@ export function createLocalization<T extends MessageObject>({i18n}: Localization
                 count += 1;
             }
 
-            throw new Error(`Invalid key (${key}) .`);
+            throw new Error(`Invalid key (${key as string}) .`);
         }, [message]);
 
         return {
