@@ -1,5 +1,9 @@
 name: Package maintenance
 on: [ push, release ]
+
+permissions:
+  packages: write
+
 jobs:
   run:
     runs-on: ubuntu-latest
