@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/delete-package-versions@v5.0.0
         with:
-          package-name: '@mlyngvo/common-ui'
+          package-name: 'common-ui'
           package-type: 'npm'
           token: ${{ secrets.PAT }}
           min-versions-to-keep: 10
