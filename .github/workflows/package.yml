@@ -1,0 +1,12 @@
+name: Package maintenance
+on: [ release ]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/delete-package-versions@v5
+        with:
+          package-name: '@mlyngvo/common-ui'
+          package-type: 'npm'
+          min-versions-to-keep: 10
+          delete-only-pre-release-versions: true
