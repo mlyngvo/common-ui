@@ -1,5 +1,5 @@
 import React, {type ReactElement} from 'react';
-import {Alert, Box, Button, FormControl, FormLabel, Input, Link, Stack} from '@mui/joy';
+import {Alert, Box, Button, FormControl, FormLabel, Input, Link, Stack, Typography} from '@mui/joy';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import {FormModal} from './modal';
@@ -35,9 +35,12 @@ interface ForgotPasswordDialogProperties {
         newPassword?: string;
         confirmPassword?: string;
         submit?: string;
+        successMessage?: string;
         backToLogin?: string;
     };
     error?: string;
+    success?: boolean;
+    loading?: boolean;
     loginUrl?: string;
 }
 
@@ -55,9 +58,12 @@ export function ForgotPasswordDialog(properties: ForgotPasswordDialogProperties)
             newPassword,
             confirmPassword,
             submit,
+            successMessage,
             backToLogin,
         } = {},
         error,
+        success = false,
+        loading = false,
         loginUrl,
     } = properties;
 
@@ -84,56 +90,76 @@ export function ForgotPasswordDialog(properties: ForgotPasswordDialogProperties)
             appTitle={appTitle}
             formTitle={form ?? 'Forgot password'}
         >
-            <form onSubmit={handleFormSubmit}>
-                <Box sx={{ display: newPasswordMode ? 'none' : 'inherit' }}>
-                    <FormControl disabled={verificationMode}>
-                        <FormLabel>{email ?? 'Email'}</FormLabel>
-                        <Input type="email" name="email" />
-                    </FormControl>
-                    {verificationMode && (
-                        <>
-                            <Box my={3}/>
-                            <FormControl>
-                                <FormLabel>{code ?? 'Verification code'}</FormLabel>
-                                <Input name="verificationCode" />
-                            </FormControl>
-                        </>
+            {!success && (
+                <form onSubmit={handleFormSubmit}>
+                    <Box sx={{display: newPasswordMode ? 'none' : 'inherit'}}>
+                        <FormControl disabled={loading || verificationMode}>
+                            <FormLabel>{email ?? 'Email'}</FormLabel>
+                            <Input type="email" name="email"/>
+                        </FormControl>
+                        {verificationMode && (
+                            <>
+                                <Box my={3}/>
+                                <FormControl disabled={loading}>
+                                    <FormLabel>{code ?? 'Verification code'}</FormLabel>
+                                    <Input name="verificationCode"/>
+                                </FormControl>
+                            </>
+                        )}
+                    </Box>
+                    <Box sx={{display: newPasswordMode ? 'inherit' : 'none'}}>
+                        <FormControl disabled={loading}>
+                            <FormLabel>{newPassword ?? 'New password'}</FormLabel>
+                            <Input type="password" name="newPassword"/>
+                        </FormControl>
+                        <Box my={3}/>
+                        <FormControl disabled={loading}>
+                            <FormLabel>{confirmPassword ?? 'Confirm password'}</FormLabel>
+                            <Input type="password" name="confirmNewPassword"/>
+                        </FormControl>
+                    </Box>
+
+                    {error !== undefined && (
+                        <Alert
+                            color="danger"
+                            variant="soft"
+                            sx={{mt: 2}}
+                            startDecorator={<ErrorOutlineRoundedIcon/>}
+                        >
+                            {error}
+                        </Alert>
                     )}
-                </Box>
-                <Box sx={{ display: newPasswordMode ? 'inherit' : 'none' }}>
-                    <FormControl>
-                        <FormLabel>{newPassword ?? 'New password'}</FormLabel>
-                        <Input type="password" name="newPassword" />
-                    </FormControl>
-                    <Box my={3}/>
-                    <FormControl>
-                        <FormLabel>{confirmPassword ?? 'Confirm password'}</FormLabel>
-                        <Input type="password" name="confirmNewPassword" />
-                    </FormControl>
-                </Box>
 
-                {error !== undefined && (
-                    <Alert
-                        color="danger"
-                        variant="soft"
-                        sx={{ mt: 2 }}
-                        startDecorator={<ErrorOutlineRoundedIcon />}
+                    <Stack
+                        gap={4}
+                        alignItems="flex-start"
+                        sx={{mt: 3}}
                     >
-                        {error}
-                    </Alert>
-                )}
-
-                <Stack gap={4} sx={{mt: 3}}>
-                    <Button type="submit" fullWidth>
-                        {submit ?? 'Submit'}
-                    </Button>
+                        <Button type="submit" fullWidth loading={loading}>
+                            {submit ?? 'Submit'}
+                        </Button>
+                        {loginUrl !== undefined && (
+                            <Link level="title-sm" href={loginUrl} startDecorator={<ArrowBackRoundedIcon/>}>
+                                {backToLogin ?? 'Back to Login'}
+                            </Link>
+                        )}
+                    </Stack>
+                </form>
+            )}
+            {success && (
+                <Stack
+                    gap={3}
+                    alignItems="flex-start"
+                >
+                    <Typography>{successMessage ?? 'Successfully reset password. Your can now login.'}</Typography>
                     {loginUrl !== undefined && (
-                        <Link level="title-sm" href={loginUrl} startDecorator={<ArrowBackRoundedIcon />}>
+                        <Link level="title-sm" href={loginUrl} startDecorator={<ArrowBackRoundedIcon/>}>
                             {backToLogin ?? 'Back to Login'}
                         </Link>
                     )}
                 </Stack>
-            </form>
+
+            )}
         </FormModal>
     );
 }

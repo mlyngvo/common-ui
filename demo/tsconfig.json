@@ -5,8 +5,9 @@
     "module": "ESNext",
     "target": "ES6",
     "lib": [
+      "ESNext",
       "DOM",
-      "ESNext"
+      "DOM.Iterable"
     ],
     "declaration": true,
     "resolveJsonModule": true,

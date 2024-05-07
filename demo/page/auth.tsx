@@ -20,15 +20,18 @@ export function DemoAuthLogin() {
 export function DemoAuthForgotPassword() {
     const [verificationMode, setVerificationMode] = useFlag(false);
     const [passMode, setPasswordMode] = useFlag(false);
+    const [success, setSuccess] = useFlag(true);
     const [label, setLabel] = useState('Next');
 
     async function handleSubmit(data: ForgotPasswordFormData) {
         if (!verificationMode) setVerificationMode();
-        else if (!passMode) {
+        else if (passMode) {
+            setSuccess();
+        }
+        else {
             setPasswordMode();
             setLabel('Reset password');
         }
-        console.info(data);
     }
 
     return (
@@ -42,6 +45,7 @@ export function DemoAuthForgotPassword() {
                 submit: label
             }}
             loginUrl="/#/auth/login"
+            success={success}
         />
     );
 }
