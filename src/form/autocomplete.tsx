@@ -12,7 +12,7 @@ export interface AutocompleteProperties<T> {
     label: string;
     options: T[];
     loading?: boolean;
-    AutocompleteProps?: MuiAutocompleteProperties<T, false, false, false> & { onClear?: () => void };
+    AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'> & { onClear?: () => void };
     FormControlProps?: FormControlProps;
     i18n?: {
         selectHint?: string;
