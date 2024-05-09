@@ -12,7 +12,7 @@ export interface AutocompleteProperties<T> {
     label: string;
     options: T[];
     loading?: boolean;
-    AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'> & { onClear?: () => void };
+    AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'>;
     FormControlProps?: FormControlProps;
     i18n?: {
         selectHint?: string;
@@ -27,7 +27,6 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
         AutocompleteProps: {
             sx,
             value,
-            onClear,
             ...autocompleteProperties
         } = {},
         FormControlProps,
@@ -52,24 +51,10 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
                 options={options ?? []}
                 loading={loading}
                 {...autocompleteProperties}
-                endDecorator={(
-                    <>
-                        {loading && <CircularProgress size="sm" sx={{ bgcolor: 'background.surface' }} />}
-                        {!loading && value !== undefined && value !== null && (
-                            <IconButton
-                                size="sm"
-                                variant="plain"
-                                color="neutral"
-                                onMouseDown={(event) => {
-                                    event.stopPropagation();
-                                }}
-                                onClick={onClear}
-                            >
-                                <CloseRoundedIcon />
-                            </IconButton>
-                        )}
-                    </>
-                )}
+                endDecorator={loading
+                    ? <CircularProgress size="sm" sx={{ bgcolor: 'background.surface' }} />
+                    : undefined
+                }
                 sx={{
                     bgcolor: 'background.body',
                     ...sx
