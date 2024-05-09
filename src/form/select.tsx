@@ -19,7 +19,7 @@ export interface SelectProperties<T> {
     FormControlProps?: FormControlProps;
     i18n?: {
         allLabel?: string;
-    }
+    };
 }
 
 export function Select<T>(properties: SelectProperties<T>) {
