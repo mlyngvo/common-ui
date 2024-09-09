@@ -4,9 +4,8 @@ import {
     FormControl,
     FormLabel,
     type AutocompleteProps as MuiAutocompleteProperties,
-    type FormControlProps, CircularProgress, IconButton,
+    type FormControlProps, CircularProgress
 } from '@mui/joy';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 export interface AutocompleteProperties<T> {
     label: string;
