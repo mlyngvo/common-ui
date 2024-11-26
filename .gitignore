@@ -210,3 +210,4 @@ dist
 .pnp.*
 
 esm
+.DS_Store
