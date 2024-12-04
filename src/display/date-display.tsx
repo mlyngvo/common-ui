@@ -6,7 +6,7 @@ dayjs.extend(localizedFormat);
 
 export function DateDisplay({value, locale}: { value: string, locale?: string }) {
     const display = useMemo(() =>
-            dayjs(value).locale(locale ?? window.navigator.language).format('L')
+            dayjs(value).locale(locale ?? window.navigator.language).format('l')
         , [locale, value]);
 
     return (
