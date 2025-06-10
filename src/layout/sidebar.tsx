@@ -203,7 +203,7 @@ function SidebarNav({appTitle, logo, navItems, bottomNavItems, profile, onToggle
                 <Typography level="title-md"><strong>{appTitle}</strong></Typography>
                 <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
-            <Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />
+            {/*<Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />*/}
 
             <Box
                 sx={{
