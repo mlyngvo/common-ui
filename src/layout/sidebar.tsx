@@ -4,7 +4,6 @@ import {
     Box, Divider,
     GlobalStyles,
     IconButton,
-    Input,
     List,
     ListItem,
     ListItemButton,
@@ -12,7 +11,6 @@ import {
     Sheet,
     Typography
 } from '@mui/joy';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -203,7 +201,6 @@ function SidebarNav({appTitle, logo, navItems, bottomNavItems, profile, onToggle
                 <Typography level="title-md"><strong>{appTitle}</strong></Typography>
                 <ColorSchemeToggle sx={{ ml: 'auto' }} />
             </Box>
-            {/*<Input size="sm" startDecorator={<SearchRoundedIcon />} placeholder="Search" />*/}
 
             <Box
                 sx={{
