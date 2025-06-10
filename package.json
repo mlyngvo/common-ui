@@ -11,7 +11,7 @@
     "url": "git+https://github.com/mlyngvo/common-ui.git"
   },
   "scripts": {
-    "build": "npm run lint; tsc --p tsconfig.build.json; npm run copy:html",
+    "build": "tsc --p tsconfig.build.json; npm run copy:html",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "copy:html": "cpy 'src/layout/*.html' esm/layout",
