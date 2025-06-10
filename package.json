@@ -22,6 +22,12 @@
   "author": "Ly Nguyen <contact@minhlynguyenvo.com>",
   "license": "MIT",
   "dependencies": {
+    "@mui/icons-material": "^5.0.0",
+    "@mui/joy": "^5.0.0-beta.0",
+    "@mui/x-date-pickers": "^7.0.0",
+    "dayjs": "^1.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@fontsource-variable/martian-mono": "^5.0.15",
