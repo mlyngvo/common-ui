@@ -1,29 +1,36 @@
 import React from 'react';
-import {FormControl, FormLabel, Input as MuiInput, type InputProps as MuiInputProperties, type FormControlProps} from '@mui/joy';
+import {FormControl, FormControlProps, FormLabel, TextField, TextFieldProps} from "@mui/material";
 
 export interface InputProperties {
+    id?: string;
     label?: string;
-    InputProps?: MuiInputProperties;
+    InputProps?: TextFieldProps;
     FormControlProps?: FormControlProps;
 }
-export function Input({label, InputProps: {sx, ...inputProperties} = {}, FormControlProps}: InputProperties) {
+export function Input({id, label, InputProps: {sx, size, ...inputProperties} = {}, FormControlProps}: InputProperties) {
+    const inputId = id ?? new Date().getTime().toString() + Math.random().toString(36).substring(2);
     return (
         <FormControl {...FormControlProps}>
             {label !== undefined && (
                 <FormLabel
+                    htmlFor={inputId}
                     sx={{
-                        typography: 'body-sm',
-                        fontWeight: 600
+                        fontSize: 'small',
+                        fontWeight: 600,
+                        pl: 1,
+                        mb: 0.5
                     }}
                 >
                     {label}
                 </FormLabel>
             )}
-            <MuiInput
+            <TextField
+                id={inputId}
                 sx={{
                     bgcolor: 'background.body',
                     ...sx
                 }}
+                size={size ?? 'small'}
                 {...inputProperties}
             />
         </FormControl>

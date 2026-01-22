@@ -4,60 +4,88 @@ import {
     FormControl,
     FormLabel,
     type AutocompleteProps as MuiAutocompleteProperties,
-    type FormControlProps, CircularProgress
-} from '@mui/joy';
+    type FormControlProps,
+    TextField,
+    CircularProgress
+} from '@mui/material';
+
+type AutocompleteInputProps<T> = { onChange?: (value: T|null) => void };
 
 export interface AutocompleteProperties<T> {
     label: string;
     options: T[];
+    id?: string;
     loading?: boolean;
-    AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'>;
+    AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'|'renderInput'|'onChange'>
+        & AutocompleteInputProps<T>;
     FormControlProps?: FormControlProps;
     i18n?: {
         selectHint?: string;
+        noOptions?: string;
     }
 }
 
 export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
     const {
+        id,
         label,
         options,
         loading = false,
         AutocompleteProps: {
-            sx,
             value,
+            size = 'small',
+            onChange,
             ...autocompleteProperties
         } = {},
-        FormControlProps,
+        FormControlProps: {
+            fullWidth = true,
+            ...fromControlProperties
+        } = {},
         i18n: {
-            selectHint
+            selectHint,
+            noOptions,
         } = {}
     } = properties;
+
+    const inputId = id ?? new Date().getTime().toString() + Math.random().toString(36).substring(3)
     return (
-        <FormControl {...FormControlProps}>
+        <FormControl fullWidth={fullWidth} {...fromControlProperties}>
             <FormLabel
+                htmlFor={inputId}
                 sx={{
-                    typography: 'body-sm',
-                    fontWeight: 600
+                    fontSize: 'small',
+                    fontWeight: 600,
+                    pl: 1,
+                    mb: 0.5
                 }}
             >
                 {label}
             </FormLabel>
             <MuiAutocomplete
-                placeholder={selectHint ?? 'Please select'}
-                // eslint-disable-next-line unicorn/no-null
-                value={value ?? null}
-                options={options ?? []}
+                id={inputId}
+                size={size}
                 loading={loading}
-                {...autocompleteProperties}
-                endDecorator={loading
-                    ? <CircularProgress size="sm" sx={{ bgcolor: 'background.surface' }} />
-                    : undefined
+                options={options}
+                noOptionsText={noOptions}
+                renderInput={props =>
+                    <TextField
+                        {...props}
+                        slotProps={{
+                            input: {
+                                ...props.InputProps,
+                                endAdornment: (
+                                    <React.Fragment>
+                                        {loading ? <CircularProgress color="inherit" size={20}/> : null}
+                                        {props.InputProps.endAdornment}
+                                    </React.Fragment>
+                                ),
+                            }
+                        }}
+                    />
                 }
-                sx={{
-                    bgcolor: 'background.body',
-                    ...sx
-                }}
+                value={value}
+                onChange={(_, v) => onChange?.(v)}
+                {...autocompleteProperties}
             />
         </FormControl
             >

@@ -6,17 +6,18 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import {Typography} from '@mui/joy';
-import {Helmet} from 'react-helmet';
+import { Typography } from '@mui/material';
 
-interface IPageTitleContext {
+type IPageTitleContext = {
     title: string;
     setTitle: (lang: string) => void;
 }
 
 const PageTitleContext = createContext<IPageTitleContext>({
     title: '',
-    setTitle: () => {},
+    setTitle: () => {
+        throw new Error('Not implemented');
+    },
 });
 
 const usePageTitle = () => useContext(PageTitleContext);
@@ -31,16 +32,16 @@ export function createPageTitleProvider(appTitle: string) {
             setTitle
         }), [title]);
 
+        useEffect(() => {
+            document.title = [title, appTitle].filter(t => t.length > 0).join(' | ');
+        }, [title, appTitle]);
+
         return (
-            <PageTitleContext.Provider
+            <PageTitleContext
                 value={value}
             >
-                <Helmet>
-                    {/* eslint-disable-next-line @typescript-eslint/strict-boolean-expressions */}
-                    <title>{[title, appTitle].filter(index => !!index).join(' | ')}</title>
-                </Helmet>
                 {children}
-            </PageTitleContext.Provider>
+            </PageTitleContext>
         );
     }
 
@@ -50,12 +51,12 @@ export function createPageTitleProvider(appTitle: string) {
     };
 }
 
-interface TitleProperties {
+interface PageTitleProperties {
     title: string;
     actions?: ReactElement;
 }
 
-export function Title({title, actions}: TitleProperties) {
+export function PageTitle({title, actions}: PageTitleProperties) {
     const {setTitle} = usePageTitle();
 
     useEffect(() => {
@@ -64,11 +65,10 @@ export function Title({title, actions}: TitleProperties) {
 
     return (
         <>
-            <Typography level="h2" component="h1">
+            <Typography variant="h2" slot="h1">
                 {title}
             </Typography>
             {actions}
         </>
     );
 }
-

@@ -1,5 +1,5 @@
+import {Alert, Box, LinearProgress} from '@mui/material';
 import React, {type PropsWithChildren, type ReactElement} from 'react';
-import {Alert, Box, LinearProgress} from '@mui/joy';
 
 interface BodyProperties {
     top?: ReactElement;
@@ -55,7 +55,7 @@ export function Body({top, title, error, loading, children}: PropsWithChildren<B
             )}
 
             {error !== undefined && (
-                <Alert color="danger" variant="soft">
+                <Alert severity="error" variant="outlined">
                     {error?.message}
                 </Alert>
             )}
