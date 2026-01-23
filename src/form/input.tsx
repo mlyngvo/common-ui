@@ -1,14 +1,15 @@
 import React from 'react';
 import {FormControl, FormControlProps, FormLabel, TextField, TextFieldProps} from "@mui/material";
+import {randomInputId} from "./form-utils";
 
 export interface InputProperties {
+    label: string;
     id?: string;
-    label?: string;
     InputProps?: TextFieldProps;
     FormControlProps?: FormControlProps;
 }
 export function Input({id, label, InputProps: {sx, size, ...inputProperties} = {}, FormControlProps}: InputProperties) {
-    const inputId = id ?? new Date().getTime().toString() + Math.random().toString(36).substring(2);
+    const inputId = id ?? randomInputId();
     return (
         <FormControl {...FormControlProps}>
             {label !== undefined && (

@@ -70,6 +70,7 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
                 renderInput={props =>
                     <TextField
                         {...props}
+                        placeholder={selectHint ?? "Please select"}
                         slotProps={{
                             input: {
                                 ...props.InputProps,

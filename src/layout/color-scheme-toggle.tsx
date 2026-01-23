@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {IconButton, IconButtonProps, useTheme} from '@mui/material';
+import {IconButton, IconButtonProps} from '@mui/material';
 import {useColorScheme} from '@mui/material/styles';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';

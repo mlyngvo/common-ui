@@ -5,6 +5,7 @@ import {
     FormLabel, Box, CircularProgress
 } from "@mui/material";
 import {useFlag} from "../utils";
+import {randomInputId} from "./form-utils";
 
 type SelectOption = { label: string, value: string|number };
 
@@ -65,7 +66,7 @@ export function Select(properties: SelectProperties) {
         onChange?.(undefined);
     }
 
-    const inputId = id ?? new Date().getTime().toString() + Math.random().toString(36).substring(2);
+    const inputId = id ?? randomInputId();
     return (
         <FormControl
             fullWidth={fullWidth}

@@ -1,17 +1,19 @@
-import {Card, CardContent, Grid, Stack, TextField} from "@mui/material";
+import {Card, CardContent, Grid, Stack} from "@mui/material";
 import {Body, Breadcrumbs, Input, Select, Autocomplete, PageTitle} from "../../src";
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {useAsync} from "react-async-hook";
 import {mockFetch} from "../utils";
+import {Radio} from "../../src/form/radio";
+import {Checkbox} from "../../src/form/checkbox";
 
 export default function () {
     const navigate = useNavigate();
 
     const standardSet = [
-        { id: 1, text: 'Option 1', value: 'option_1' },
-        { id: 2, text: 'Option 2', value: 'option_2' },
-        { id: 3, text: 'Option 3', value: 'option_3' },
+        { id: 1, radio: 'Apple', text: 'Option 1', value: 'option_1' },
+        { id: 2, radio: '🍌 + 🍊', text: 'Option 2', value: 'option_2' },
+        { id: 3, radio: 'Fruits 🌴', text: 'Option 3', value: 'option_3' },
     ];
 
     const asyncSet = [
@@ -62,21 +64,47 @@ export default function () {
         >
             <Grid container spacing={2}>
                 <Grid size={{ xs: 12, sm: 6 }}>
-                    <Card>
-                        <CardContent>
-                            <Stack spacing={2}>
-                                <Input
-                                    label="Standard Input"
-                                    FormControlProps={{ fullWidth: true }}
-                                />
-                                <Input
-                                    label="Textarea"
-                                    FormControlProps={{ fullWidth: true }}
-                                    InputProps={{ multiline: true, rows: 5 }}
-                                />
-                            </Stack>
-                        </CardContent>
-                    </Card>
+                    <Stack spacing={2}>
+                        <Card>
+                            <CardContent>
+                                <Stack spacing={2}>
+                                    <Input
+                                        label="Standard Input"
+                                        FormControlProps={{ fullWidth: true }}
+                                    />
+                                    <Input
+                                        label="Textarea"
+                                        FormControlProps={{ fullWidth: true }}
+                                        InputProps={{ multiline: true, rows: 5 }}
+                                    />
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardContent>
+                                <Stack spacing={2}>
+                                    <Radio
+                                        label="Radio Group"
+                                        options={standardSet.map(o => ({ label: o.radio, value: o.value }))}
+                                    />
+                                    <Radio
+                                        label="Horizontal Group"
+                                        options={standardSet.map(o => ({ label: o.radio, value: o.value }))}
+                                        RadioProps={{ row: true }}
+                                    />
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardContent>
+                                <Stack spacing={2}>
+                                    <Checkbox
+                                        label="Standard Checkbox"
+                                    />
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    </Stack>
                 </Grid>
                 <Grid size={{ xs: 12, sm: 6 }}>
                     <Card>

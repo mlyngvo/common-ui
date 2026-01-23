@@ -131,7 +131,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
 
                     <Accordion>
                         <AccordionSummary
-                            sx={theme => ({
+                            sx={() => ({
                                 '& > button': {
                                     // background: theme.palette.background.level3,
                                     borderRadius: 5,
