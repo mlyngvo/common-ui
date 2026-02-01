@@ -15,6 +15,8 @@ export interface AutocompleteProperties<T> {
     options: T[];
     id?: string;
     loading?: boolean;
+    /** Called only when user types in the input (not on option selection) */
+    onSearch?: (value: string) => void;
     AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'|'renderInput'|'onChange'>
         & AutocompleteInputProps<T>;
     FormControlProps?: FormControlProps;
@@ -30,10 +32,12 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
         label,
         options,
         loading = false,
+        onSearch,
         AutocompleteProps: {
             value,
             size = 'small',
             onChange,
+            onInputChange,
             ...autocompleteProperties
         } = {},
         FormControlProps: {
@@ -86,6 +90,12 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
                 }
                 value={value}
                 onChange={(_, v) => onChange?.(v)}
+                onInputChange={(event, v, reason) => {
+                    if (reason === 'input' && onSearch) {
+                        onSearch(v);
+                    }
+                    onInputChange?.(event, v, reason);
+                }}
                 {...autocompleteProperties}
             />
         </FormControl

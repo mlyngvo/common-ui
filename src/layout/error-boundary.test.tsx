@@ -6,7 +6,7 @@ import {ErrorBoundary} from './error-boundary';
 
 function ErrorBlock() {
     return (
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
         <div>{({} as any).bar[2]}</div>
     );
 }

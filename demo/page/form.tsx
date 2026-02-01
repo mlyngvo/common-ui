@@ -144,13 +144,12 @@ export default function FormPage() {
                                         label="Async Autocomplete"
                                         options={asyncSearchResult ?? []}
                                         loading={asyncSearchLoading}
+                                        onSearch={setAsyncSearchString}
                                         AutocompleteProps={{
                                             filterOptions: o => o,
                                             getOptionLabel: o => o.name,
                                             value: asyncSearchSelect,
-                                            inputValue: asyncSearchString,
                                             onChange: v => setAsyncSearchSelect(v),
-                                            onInputChange: (_, v) => setAsyncSearchString(v),
                                             isOptionEqualToValue: (o, v) => o.id == v.id,
                                         }}
                                     />

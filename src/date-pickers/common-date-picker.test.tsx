@@ -1,9 +1,10 @@
-import React from 'react';
-import dayjs from 'dayjs';
 import {describe, expect, it} from '@jest/globals';
-import {act, fireEvent, render, screen, waitFor} from '@testing-library/react';
-import {CommonDatePicker} from './common-date-picker';
+import {act, render, waitFor} from '@testing-library/react';
+import dayjs from 'dayjs';
+import React from 'react';
+
 import {DefaultThemeProvider} from "../test-components";
+import {CommonDatePicker} from './common-date-picker';
 
 describe('common-date-picker tests', () => {
     it('can render blank date picker', async () => {

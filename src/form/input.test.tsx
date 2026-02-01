@@ -19,10 +19,10 @@ describe('input test', () => {
   it('can type into input (uncontrolled TextField)', () => {
     render(<Input label="Name" />);
 
-    const input = screen.getByLabelText('Name') as HTMLInputElement;
+    const input = screen.getByLabelText('Name');
     fireEvent.change(input, {target: {value: 'Alice'}});
 
-    expect(input.value).toBe('Alice');
+    expect(input).toHaveValue('Alice');
   });
 
   it('can forward TextField props', () => {
@@ -36,7 +36,7 @@ describe('input test', () => {
       />
     );
 
-    const input = screen.getByLabelText('Email') as HTMLInputElement;
+    const input = screen.getByLabelText('Email');
     expect(input).toHaveAttribute('placeholder', 'you@example.com');
     expect(input).toBeDisabled();
   });
