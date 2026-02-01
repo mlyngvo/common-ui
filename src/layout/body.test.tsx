@@ -1,15 +1,16 @@
-import React from 'react';
 import {afterEach, describe, expect, it} from '@jest/globals';
-import {render, screen} from '@testing-library/react';
-import {Body} from './body';
 import { Typography } from '@mui/material';
+import {render, screen} from '@testing-library/react';
+import React from 'react';
+
+import {Body} from './body';
 
 afterEach(() => {
     document.body.innerHTML = '';
 });
 
 describe('body tests', () => {
-    it('can render body', async () => {
+    it('can render body', () => {
         render(
             <Body
                 top={<Typography variant="body2">Top body</Typography>}
@@ -27,7 +28,7 @@ describe('body tests', () => {
         expect(textElement).toBeVisible();
     });
 
-    it('can render body state', async () => {
+    it('can render body state', () => {
         render(
             <Body
                 title={<Typography variant="h1">The body</Typography>}

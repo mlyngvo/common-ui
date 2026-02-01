@@ -1,11 +1,12 @@
-import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
-import {Accordion, AccordionDetails, AccordionSummary, Box, Dialog, DialogContent, Stack, Typography} from '@mui/material';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import {Accordion, AccordionDetails, AccordionSummary, Box, Dialog, DialogContent, Stack, Typography} from '@mui/material';
+import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
 
 interface ErrorContext {
     url: string;
     referrer: string;
     userAgent: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
 }
 
@@ -51,12 +52,14 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
      * @param error
      * @doc https://reactjs.org/docs/react-component.html#static-getderivedstatefromerror
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static getDerivedStateFromError(error: any) {
         // Store error context
         ErrorBoundary.errorContext = {
             url: window.location.href,
             referrer: document.referrer,
             userAgent: navigator.userAgent,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             error
         };
         // Update state so the next render will show the fallback UI
@@ -84,7 +87,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
         return kv
             .sort((x, y) => x.key.localeCompare(y.key))
             .map((o, index) => {
-                let {key, value} = o;
+                let value = o.value;
                 try {
                     value = JSON.stringify(JSON.parse(value ?? ''), undefined, 3);
                 } catch (error) {
@@ -92,7 +95,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                 }
                 return (
                     <Fragment key={`kv-${index}`} >
-                        <Typography variant="body2">{key}</Typography>
+                        <Typography variant="body2">{o.key}</Typography>
                         <Box component="code" sx={{ ...codeSx, mb: 2 }}>
                             {value}
                         </Box>
@@ -141,6 +144,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                                 }
                             })}
                         >
+                            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                             {error?.message}
                         </AccordionSummary>
                         <AccordionDetails>
@@ -165,6 +169,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
 
                                 <div>
                                     <Typography variant="body2"><strong>Trace</strong></Typography>
+                                    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                                     <Box component="code" sx={codeSx}>{error?.stack}</Box>
                                 </div>
 

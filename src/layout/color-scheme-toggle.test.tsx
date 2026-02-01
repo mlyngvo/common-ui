@@ -1,13 +1,11 @@
-import React from 'react';
-import {afterEach, describe, expect, it} from '@jest/globals';
+import {describe, expect, it} from '@jest/globals';
 import {render, screen} from '@testing-library/react';
-import {Body} from './body';
-import { Typography } from '@mui/material';
-import {Breadcrumbs} from './breadcrumbs';
+import React from 'react';
+
 import {ColorSchemeToggle} from './color-scheme-toggle';
 
 describe('color-scheme-toggle test', () => {
-    it('can render color-scheme-toggle', async () => {
+    it('can render color-scheme-toggle', () => {
         render(
             <ColorSchemeToggle title="color-scheme" />
         );

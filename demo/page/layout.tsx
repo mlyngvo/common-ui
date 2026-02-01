@@ -1,15 +1,16 @@
-import React from 'react';
-import {Body, Breadcrumbs, PageTitle, SideNav, Tabs} from '../../src';
-import {useNavigate} from 'react-router-dom';
-import {Box, Card, CardContent, Stack} from '@mui/material';
-import {Logo} from '../logo';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import DashboardRoundedIcon from '@mui/icons-material/DashboardRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
 import ShoppingCartRoundedIcon from '@mui/icons-material/ShoppingCartRounded';
 import TaskRoundedIcon from '@mui/icons-material/TaskRounded';
-import PeopleRoundedIcon from '@mui/icons-material/PeopleRounded';
+import {Box, Card, CardContent, Stack} from '@mui/material';
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 
-export default function () {
+import {Body, Breadcrumbs, PageTitle, SideNav, Tabs} from '../../src';
+import {Logo} from '../logo';
+
+export default function LayoutPage() {
     const navigate = useNavigate();
 
     return (
@@ -21,7 +22,7 @@ export default function () {
                 appTitle="Common UI"
                 logo={<Logo />}
                 navItems={[
-                    { title: 'Home', onClick: () => { navigate('/'); }, icon: <HomeRoundedIcon /> },
+                    { title: 'Home', onClick: () => { void navigate('/'); }, icon: <HomeRoundedIcon /> },
                     { title: 'Dashboard', icon: <DashboardRoundedIcon /> },
                     { title: 'Orders', icon: <ShoppingCartRoundedIcon /> },
                     { title: 'Tasks', icon: <TaskRoundedIcon />, selected: true,

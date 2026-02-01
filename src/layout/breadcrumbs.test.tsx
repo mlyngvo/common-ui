@@ -1,12 +1,11 @@
-import React from 'react';
-import {afterEach, describe, expect, it} from '@jest/globals';
+import {describe, expect, it} from '@jest/globals';
 import {render, screen} from '@testing-library/react';
-import {Body} from './body';
-import { Typography } from '@mui/material';
+import React from 'react';
+
 import {Breadcrumbs} from './breadcrumbs';
 
 describe('breadcrumbs test', () => {
-    it('can render breadcrumbs', async () => {
+    it('can render breadcrumbs', () => {
         render(
             <Breadcrumbs
                 onHomeClick={() => {}}

@@ -1,5 +1,6 @@
-import React from 'react';
 import {FormControl, FormControlProps, FormLabel, TextField, TextFieldProps} from "@mui/material";
+import React from 'react';
+
 import {randomInputId} from "./form-utils";
 
 export interface InputProperties {

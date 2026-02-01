@@ -1,15 +1,16 @@
-import React, {type ReactElement, ReactNode, useState} from 'react';
-import { styled } from '@mui/material/styles';
-import Avatar from '@mui/material/Avatar';
-import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Stack from '@mui/material/Stack';
-import Typography from '@mui/material/Typography';
-import {IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
-import {ColorSchemeToggle} from './color-scheme-toggle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
+import {IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText} from '@mui/material';
+import Avatar from '@mui/material/Avatar';
+import Box from '@mui/material/Box';
+import Divider from '@mui/material/Divider';
+import MuiDrawer, { drawerClasses } from '@mui/material/Drawer';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import Typography from '@mui/material/Typography';
+import React, {type ReactElement, ReactNode, useState} from 'react';
+
+import {ColorSchemeToggle} from './color-scheme-toggle';
 
 const drawerWidth = 240;
 

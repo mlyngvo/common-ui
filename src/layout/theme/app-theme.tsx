@@ -1,7 +1,8 @@
-import React, {PropsWithChildren, useMemo} from 'react';
 import {CssBaseline, ThemeOptions, ThemeProvider} from '@mui/material';
-import {colorSchemes, shadows, shape, typography} from './primitives';
 import {createTheme} from '@mui/material/styles';
+import React, {PropsWithChildren, useMemo} from 'react';
+
+import {colorSchemes, shadows, shape, typography} from './primitives';
 
 interface AppThemeProps extends PropsWithChildren {
     themeComponents?: ThemeOptions['components'];

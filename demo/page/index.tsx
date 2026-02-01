@@ -1,6 +1,7 @@
-import React from 'react';
 import {Box, Button, Card, CardActions, CardContent, Grid, Typography} from '@mui/material';
+import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
+
 import {Body, PageTitle} from '../../src';
 import {ColorSchemeToggle} from '../../src/layout/color-scheme-toggle';
 
@@ -17,7 +18,7 @@ const COMPONENTS = [
     }
 ];
 
-export default function () {
+export default function IndexPage() {
     return (
         <Body
             title={<PageTitle title="Index" />}

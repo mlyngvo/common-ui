@@ -1,5 +1,6 @@
+import {FormControl, FormControlLabel, FormControlProps, FormLabel, Radio as MuiRadio,RadioGroup, RadioGroupProps} from "@mui/material";
 import React from "react";
-import {FormControl, FormControlProps, FormLabel, RadioGroupProps, RadioGroup, FormControlLabel, Radio as MuiRadio} from "@mui/material";
+
 import {randomInputId} from "./form-utils";
 
 type RadioOption = { label: string, value: string };
@@ -55,6 +56,7 @@ export function Radio(props: RadioProperties) {
             >
                 {options.map(o => (
                     <FormControlLabel
+                        key={o.value}
                         label={o.label}
                         value={o.value}
                         control={<MuiRadio size="small" sx={{ py: 0.3 }} />}

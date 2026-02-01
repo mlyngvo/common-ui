@@ -1,7 +1,7 @@
-import React from 'react';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
-import {useTheme, Breadcrumbs as MuiBreadcrumbs, Link, Typography} from '@mui/material';
+import {Breadcrumbs as MuiBreadcrumbs, Link, Typography,useTheme} from '@mui/material';
+import React from 'react';
 
 interface BreadcrumbsProperties {
     onHomeClick: () => void;

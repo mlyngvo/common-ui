@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {IconButton, IconButtonProps} from '@mui/material';
-import {useColorScheme} from '@mui/material/styles';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import {IconButton, IconButtonProps} from '@mui/material';
+import {useColorScheme} from '@mui/material/styles';
+import React, {useEffect, useState} from 'react';
 
 export function ColorSchemeToggle(properties: IconButtonProps) {
     const {
@@ -14,6 +14,8 @@ export function ColorSchemeToggle(properties: IconButtonProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // This pattern is intentional for SSR hydration to avoid hydration mismatch
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 
@@ -47,7 +49,8 @@ export function ColorSchemeToggle(properties: IconButtonProps) {
                     borderRadius: '5px',
                     border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
                 },
-                ...(Array.isArray(sx) ? sx : [sx]),
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                ...(Array.isArray(sx) ? sx : (sx ? [sx] : [])),
             ]}
         >
             {mode === 'light' && <DarkModeRoundedIcon color="inherit" />}

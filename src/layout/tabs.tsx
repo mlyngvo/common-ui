@@ -1,14 +1,13 @@
-import React from 'react';
 import {Tab, tabClasses, Tabs as MuiTabs} from '@mui/material';
+import React from 'react';
 
 interface TabsProperties {
     value: number;
     onChange: (value: number) => void;
     items: string[];
-    expandMx?: { xs?: number; sm?: number; md?: number; lg?: number };
 }
 
-export function Tabs({value, onChange, items, expandMx}: TabsProperties) {
+export function Tabs({value, onChange, items}: TabsProperties) {
     return (
         <MuiTabs
             value={value}

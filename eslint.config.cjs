@@ -4,20 +4,10 @@ const {
 } = require("eslint/config");
 
 const globals = require("globals");
-const react = require("eslint-plugin-react");
-const js = require("@eslint/js");
-
-const {
-    FlatCompat,
-} = require("@eslint/eslintrc");
-
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+const mlyngvoReact = require("@mlyngvo/eslint-config/react");
 
 module.exports = defineConfig([
+    ...mlyngvoReact,
     {
         languageOptions: {
             globals: {
@@ -27,12 +17,6 @@ module.exports = defineConfig([
             ecmaVersion: "latest",
             sourceType: "module",
             parserOptions: {},
-        },
-
-        extends: compat.extends("@mlyngvo/eslint-config/react"),
-
-        plugins: {
-            react,
         },
 
         settings: {
@@ -49,6 +33,8 @@ module.exports = defineConfig([
     },
     globalIgnores([
         "**/*.config.js",
+        "**/*.config.cjs",
+        "**/*.config.mjs",
         "**/setupTests.ts",
         "**/esm/**",
         "**/legacy/**",

@@ -1,3 +1,4 @@
+import { Typography } from '@mui/material';
 import React, {
     createContext,
     type PropsWithChildren,
@@ -6,7 +7,6 @@ import React, {
     useMemo,
     useState
 } from 'react';
-import { Typography } from '@mui/material';
 
 type IPageTitleContext = {
     title: string;
@@ -34,7 +34,7 @@ export function createPageTitleProvider(appTitle: string) {
 
         useEffect(() => {
             document.title = [title, appTitle].filter(t => t.length > 0).join(' | ');
-        }, [title, appTitle]);
+        }, [title]);
 
         return (
             <PageTitleContext

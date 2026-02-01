@@ -1,13 +1,12 @@
-import React from 'react';
 import {
     Autocomplete as MuiAutocomplete,
-    FormControl,
-    FormLabel,
     type AutocompleteProps as MuiAutocompleteProperties,
+    CircularProgress,
+    FormControl,
     type FormControlProps,
-    TextField,
-    CircularProgress
-} from '@mui/material';
+    FormLabel,
+    TextField} from '@mui/material';
+import React, {useId} from 'react';
 
 type AutocompleteInputProps<T> = { onChange?: (value: T|null) => void };
 
@@ -47,7 +46,8 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
         } = {}
     } = properties;
 
-    const inputId = id ?? new Date().getTime().toString() + Math.random().toString(36).substring(3)
+    const generatedId = useId();
+    const inputId = id ?? generatedId;
     return (
         <FormControl fullWidth={fullWidth} {...fromControlProperties}>
             <FormLabel

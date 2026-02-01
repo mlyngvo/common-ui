@@ -10,7 +10,7 @@ afterEach(() => {
 describe('page-title test', () => {
     const {PageTitleProvider} = createPageTitleProvider('page-title Test');
 
-    it('can render page-title', async () => {
+    it('can render page-title', () => {
         render(
             <PageTitleProvider>
                 <PageTitle title="jest" />
@@ -21,14 +21,14 @@ describe('page-title test', () => {
         expect(titleElement).toBeVisible();
     });
 
-    it('can alter document title', async () => {
+    it('can alter document title', () => {
         render(
             <PageTitleProvider>
                 <PageTitle title="the page" />
             </PageTitleProvider>
         );
 
-        expect(global.window.document.title).toBe('the page | page-title Test');
+        expect(window.document.title).toBe('the page | page-title Test');
     });
 });
 

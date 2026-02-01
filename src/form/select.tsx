@@ -1,9 +1,9 @@
-import React, {type ReactElement, useState} from 'react';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {
-    FormControl, FormControlProps, FormHelperText, IconButton, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps,
-    FormLabel, Box, CircularProgress
-} from "@mui/material";
+Box, CircularProgress,
+    FormControl, FormControlProps, FormHelperText,     FormLabel, IconButton, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps} from "@mui/material";
+import React, {type ReactElement, useState} from 'react';
+
 import {useFlag} from "../utils";
 import {randomInputId} from "./form-utils";
 
@@ -94,7 +94,7 @@ export function Select(properties: SelectProperties) {
                 displayEmpty={displayEmpty}
                 {...selectProperties}
                 value={stateVal}
-                onChange={ev => handleChange(ev.target.value as any)}
+                onChange={ev => handleChange(ev.target.value as string | number)}
                 open={open}
                 onOpen={setOpen}
                 onClose={clearOpen}

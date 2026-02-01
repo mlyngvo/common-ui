@@ -1,6 +1,7 @@
-import React from 'react';
 import {afterEach, describe, expect, it} from '@jest/globals';
 import {act} from '@testing-library/react';
+import React from 'react';
+
 import {render} from './render';
 
 afterEach(() => {

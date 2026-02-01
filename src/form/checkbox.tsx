@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Checkbox as MuiCheckbox,
     CheckboxProps as MuiCheckboxProps,
@@ -6,9 +5,11 @@ import {
     FormControlLabel,
     FormControlProps
 } from "@mui/material";
+import React from "react";
+
 import {randomInputId} from "./form-utils";
 
-interface CheckboxProperties {
+export interface CheckboxProperties {
     label: string;
     id?: string;
     CheckboxProps?: Omit<MuiCheckboxProps, 'onChange'> & { onChange?: (checked: boolean) => void };
@@ -20,16 +21,21 @@ export function Checkbox(props: CheckboxProperties) {
         id,
         label,
         CheckboxProps: {
-            onChange,
             size = 'small',
+            onChange,
             ...checkboxProps
         } = {},
         FormControlProps,
     } = props;
+
+    function handleChange(checked: boolean) {
+        onChange?.(checked);
+    }
+
     const inputId = id ?? randomInputId();
     return (
         <FormControl {...FormControlProps}>
-            <FormControlLabel id={inputId} control={<MuiCheckbox size={size} {...checkboxProps} />} label={label} />
+            <FormControlLabel control={<MuiCheckbox id={inputId} size={size} onChange={(ev, checked) => handleChange(checked)} {...checkboxProps} />} label={label} />
         </FormControl>
     )
 }

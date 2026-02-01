@@ -1,10 +1,11 @@
 import React, {type PropsWithChildren, type ReactElement} from 'react';
 import {HashRouter, Route, Routes} from 'react-router-dom';
-import {PageTitleProvider} from './context';
+
 import {AppTheme} from '../src';
-import Layout from './page/layout';
-import Index from './page/index';
+import {PageTitleProvider} from './context';
 import Form from "./page/form";
+import Index from './page/index';
+import Layout from './page/layout';
 
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/': { title: 'Index', element: <Index /> },

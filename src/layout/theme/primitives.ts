@@ -1,7 +1,7 @@
-import { createTheme, alpha, PaletteMode, Shadows } from '@mui/material/styles';
-
 import '@fontsource/be-vietnam-pro';
 import '@fontsource-variable/martian-mono';
+
+import { alpha, createTheme, PaletteMode, Shadows } from '@mui/material/styles';
 
 declare module '@mui/material/Paper' {
     interface PaperPropsVariantOverrides {
@@ -22,7 +22,7 @@ declare module '@mui/material/styles/createPalette' {
         900: string;
     }
 
-    interface PaletteColor extends ColorRange {}
+    // interface PaletteColor extends ColorRange {}
 
     interface Palette {
         baseShadow: string;
@@ -397,6 +397,7 @@ export const shape = {
     borderRadius: 8,
 };
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const defaultShadows: Shadows = [
     'none',
