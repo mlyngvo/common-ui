@@ -1,10 +1,11 @@
 // src/display/date-time-display.test.tsx
-import React from 'react';
-import dayjs from 'dayjs';
-import { render, screen } from '@testing-library/react';
-import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { DateTimeDisplay } from './date-time-display';
 import {afterEach, describe, expect, it} from "@jest/globals";
+import { render, screen } from '@testing-library/react';
+import dayjs from 'dayjs';
+import localizedFormat from 'dayjs/plugin/localizedFormat';
+import React from 'react';
+
+import { DateTimeDisplay } from './date-time-display';
 
 dayjs.extend(localizedFormat);
 

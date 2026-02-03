@@ -1,7 +1,8 @@
-import React from "react";
-import {randomInputId} from "./form-utils";
-import {FormControlProps, SwitchProps, Switch as MuiSwitch, FormControl, FormControlLabel} from "@mui/material";
+import {FormControl, FormControlLabel,FormControlProps, Switch as MuiSwitch, SwitchProps} from "@mui/material";
 import {styled} from "@mui/material/styles";
+import React from "react";
+
+import {randomInputId} from "./form-utils";
 
 interface SwitchInputProps {
     checked?: boolean;
@@ -11,46 +12,8 @@ interface SwitchInputProps {
 export interface SwitchProperties {
     label: string;
     id?: string;
-    SwitchProps?: SwitchProps & SwitchInputProps;
     FormControlProps?: FormControlProps;
-}
-
-export function Switch(props: SwitchProperties) {
-    const {
-        id,
-        label,
-        SwitchProps: {
-            onChange,
-            ...restSwitchProps
-        } = {},
-        FormControlProps: {
-            fullWidth = true,
-            ...restFormControlProps
-        } = {},
-    } = props;
-
-    function handleChange(checked: boolean) {
-        onChange?.(checked);
-    }
-
-    const inputId = id ?? randomInputId();
-    return (
-        <FormControl
-            fullWidth={fullWidth}
-            {...restFormControlProps}
-        >
-            <FormControlLabel
-                control={(
-                    <AntSwitch
-                        id={inputId}
-                        onChange={(_, checked) => handleChange(checked)}
-                        {...restSwitchProps}
-                    />
-                )}
-                label={label}
-            />
-        </FormControl>
-    )
+    SwitchProps?: Omit<SwitchProps, 'checked'|'onChange'> & SwitchInputProps;
 }
 
 const AntSwitch = styled(MuiSwitch)(({ theme }) => ({
@@ -96,3 +59,41 @@ const AntSwitch = styled(MuiSwitch)(({ theme }) => ({
         }),
     },
 }));
+
+export function Switch(props: SwitchProperties) {
+    const {
+        id,
+        label,
+        FormControlProps: {
+            fullWidth = true,
+            ...restFormControlProps
+        } = {},
+        SwitchProps: {
+            onChange,
+            ...restSwitchProps
+        } = {},
+    } = props;
+
+    function handleChange(checked: boolean) {
+        onChange?.(checked);
+    }
+
+    const inputId = id ?? randomInputId();
+    return (
+        <FormControl
+            fullWidth={fullWidth}
+            {...restFormControlProps}
+        >
+            <FormControlLabel
+                control={(
+                    <AntSwitch
+                        id={inputId}
+                        onChange={(_, checked) => handleChange(checked)}
+                        {...restSwitchProps}
+                    />
+                )}
+                label={label}
+            />
+        </FormControl>
+    )
+}

@@ -15,11 +15,11 @@ export interface AutocompleteProperties<T> {
     options: T[];
     id?: string;
     loading?: boolean;
-    /** Called only when user types in the input (not on option selection) */
+    /** Called only when the user types in the input (not on option selection) */
     onSearch?: (value: string) => void;
+    FormControlProps?: FormControlProps;
     AutocompleteProps?: Omit<MuiAutocompleteProperties<T, false, false, false>, 'options'|'renderInput'|'onChange'>
         & AutocompleteInputProps<T>;
-    FormControlProps?: FormControlProps;
     i18n?: {
         selectHint?: string;
         noOptions?: string;
@@ -33,16 +33,16 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
         options,
         loading = false,
         onSearch,
+        FormControlProps: {
+            fullWidth = true,
+            ...fromControlProperties
+        } = {},
         AutocompleteProps: {
             value,
             size = 'small',
             onChange,
             onInputChange,
             ...autocompleteProperties
-        } = {},
-        FormControlProps: {
-            fullWidth = true,
-            ...fromControlProperties
         } = {},
         i18n: {
             selectHint,
@@ -53,7 +53,10 @@ export function Autocomplete<T>(properties: AutocompleteProperties<T>) {
     const generatedId = useId();
     const inputId = id ?? generatedId;
     return (
-        <FormControl fullWidth={fullWidth} {...fromControlProperties}>
+        <FormControl
+            fullWidth={fullWidth}
+            {...fromControlProperties}
+        >
             <FormLabel
                 htmlFor={inputId}
                 sx={{

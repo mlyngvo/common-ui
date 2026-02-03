@@ -14,8 +14,8 @@ export interface RadioProperties {
     label: string;
     options: Array<RadioOption>;
     id?: string;
-    RadioProps?: Omit<RadioGroupProps, 'value'|'onChange'> & RadioInputProps;
     FormControlProps?: FormControlProps;
+    RadioProps?: Omit<RadioGroupProps, 'value'|'onChange'> & RadioInputProps;
 }
 
 export function Radio(props: RadioProperties) {
@@ -23,11 +23,8 @@ export function Radio(props: RadioProperties) {
         id,
         label,
         options,
-        RadioProps: {
-            onChange,
-            ...radioProps
-        } = {},
-        FormControlProps
+        FormControlProps: {fullWidth = true, ...FormControlProps} = {},
+        RadioProps: {onChange, ...radioProps} = {},
     } = props;
 
     function handleChange(value: string) {
@@ -36,7 +33,10 @@ export function Radio(props: RadioProperties) {
 
     const inputId = id ?? randomInputId();
     return (
-        <FormControl {...FormControlProps}>
+        <FormControl
+            fullWidth={fullWidth}
+            {...FormControlProps}
+        >
             {label !== undefined && (
                 <FormLabel
                     htmlFor={id}

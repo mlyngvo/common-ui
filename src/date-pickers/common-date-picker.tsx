@@ -1,4 +1,4 @@
-import {FormLabel, useMediaQuery} from "@mui/material";
+import {FormControl, FormControlProps, FormLabel, useMediaQuery} from "@mui/material";
 import {
     DatePicker,
     DatePickerProps,
@@ -18,10 +18,18 @@ export interface CommonDatePickerProps {
     label: string;
     id?: string;
     locale?: string;
+    FormControlProps?: FormControlProps;
     DatePickerProps?: DatePickerProps<Dayjs>;
 }
 
-export function CommonDatePicker({locale: pLocale, id, label, DatePickerProps: {sx, ...restProps} = {}}: CommonDatePickerProps) {
+export function CommonDatePicker(props: CommonDatePickerProps) {
+    const {
+        locale: pLocale,
+        id,
+        label,
+        FormControlProps: {fullWidth = true, ...restFormControlProps} = {},
+        DatePickerProps: {sx, ...restProps} = {},
+    } = props;
     const inputId = id ?? randomInputId();
     const mobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
     const locale = useDayJsLocales(pLocale);
@@ -31,41 +39,46 @@ export function CommonDatePicker({locale: pLocale, id, label, DatePickerProps: {
             dateAdapter={AdapterDayjs}
             adapterLocale={locale}
         >
-            <FormLabel
-                htmlFor={inputId}
-                sx={{
-                    fontSize: 'small',
-                    fontWeight: 600,
-                    pl: 1,
-                    mb: 0.5
-                }}
+            <FormControl
+                fullWidth={fullWidth}
+                {...restFormControlProps}
             >
-                {label}
-            </FormLabel>
-            {mobile
-                ? (
-                    <MobileDatePicker
-                        sx={{
-                            ...sx,
-                            mt: '0.3rem !important',
-                            display: { xs: 'block', sm: 'none' },
-                        }}
-                        {...restProps}
-                        slotProps={slotProps}
-                    />
-                )
-                : (
-                    <DatePicker
-                        sx={{
-                            ...sx,
-                            mt: '0.3rem !important',
-                            display: { xs: 'none', sm: 'block' },
-                        }}
-                        {...restProps}
-                        slotProps={slotProps}
-                    />
-                )
-            }
+                <FormLabel
+                    htmlFor={inputId}
+                    sx={{
+                        fontSize: 'small',
+                        fontWeight: 600,
+                        pl: 1,
+                        mb: 0.5
+                    }}
+                >
+                    {label}
+                </FormLabel>
+                {mobile
+                    ? (
+                        <MobileDatePicker
+                            sx={{
+                                ...sx,
+                                mt: '0.3rem !important',
+                                display: { xs: 'block', sm: 'none' },
+                            }}
+                            {...restProps}
+                            slotProps={slotProps}
+                        />
+                    )
+                    : (
+                        <DatePicker
+                            sx={{
+                                ...sx,
+                                mt: '0.3rem !important',
+                                display: { xs: 'none', sm: 'block' },
+                            }}
+                            {...restProps}
+                            slotProps={slotProps}
+                        />
+                    )
+                }
+            </FormControl>
         </LocalizationProvider>
     )
 }

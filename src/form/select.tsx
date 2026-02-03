@@ -1,7 +1,5 @@
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import {
-Box, CircularProgress,
-    FormControl, FormControlProps, FormHelperText,     FormLabel, IconButton, MenuItem, Select as MuiSelect, SelectProps as MuiSelectProps} from "@mui/material";
+import {Box, CircularProgress, FormControl, type FormControlProps, FormHelperText, FormLabel, IconButton, MenuItem, Select as MuiSelect, type SelectProps as MuiSelectProps} from "@mui/material";
 import React, {type ReactElement, useState} from 'react';
 
 import {useFlag} from "../utils";
@@ -21,8 +19,8 @@ export interface SelectProperties {
     loading?: boolean;
     renderOption?: (option: SelectOption) => ReactElement;
     helperText?: ReactElement|string|number|undefined;
-    SelectProps?: Omit<MuiSelectProps, 'value'|'onChange'> & SelectInputProps;
     FormControlProps?: FormControlProps;
+    SelectProps?: Omit<MuiSelectProps, 'value'|'onChange'> & SelectInputProps;
     i18n?: {
         emptyLabel?: string;
     };
@@ -36,16 +34,16 @@ export function Select(properties: SelectProperties) {
         renderOption,
         loading = false,
         helperText,
+        FormControlProps: {
+            fullWidth = true,
+            ...formControlProperties
+        } = {},
         SelectProps: {
             size = 'small',
             displayEmpty = true,
             value,
             onChange,
             ...selectProperties
-        } = {},
-        FormControlProps: {
-            fullWidth = true,
-            ...formControlProperties
         } = {},
         i18n: {
             emptyLabel

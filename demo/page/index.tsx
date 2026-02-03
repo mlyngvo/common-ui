@@ -15,6 +15,11 @@ const COMPONENTS = [
         title: 'Form',
         description: 'Various form components.',
         path: '/form',
+    },
+    {
+        title: 'Display',
+        description: 'Various display component.',
+        path: '/display',
     }
 ];
 

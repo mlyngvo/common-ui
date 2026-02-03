@@ -9,10 +9,19 @@ export interface InputProperties {
     InputProps?: TextFieldProps;
     FormControlProps?: FormControlProps;
 }
-export function Input({id, label, InputProps: {sx, size, ...inputProperties} = {}, FormControlProps}: InputProperties) {
+export function Input(props: InputProperties) {
+    const {
+        id,
+        label,
+        FormControlProps: {fullWidth = true, ...FormControlProps} = {},
+        InputProps: {sx, size, ...inputProperties} = {},
+    } = props;
     const inputId = id ?? randomInputId();
     return (
-        <FormControl {...FormControlProps}>
+        <FormControl
+            fullWidth={fullWidth}
+            {...FormControlProps}
+        >
             {label !== undefined && (
                 <FormLabel
                     htmlFor={inputId}

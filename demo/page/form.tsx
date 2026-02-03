@@ -8,12 +8,13 @@ import {
     Autocomplete,
     Body,
     Breadcrumbs,
-Checkbox,     CommonDatePicker,
-CommonDateTimePicker,
-    CommonTimePicker,     Input,
+    Checkbox, CommonDatePicker,
+    CommonDateTimePicker,
+    CommonTimePicker, Input,
     PageTitle,
     Radio,
-    Select} from "../../src";
+    Select, Switch
+} from "../../src";
 import {mockFetch} from "../utils";
 
 export default function FormPage() {
@@ -111,6 +112,10 @@ export default function FormPage() {
                                 <Stack spacing={2}>
                                     <Checkbox
                                         label="Standard Checkbox"
+                                    />
+                                    <Switch
+                                        label="Standard Switch"
+                                        SwitchProps={{ color: 'success' }}
                                     />
                                 </Stack>
                             </CardContent>

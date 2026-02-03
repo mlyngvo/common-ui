@@ -1,4 +1,4 @@
-import {FormLabel} from "@mui/material";
+import {FormControl, FormControlProps, FormLabel} from "@mui/material";
 import {
     LocalizationProvider,
     MobileTimePicker, MobileTimePickerProps
@@ -15,10 +15,18 @@ export interface CommonTimePickerProps {
     label: string;
     id?: string;
     locale?: string;
+    FormControlProps?: FormControlProps;
     TimePickerProps?: MobileTimePickerProps<Dayjs>;
 }
 
-export function CommonTimePicker({locale: pLocale, id, label, TimePickerProps: {sx, ...restProps} = {}}: CommonTimePickerProps) {
+export function CommonTimePicker(props: CommonTimePickerProps) {
+    const {
+        locale: pLocale,
+        id,
+        label,
+        FormControlProps: {fullWidth = true, ...restFormControlProps} = {},
+        TimePickerProps: {sx, ...restProps} = {}
+    } = props;
     const inputId = id ?? randomInputId();
     const locale = useDayJsLocales(pLocale);
     const slotProps = useStyleOverride(inputId, false, true) as MobileTimePickerProps<Dayjs>['slotProps'];
@@ -27,25 +35,30 @@ export function CommonTimePicker({locale: pLocale, id, label, TimePickerProps: {
             dateAdapter={AdapterDayjs}
             adapterLocale={locale}
         >
-            <FormLabel
-                htmlFor={inputId}
-                sx={{
-                    fontSize: 'small',
-                    fontWeight: 600,
-                    pl: 1,
-                    mb: 0.5
-                }}
+            <FormControl
+                fullWidth={fullWidth}
+                {...restFormControlProps}
             >
-                {label}
-            </FormLabel>
-            <MobileTimePicker
-                sx={{
-                    ...sx,
-                    mt: '0.3rem !important',
-                }}
-                {...restProps}
-                slotProps={slotProps}
-            />
+                <FormLabel
+                    htmlFor={inputId}
+                    sx={{
+                        fontSize: 'small',
+                        fontWeight: 600,
+                        pl: 1,
+                        mb: 0.5
+                    }}
+                >
+                    {label}
+                </FormLabel>
+                <MobileTimePicker
+                    sx={{
+                        ...sx,
+                        mt: '0.3rem !important',
+                    }}
+                    {...restProps}
+                    slotProps={slotProps}
+                />
+            </FormControl>
         </LocalizationProvider>
     )
 }
