@@ -1,4 +1,4 @@
-import {Box, Card, CardContent, Grid, Stack, Typography} from '@mui/material';
+import {Card, CardContent, Grid, Stack, Typography} from '@mui/material';
 import dayjs, {Dayjs} from "dayjs";
 import React, {useState} from 'react';
 
@@ -6,11 +6,10 @@ import {
     Body,
     CommonDatePicker, DateDisplay,
     DateTimeDisplay,
-    PageTitle, Switch,
-    useFlag,
+    PageTitle, Switch
 } from '../../src';
 
-export default function() {
+export default function DisplayPage() {
     const [showTime, setShowTime] = useState(false);
     const [date, setDate] = useState<Dayjs|null>(null);
 
