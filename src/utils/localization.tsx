@@ -7,6 +7,7 @@ import React, {
     useMemo,
     useState
 } from 'react';
+
 import {storage} from './local-storage';
 
 const StorageKey = 'lang';
@@ -76,12 +77,14 @@ export function createLocalization<T extends MessageObject>({i18n}: Localization
     });
 
     function LocalizationProvider({children}: PropsWithChildren) {
-        const [language, setLanguage] = useState('en');
+        const [language, setLanguage] = useState(
+            () => storage.get<string>(StorageKey) ?? navigator.language.slice(0, 2)
+        );
         const [message, setMessage] = useState<T>();
 
-        useEffect(() => {
-            const lang = storage.get<string>(StorageKey) ?? navigator.language.slice(0, 2);
-            handleChangeLanguage(lang);
+        const handleChangeLanguage = useCallback((lang: string) => {
+            setLanguage(lang);
+            storage.save(StorageKey, lang);
         }, []);
 
         useEffect(() => {
@@ -90,16 +93,11 @@ export function createLocalization<T extends MessageObject>({i18n}: Localization
                 .catch(console.error);
         }, [language]);
 
-        function handleChangeLanguage(lang: string) {
-            setLanguage(lang);
-            storage.save(StorageKey, lang);
-        }
-
         const value = useMemo(() => ({
             language,
             setLanguage: handleChangeLanguage,
             message
-        }), [language, message]);
+        }), [language, message, handleChangeLanguage]);
 
         return (
             <LocalizationContext.Provider
@@ -113,25 +111,25 @@ export function createLocalization<T extends MessageObject>({i18n}: Localization
     const useLocalization = () => {
         const {message, language, setLanguage} = useContext(LocalizationContext);
 
-        const t = useCallback((key: LeafPaths<T>) => {
+        const t = useCallback((key: LeafPaths<T>): string => {
             if (message === undefined) return key as string;
 
-            let count = 0;
-            const keys = key.split('.');
-            let text: any = message;
-            for (const k of keys) {
-                if (text[k] !== undefined) {
-                    text = text[k];
+            let result: unknown = message;
+            for (const k of key.split('.')) {
+                if (result === null || typeof result !== 'object') {
+                    console.error(`Invalid key (${key}) in language ${language}.`);
+                    return key as string;
                 }
-                if (count === keys.length - 1 && typeof text === 'string') {
-                    return text;
-                }
-                count += 1;
+                result = (result as Record<string, unknown>)[k];
             }
 
-            console.error(`Invalid key (${key as string}) in language ${language}.`);
-            return key as string;
-        }, [message]);
+            if (typeof result !== 'string') {
+                console.error(`Invalid key (${key}) in language ${language}.`);
+                return key as string;
+            }
+
+            return result;
+        }, [message, language]);
 
         const e = useCallback(<K extends ObjectPaths<T>>(
             key: K,
