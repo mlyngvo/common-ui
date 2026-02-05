@@ -1,22 +1,32 @@
 import {Card, CardContent, Grid, Stack, Typography} from '@mui/material';
 import dayjs, {Dayjs} from "dayjs";
 import React, {useState} from 'react';
+import {useNavigate} from "react-router-dom";
 
 import {
-    Body,
+    Body, Breadcrumbs,
     CommonDatePicker, DateDisplay,
     DateTimeDisplay,
     PageTitle, Switch
 } from '../../src';
 
 export default function DisplayPage() {
+    const navigate = useNavigate();
+
     const [showTime, setShowTime] = useState(false);
     const [date, setDate] = useState<Dayjs|null>(null);
 
     return (
         <Body
-            top={undefined}
             title={<PageTitle title="Display" />}
+            top={
+                <Breadcrumbs
+                    onHomeClick={() => navigate('/')}
+                    items={[
+                        { label: 'Display' },
+                    ]}
+                />
+            }
         >
             <Grid container spacing={2}>
                 <Grid size={{ xs: 12, sm: 6 }}>
