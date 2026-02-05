@@ -1,4 +1,3 @@
-// src/display/date-time-display.test.tsx
 import {afterEach, describe, expect, it} from "@jest/globals";
 import { render, screen } from '@testing-library/react';
 import dayjs from 'dayjs';
@@ -26,7 +25,7 @@ describe('DateTimeDisplay', () => {
         render(<DateTimeDisplay value={value} />);
 
         const date = dayjs(value).locale(window.navigator.language);
-        const expected = `${date.format('ll')}, ${date.format('LT')}`;
+        const expected = `${date.format('ll')} ${date.format('LT')}`;
 
         expect(screen.getByText(expected)).toBeInTheDocument();
     });
@@ -38,7 +37,7 @@ describe('DateTimeDisplay', () => {
         render(<DateTimeDisplay value={value} locale="fr" />);
 
         const date = dayjs(value).locale('fr');
-        const expected = `${date.format('ll')}, ${date.format('LT')}`;
+        const expected = `${date.format('ll')} ${date.format('LT')}`;
 
         expect(screen.getByText(expected)).toBeInTheDocument();
     });

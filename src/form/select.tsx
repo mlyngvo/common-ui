@@ -2,7 +2,7 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {Box, CircularProgress, FormControl, type FormControlProps, FormHelperText, FormLabel, IconButton, MenuItem, Select as MuiSelect, type SelectProps as MuiSelectProps} from "@mui/material";
 import React, {type ReactElement, useState} from 'react';
 
-import {useFlag} from "../utils";
+import {useFlag} from "../utils/use-flag";
 import {randomInputId} from "./form-utils";
 
 type SelectOption = { label: string, value: string|number };
