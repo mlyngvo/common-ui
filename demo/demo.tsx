@@ -1,3 +1,4 @@
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import React, {type PropsWithChildren, type ReactElement} from 'react';
 import {HashRouter, Route, Routes} from 'react-router-dom';
 
@@ -8,6 +9,8 @@ import Form from "./page/form";
 import Index from './page/index';
 import Layout from './page/layout';
 
+const queryClient = new QueryClient();
+
 const routes: Record<string, { title: string, element: ReactElement }> = {
     '/': { title: 'Index', element: <Index /> },
     '/layout': { title: 'Layout', element: <Layout /> },
@@ -16,14 +19,12 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
 };
 
 function Shell({children}: PropsWithChildren) {
-    // const navigate = useNavigate();
-    //
-    // const disable = window.location.href.includes('layout');
-
     return (
-        <AppTheme>
-            {children}
-        </AppTheme>
+        <QueryClientProvider client={queryClient}>
+            <AppTheme>
+                {children}
+            </AppTheme>
+        </QueryClientProvider>
     );
 }
 

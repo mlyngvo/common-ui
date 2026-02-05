@@ -1,24 +1,51 @@
-import {useAsync} from 'react-async-hook';
+import {useEffect, useState} from 'react';
+
+import {storage} from '../utils/local-storage';
+import {isNonBlank} from "../utils/strings";
 
 const locales = {
-    en: import('dayjs/locale/en'),
-    de: import('dayjs/locale/de'),
-    vi: import('dayjs/locale/vi'),
-    ja: import('dayjs/locale/ja'),
+    en: () => import('dayjs/locale/en'),
+    de: () => import('dayjs/locale/de'),
+    vi: () => import('dayjs/locale/vi'),
+    ja: () => import('dayjs/locale/ja'),
 };
 
+/**
+ * Resolves the locale to use for dayjs.
+ * Priority: explicit param > storage > navigator > 'en'
+ */
+function resolveLocale(locale?: string): string {
+    if (isNonBlank(locale)) return locale;
+
+    const stored = storage.get<string>('lang');
+    if (stored !== undefined) return stored;
+
+    const browserLang = navigator.language.slice(0, 2);
+    if (browserLang in locales) return browserLang;
+
+    return 'en';
+}
+
 export default function useDayJsLocales(locale?: string) {
-    const {result} = useAsync(async () => {
-        if (locale !== undefined && locales.hasOwnProperty(locale)) {
-            try {
-                await locales[locale as keyof typeof locales];
-                return locale;
-            } catch (error) {
-                console.error(`Failed to load locale (${locale})`, error);
+    const [result, setResult] = useState<string>();
+
+    useEffect(() => {
+        async function loadLocale() {
+            const resolved = resolveLocale(locale);
+
+            if (resolved in locales) {
+                try {
+                    await locales[resolved as keyof typeof locales]();
+                    setResult(resolved);
+                    return;
+                } catch (error) {
+                    console.error(`Failed to load locale (${resolved})`, error);
+                }
             }
+
+            setResult('en');
         }
-        // TODO: Fallback to language context
-        return 'en';
+        void loadLocale();
     }, [locale]);
 
     return result;

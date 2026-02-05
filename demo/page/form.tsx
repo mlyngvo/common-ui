@@ -1,7 +1,7 @@
 import {Card, CardContent, Grid, Stack} from "@mui/material";
+import {useQuery} from "@tanstack/react-query";
 import {Dayjs} from "dayjs";
 import React, {useState} from "react";
-import {useAsync} from "react-async-hook";
 import {useNavigate} from "react-router-dom";
 
 import {
@@ -32,7 +32,10 @@ export default function FormPage() {
         { label: 'Promise 3', value: 'promise_3' },
     ];
     const [asyncSelect, setAsyncSelect] = useState<string>();
-    const {loading: asyncSetLoading, result: asyncSetResult} = useAsync(() => mockFetch(asyncSet), []);
+    const {isLoading: asyncSetLoading, data: asyncSetResult} = useQuery({
+        queryKey: ['asyncSet'],
+        queryFn: () => mockFetch(asyncSet),
+    });
 
     function handleAsyncChange(value: string|number|undefined) {
         setAsyncSelect(asyncSet.find(s => s.value === value)?.value);
@@ -50,15 +53,16 @@ export default function FormPage() {
     ];
     const [asyncSearchSelect, setAsyncSearchSelect] = useState<typeof asyncSearchSet[0]|null>(null);
     const [asyncSearchString, setAsyncSearchString] = useState('');
-    const {loading: asyncSearchLoading, result: asyncSearchResult} = useAsync(() => {
-        return mockFetch(
+    const {isLoading: asyncSearchLoading, data: asyncSearchResult} = useQuery({
+        queryKey: ['asyncSearch', asyncSearchString],
+        queryFn: () => mockFetch(
             asyncSearchSet
                 .filter(({name, value}) =>
                     name.toLowerCase().includes(asyncSearchString.toLowerCase())
                     || value.toLowerCase().includes(asyncSearchString.toLowerCase())
                 )
-        );
-    }, [asyncSearchString]);
+        ),
+    });
 
     const [date, setDate] = useState<Dayjs|null>(null);
 
