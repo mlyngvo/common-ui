@@ -193,7 +193,7 @@ describe('sidenav test', () => {
       expect(screen.queryByText('My App')).not.toBeVisible();
 
       // Click the menu button to open drawer
-      const menuButton = screen.getByTestId('MenuRoundedIcon').closest('button')!;
+      const menuButton = screen.getByTestId('MenuRoundedIcon').closest('button') as HTMLElement;
       fireEvent.click(menuButton);
 
       // After clicking, drawer content should be visible
