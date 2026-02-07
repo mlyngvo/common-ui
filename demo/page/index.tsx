@@ -2,8 +2,7 @@ import {Box, Button, Card, CardActions, CardContent, Grid, Typography} from '@mu
 import React from 'react';
 import {Link as RouterLink} from 'react-router-dom';
 
-import {Body, PageTitle} from '../../src';
-import {ColorSchemeToggle} from '../../src/layout/color-scheme-toggle';
+import {Body, ColorSchemeToggle, PageTitle} from '../../src';
 
 const COMPONENTS = [
     {
@@ -18,9 +17,14 @@ const COMPONENTS = [
     },
     {
         title: 'Display',
-        description: 'Various display component.',
+        description: 'Various display components.',
         path: '/display',
-    }
+    },
+    {
+        title: 'Table',
+        description: 'Various table components.',
+        path: '/table',
+    },
 ];
 
 export default function IndexPage() {

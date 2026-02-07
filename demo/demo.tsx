@@ -8,6 +8,7 @@ import Display from "./page/display";
 import Form from "./page/form";
 import Index from './page/index';
 import Layout from './page/layout';
+import Table from "./page/table";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
     '/layout': { title: 'Layout', element: <Layout /> },
     '/form': { title: 'Form', element: <Form /> },
     '/display': { title: 'Display', element: <Display /> },
+    '/table': { title: 'Table', element: <Table /> },
 };
 
 function Shell({children}: PropsWithChildren) {

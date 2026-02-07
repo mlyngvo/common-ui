@@ -1,0 +1,1 @@
+export {PlainTable, type PlainTableProperties} from "./plain-table";

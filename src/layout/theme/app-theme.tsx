@@ -27,6 +27,9 @@ export function AppTheme({children, themeComponents}: AppThemeProps) {
                         code {
                             font-family: "'Martian Mono Variable', monospace";
                         }
+                        :root, [data-mui-color-scheme="light"] {
+                            --template-palette-TableCell-border: #ddd !important;
+                        }
                     `
                 },
                 MuiLinearProgress: {
@@ -39,6 +42,15 @@ export function AppTheme({children, themeComponents}: AppThemeProps) {
                 MuiCard: {
                     defaultProps: {
                         variant: 'outlined',
+                    },
+                    styleOverrides: {
+                        root: {
+                            overflow: 'auto',
+                        }
+                    }
+                },
+                MuiTableCell: {
+                    styleOverrides: {
                     }
                 },
                 ...themeComponents,
