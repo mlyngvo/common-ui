@@ -46,13 +46,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 
@@ -67,13 +67,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id} data-testid={`row-${item.id}`}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 
@@ -94,13 +94,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={error}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 
@@ -114,13 +114,13 @@ describe('PlainTable', () => {
                     loading={true}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 
@@ -134,13 +134,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 
@@ -161,13 +161,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => (
+                    renderListRows={item => (
                         <li key={item.id} data-testid={`list-item-${item.id}`}>
                             {item.name}
                         </li>
@@ -188,13 +188,13 @@ describe('PlainTable', () => {
                     loading={false}
                     error={undefined}
                     headers={testHeaders}
-                    renderTableRow={item => (
+                    renderTableRows={item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.name}</td>
                         </tr>
                     )}
-                    renderListRow={item => <li key={item.id}>{item.name}</li>}
+                    renderListRows={item => <li key={item.id}>{item.name}</li>}
                 />
             );
 

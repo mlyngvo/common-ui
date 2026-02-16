@@ -11,6 +11,8 @@ import {
 } from "@mui/material";
 import React, {type ReactElement} from "react";
 
+import {TableItemList, TableItemRows} from "./share";
+
 
 interface PlainTableHeaderItem {
     label: string;
@@ -22,8 +24,8 @@ export interface PlainTableProperties<T> {
     loading: boolean;
     error: Error|null|undefined;
     headers: PlainTableHeaderItem[];
-    renderTableRow: (item: T, index: number) => ReactElement;
-    renderListRow: (item: T, index: number) => ReactElement;
+    renderTableRows: (item: T, index: number) => ReactElement;
+    renderListRows: (item: T, index: number) => ReactElement;
     stickyLastColumn?: boolean;
 }
 
@@ -33,8 +35,8 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
         loading,
         error,
         headers,
-        renderTableRow,
-        renderListRow,
+        renderTableRows,
+        renderListRows,
         stickyLastColumn = false,
     } = props;
 
@@ -43,52 +45,80 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
     return (
         <>
             {isMobile && (
-                <Stack direction="column" component="ul" sx={{ p: 0, m: 0 }}>
-                    {items?.map((item, index) => renderListRow(item, index))}
-                </Stack>
+                <TableItemList
+                    {...{
+                        loading,
+                        items,
+                        renderListRows,
+                    }}
+                />
             )}
             {!isMobile && (
-                <TableContainer>
+                <TableContainer sx={{ maxHeight: '100%' }}>
                     <Table
+                        stickyHeader
                         size="small"
-                        sx={{
-                            minWidth: 650,
+                        sx={theme => ({
+                            minWidth: theme.breakpoints.down('sm'),
                             ...(stickyLastColumn
                                     ? {
                                         '& tr > *:last-child': {
                                             position: 'sticky',
                                             right: 0,
-                                            bgcolor: 'var(--TableCell-headBackground)',
                                         },
                                     }
                                     : {}
                             )
-                        }}
+                        })}
                     >
                         <TableHead>
                             <TableRow>
                                 {headers.map((header, index) => (
-                                    <TableCell key={index} style={{ width: header.width }}>
+                                    <TableCell
+                                        key={index}
+                                        sx={{
+                                            width: header.width,
+                                            fontWeight: 600,
+                                            color: 'var(--template-palette-text-secondary)',
+                                            background: 'var(--template-palette-divider)',
+                                            borderBottom: '2px solid var(--template-palette-divider)',
+                                            paddingTop: '0.39rem',
+                                            paddingBottom: '0.39rem',
+                                            backdropFilter: 'blur(8px)',
+                                        }}
+                                    >
                                         {header.label}
                                     </TableCell>
                                 ))}
                             </TableRow>
                         </TableHead>
-                        <TableBody>
-                            {error && (
-                                <TableRow>
-                                    <TableCell colSpan={headers.length}>
-                                        <Alert
-                                            variant="outlined"
-                                            severity="error"
-                                        >
-                                            <Typography>{error.message ?? "Error"}</Typography>
-                                        </Alert>
-                                    </TableCell>
-                                </TableRow>
-                            )}
-                            {items?.map(renderTableRow)}
-                            {loading && <LinearProgress />}
+                        <TableBody
+                            sx={{
+                                '& tr > td': {
+                                    borderBottom: '1px solid var(--template-palette-divider)',
+                                },
+                                '& tr:last-child > td': {
+                                    borderBottom: 'none',
+                                },
+                                ...(loading
+                                    ? {
+                                        '& tr:not(:first-child) td': {
+                                            opacity: 0.3
+                                        },
+                                    }
+                                    : {}
+                                )
+                            }}
+                        >
+                            <TableItemRows
+                                {...{
+                                    error,
+                                    loading,
+                                    items,
+                                    renderTableRows,
+                                    columnLength: headers.length,
+                                }}
+                            />
                         </TableBody>
                     </Table>
                 </TableContainer>

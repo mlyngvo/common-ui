@@ -25,7 +25,8 @@ export function AppTheme({children, themeComponents}: AppThemeProps) {
                 MuiCssBaseline: {
                     styleOverrides: `
                         code {
-                            font-family: "'Martian Mono Variable', monospace";
+                            font-family: 'Martian Mono Variable', monospace;
+                            font-size: 0.84em;
                         }
                         :root, [data-mui-color-scheme="light"] {
                             --template-palette-TableCell-border: #ddd !important;

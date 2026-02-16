@@ -1,6 +1,7 @@
-import {useAsync} from 'react-async-hook';
-import {useEffect, useState} from 'react';
+import {useQuery} from '@tanstack/react-query';
 import {debounce} from 'lodash';
+import {useEffect, useState} from 'react';
+
 import {storage} from '../utils';
 
 export interface Page<T> {
@@ -66,14 +67,14 @@ interface PaginationOptions<T> {
     inMemory?: boolean;
 }
 
-export function usePagination<T>({paginationKey, fetch, inMemory = false}: PaginationOptions<T>) {
+export function usePagination<T>({paginationKey, asdf, inMemory = false}: PaginationOptions<T>) {
     const [pageable, setPageable] = useState<Pageable<T>>();
 
-    const {result: page, loading, error, execute: onReload} = useAsync(async () =>
-            (pageable === undefined)
-                ? undefined
-                : await fetch(pageable)
-        , [pageable]);
+    const {data: page, isLoading: loading, error, refetch: onReload} = useQuery({
+        queryKey: ['pagination', paginationKey, pageable],
+        queryFn: async () => (pageable === undefined) ? undefined : await fetch(pageable),
+        enabled: pageable !== undefined,
+    });
 
     useEffect(() => {
         const initialPageable = (inMemory)
