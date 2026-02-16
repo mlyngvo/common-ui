@@ -1,12 +1,10 @@
 import {
-    Alert,
-    LinearProgress, Stack,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TableRow, Typography,
+    TableRow,
     useMediaQuery
 } from "@mui/material";
 import React, {type ReactElement} from "react";

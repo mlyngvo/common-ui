@@ -68,13 +68,12 @@ export function serializePageable<T>(pageable: SpringPageable<T> | undefined) {
 
 const DEFAULT_PAGEABLE = { size: 25, page: 0 };
 
-interface PaginationOptions<T> {
+interface PaginationOptions {
     paginationKey: string;
-    // fetch: (pageable: SpringPageable<T>) => Promise<SpringPage<T>>;
     persisted?: boolean;
 }
 
-export function usePagination<T>({paginationKey, persisted = true}: PaginationOptions<T>) {
+export function usePagination<T>({paginationKey, persisted = true}: PaginationOptions) {
     const [pageable, setPageable] = useState<SpringPageable<T>>();
 
     function save(p: SpringPageable<T>) {

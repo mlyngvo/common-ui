@@ -23,7 +23,7 @@ import {
     TextField,
     useMediaQuery
 } from "@mui/material";
-import React, {type ReactElement, type ReactNode, useEffect, useState} from "react";
+import React, {type ReactElement, type ReactNode, useState} from "react";
 
 import {SortKey, SpringPage, SpringPageable} from "../data/page";
 import {TableItemList, TableItemRows} from "./share";
@@ -279,27 +279,30 @@ function SearchBar({ searchKey, filter, onFilter }: SearchBarProps) {
         return current !== undefined ? String(current) : '';
     });
 
+    const [prevFilterJson, setPrevFilterJson] = useState(() => JSON.stringify(filter));
     const filterJson = JSON.stringify(filter);
-    useEffect(() => {
+    if (filterJson !== prevFilterJson) {
+        setPrevFilterJson(filterJson);
         const current = filter?.[searchKey];
         setValue(current !== undefined ? String(current) : '');
-    }, [filterJson]);
+    }
 
     function handleApply() {
-        const updated = { ...(filter ?? {}) };
+        const updated = Object.fromEntries(
+            Object.entries(filter ?? {}).filter(([k]) => k !== searchKey)
+        );
         const trimmed = value.trim();
         if (trimmed) {
             updated[searchKey] = trimmed;
-        } else {
-            delete updated[searchKey];
         }
         onFilter(updated);
     }
 
     function handleClear() {
         setValue('');
-        const updated = { ...(filter ?? {}) };
-        delete updated[searchKey];
+        const updated = Object.fromEntries(
+            Object.entries(filter ?? {}).filter(([k]) => k !== searchKey)
+        );
         onFilter(updated);
     }
 
@@ -334,10 +337,12 @@ function SearchBar({ searchKey, filter, onFilter }: SearchBarProps) {
 function MobileFilterButton({ children, filter }: { children: ReactNode; filter: Record<string, string|number> | undefined }) {
     const [open, setOpen] = useState(false);
 
+    const [prevFilterJson, setPrevFilterJson] = useState(() => JSON.stringify(filter));
     const filterJson = JSON.stringify(filter);
-    useEffect(() => {
+    if (filterJson !== prevFilterJson) {
+        setPrevFilterJson(filterJson);
         setOpen(false);
-    }, [filterJson]);
+    }
 
     return (
         <>
