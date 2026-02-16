@@ -14,7 +14,7 @@ import React from "react";
 
 import {SortKey, SpringPage, SpringPageable} from "../data/page";
 import {TableItemList, TableItemRows} from "./share";
-import {TableNavigation} from "./table-navigation";
+import {TableNavigation, TableNavigationCompact} from "./table-navigation";
 
 interface DataTableHeaderItem<T> {
     label: string;
@@ -83,13 +83,24 @@ export function DataTable<T>(props: DataTableProperties<T>) {
     return (
         <>
             {isMobile && (
-                <TableItemList
-                    {...{
-                        loading,
-                        items: page?.content,
-                        renderListRows,
-                    }}
-                />
+                <>
+                    <TableItemList
+                        {...{
+                            loading,
+                            items: page?.content,
+                            renderListRows,
+                        }}
+                    />
+                    {props.pageable && (
+                        <TableNavigationCompact
+                            {...{
+                                totalElements: page?.totalElements ?? 0,
+                                pageable: props.pageable,
+                                onPageNumber,
+                            }}
+                        />
+                    )}
+                </>
             )}
             {!isMobile && (
                 <Stack
