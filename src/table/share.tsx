@@ -1,13 +1,14 @@
 import {Alert, LinearProgress, ListItem, ListItemText, Stack, TableCell, TableRow, Typography} from "@mui/material";
-import React, {type ReactElement} from "react";
+import React, {type CSSProperties, type ReactElement} from "react";
 
 interface TableItemListProps<T> {
     loading: boolean;
     items: T[]|undefined;
     renderListRows: (item: T, index: number) => ReactElement;
+    sx?: CSSProperties;
 }
 
-export function TableItemList<T>({ loading, items, renderListRows }: TableItemListProps<T>) {
+export function TableItemList<T>({ loading, items, renderListRows, sx }: TableItemListProps<T>) {
     return (
         <Stack
             direction="column"
@@ -17,7 +18,8 @@ export function TableItemList<T>({ loading, items, renderListRows }: TableItemLi
                 m: 0,
                 '& li': {
                     opacity: loading ? 0.3 : 1,
-                }
+                },
+                ...sx,
             }}
         >
             {loading && <LinearProgress />}

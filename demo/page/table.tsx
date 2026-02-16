@@ -8,13 +8,9 @@ import {
     Chip,
     type ChipProps,
     Divider,
-    FormControl,
-    InputLabel,
     ListItem,
     ListItemAvatar,
     ListItemText,
-    MenuItem,
-    Select,
     Stack,
     TableCell,
     TableRow,
@@ -24,7 +20,7 @@ import {useQuery} from '@tanstack/react-query';
 import React, {Fragment, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
-import {Body, Breadcrumbs, DataTable, PageTitle, PlainTable, Switch} from '../../src';
+import {Body, Breadcrumbs, DataTable, PageTitle, PlainTable, Select, Switch} from '../../src';
 import {serializePageable, usePagination} from "../../src/data/page";
 import {mockFetchPageable} from "../utils";
 
@@ -227,19 +223,20 @@ export default function TablePage() {
                         pageable={pageable}
                         searchKey="needle"
                         filterInputs={
-                            <FormControl size="small" sx={{ minWidth: 140 }}>
-                                <InputLabel>Status</InputLabel>
+                            <>
                                 <Select
                                     label="Status"
-                                    value={statusFilter}
-                                    onChange={e => handleStatusChange(e.target.value)}
-                                >
-                                    <MenuItem value="">All</MenuItem>
-                                    <MenuItem value="Paid">Paid</MenuItem>
-                                    <MenuItem value="Refunded">Refunded</MenuItem>
-                                    <MenuItem value="Cancelled">Cancelled</MenuItem>
-                                </Select>
-                            </FormControl>
+                                    options={[
+                                        { label: 'Paid', value: 'Paid' },
+                                        { label: 'Refunded', value: 'Refunded' },
+                                        { label: 'Cancelled', value: 'Cancelled' },
+                                    ]}
+                                    SelectProps={{
+                                        value: statusFilter,
+                                        onChange: handleStatusChange
+                                    }}
+                                />
+                            </>
                         }
                         {...restPagination}
                     />

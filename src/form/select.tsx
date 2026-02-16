@@ -5,14 +5,16 @@ import React, {type ReactElement, useState} from 'react';
 import {useFlag} from "../utils/use-flag";
 import {randomInputId} from "./form-utils";
 
-type SelectOption = { label: string, value: string|number };
+type SelectValue = string|number;
 
-interface SelectInputProps {
-    value?: string|number|undefined;
-    onChange?: (value: string|number|undefined) => void;
+type SelectOption = { label: string, value: SelectValue };
+
+interface SelectInputProps<T extends SelectValue = SelectValue> {
+    value?: T;
+    onChange?: (value: T) => void;
 }
 
-export interface SelectProperties {
+export interface SelectProperties<T extends SelectValue = SelectValue> {
     label: string;
     options: Array<SelectOption>;
     id?: string;
@@ -20,13 +22,13 @@ export interface SelectProperties {
     renderOption?: (option: SelectOption) => ReactElement;
     helperText?: ReactElement|string|number|undefined;
     FormControlProps?: FormControlProps;
-    SelectProps?: Omit<MuiSelectProps, 'value'|'onChange'> & SelectInputProps;
+    SelectProps?: Omit<MuiSelectProps, 'value'|'onChange'> & SelectInputProps<T>;
     i18n?: {
         emptyLabel?: string;
     };
 }
 
-export function Select(properties: SelectProperties) {
+export function Select<T extends SelectValue = SelectValue>(properties: SelectProperties<T>) {
     const {
         id,
         label,
@@ -52,16 +54,16 @@ export function Select(properties: SelectProperties) {
 
     const [open, setOpen, clearOpen, toggleOpen] = useFlag(false);
 
-    const [stateVal, setStateVal] = useState(value ?? "");
+    const [stateVal, setStateVal] = useState<SelectValue>(value ?? "");
 
-    function handleChange(value: string|number) {
+    function handleChange(value: SelectValue) {
         setStateVal(value);
-        onChange?.(value);
+        onChange?.(value as T);
     }
 
     function handleClear() {
         setStateVal("");
-        onChange?.(undefined);
+        onChange?.("" as T);
     }
 
     const inputId = id ?? randomInputId();

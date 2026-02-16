@@ -206,20 +206,20 @@ describe('DataTable', () => {
                 />
             );
 
-            expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+            expect(screen.getByLabelText('Search')).toBeInTheDocument();
         });
 
         it('does not render search bar without searchKey', () => {
             const onFilter = jest.fn();
             render(<DataTable {...defaultProps} onFilter={onFilter} />);
 
-            expect(screen.queryByPlaceholderText('Search...')).not.toBeInTheDocument();
+            expect(screen.queryByLabelText('Search')).not.toBeInTheDocument();
         });
 
         it('does not render search bar without onFilter', () => {
             render(<DataTable {...defaultProps} searchKey="needle" />);
 
-            expect(screen.queryByPlaceholderText('Search...')).not.toBeInTheDocument();
+            expect(screen.queryByLabelText('Search')).not.toBeInTheDocument();
         });
 
         it('calls onFilter with search key on apply', () => {
@@ -232,7 +232,7 @@ describe('DataTable', () => {
                 />
             );
 
-            const input = screen.getByPlaceholderText('Search...');
+            const input = screen.getByLabelText('Search');
             fireEvent.change(input, {target: {value: 'test query'}});
 
             // Click the search/apply button
@@ -251,7 +251,7 @@ describe('DataTable', () => {
                 />
             );
 
-            const input = screen.getByPlaceholderText('Search...');
+            const input = screen.getByLabelText('Search');
             fireEvent.change(input, {target: {value: 'enter query'}});
             fireEvent.keyDown(input, {key: 'Enter'});
 
@@ -295,7 +295,7 @@ describe('DataTable', () => {
                 />
             );
 
-            const input = screen.getByPlaceholderText('Search...');
+            const input = screen.getByLabelText('Search');
             fireEvent.change(input, {target: {value: 'query'}});
             fireEvent.keyDown(input, {key: 'Enter'});
 
@@ -408,7 +408,7 @@ describe('DataTable', () => {
                 />
             );
 
-            expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
+            expect(screen.getByLabelText('Search')).toBeInTheDocument();
         });
 
         it('renders filter button when filterInputs are provided', () => {

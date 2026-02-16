@@ -20,12 +20,13 @@ import {
     TableHead,
     TableRow,
     TableSortLabel,
-    TextField,
     useMediaQuery
 } from "@mui/material";
 import React, {type ReactElement, type ReactNode, useState} from "react";
 
 import {SortKey, SpringPage, SpringPageable} from "../data/page";
+import {Input} from "../form";
+import {isNonBlank} from "../utils/strings";
 import {TableItemList, TableItemRows} from "./share";
 import {TableNavigation, TableNavigationCompact} from "./table-navigation";
 
@@ -103,10 +104,10 @@ export function DataTable<T>(props: DataTableProperties<T>) {
     return (
         <>
             {isMobile && (
-                <>
+                <Stack direction="column" sx={{ height: '100%', minHeight: 0 }}>
                     {(Boolean(searchKey) && onFilter != null || filterInputs != null || sortableHeaders.length > 0 && onSort != null) && (
                         <>
-                            <Stack direction="row" gap={1} sx={{ px: 1, pt: 1, mb: 1 }} alignItems="center">
+                            <Stack direction="row" gap={1} sx={{ px: 1, pt: 1, mb: 1 }} alignItems="flex-end">
                                 {searchKey != null && searchKey !== '' && onFilter != null && (
                                     <SearchBar
                                         searchKey={searchKey}
@@ -135,6 +136,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                             loading,
                             items: page?.content,
                             renderListRows,
+                            sx: { flex: 1, overflow: 'auto' },
                         }}
                     />
                     {props.pageable && (
@@ -146,12 +148,12 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                             }}
                         />
                     )}
-                </>
+                </Stack>
             )}
             {!isMobile && (
                 <Stack
                     direction="column"
-                    sx={{ maxHeight: '100%' }}
+                    sx={{ height: '100%', minHeight: 0 }}
                 >
                     {(Boolean(searchKey) && onFilter != null || filterInputs != null) && (
                         <Stack
@@ -167,11 +169,13 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                     onFilter={onFilter}
                                 />
                             )}
-                            {filterInputs}
+                            <Stack>
+                                {filterInputs}
+                            </Stack>
                         </Stack>
                     )}
                     <TableContainer
-                        sx={{ maxHeight: 'calc(100dvh - 320px)' }}
+                        sx={{ flex: 1, overflow: 'auto' }}
                     >
                         <Table
                             stickyHeader
@@ -307,28 +311,29 @@ function SearchBar({ searchKey, filter, onFilter }: SearchBarProps) {
     }
 
     return (
-        <TextField
-            size="small"
-            placeholder="Search..."
-            value={value}
-            onChange={e => setValue(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter') handleApply(); }}
-            sx={{ flex: 1 }}
-            slotProps={{
-                input: {
-                    endAdornment: (
-                        <InputAdornment position="end">
-                            {value !== '' && (
-                                <IconButton size="small" onClick={handleClear} edge="end">
-                                    <ClearRoundedIcon fontSize="small" />
+        <Input
+            label="Search"
+            InputProps={{
+                value,
+                onChange: setValue,
+                onKeyDown: e => { if (e.key === 'Enter') handleApply(); },
+                sx: { flex: 1 },
+                slotProps: {
+                    input: {
+                        endAdornment: (
+                            <InputAdornment position="end">
+                                {isNonBlank(value) && (
+                                    <IconButton size="small" onClick={handleClear} edge="end">
+                                        <ClearRoundedIcon fontSize="small" />
+                                    </IconButton>
+                                )}
+                                <IconButton size="small" onClick={handleApply} edge="end">
+                                    <SearchRoundedIcon fontSize="small" />
                                 </IconButton>
-                            )}
-                            <IconButton size="small" onClick={handleApply} edge="end">
-                                <SearchRoundedIcon fontSize="small" />
-                            </IconButton>
-                        </InputAdornment>
-                    ),
-                },
+                            </InputAdornment>
+                        ),
+                    },
+                }
             }}
         />
     );

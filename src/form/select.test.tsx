@@ -70,7 +70,7 @@ describe('select test', () => {
     const clearButton = screen.getByRole('button');
     fireEvent.click(clearButton);
 
-    expect(onChange).toHaveBeenCalledWith(undefined);
+    expect(onChange).toHaveBeenCalledWith("");
   });
 
   it('shows loading state (disabled + progressbar)', () => {

@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 import {
-    Autocomplete,
+    Autocomplete, AvatarEditor,
     Body,
     Breadcrumbs,
     Checkbox, CommonDatePicker,
@@ -15,7 +15,6 @@ import {
     Radio,
     Select, Switch
 } from "../../src";
-import {AvatarEditor} from "../../src/editor";
 import {mockFetch} from "../utils";
 
 export default function FormPage() {

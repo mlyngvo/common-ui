@@ -3,10 +3,15 @@ import React from 'react';
 
 import {randomInputId} from "./form-utils";
 
+interface InputProps {
+    value?: string;
+    onChange?: (value: string) => void;
+}
+
 export interface InputProperties {
     label: string;
     id?: string;
-    InputProps?: TextFieldProps;
+    InputProps?: Omit<TextFieldProps, 'value'|'onChange'> & InputProps;
     FormControlProps?: FormControlProps;
 }
 export function Input(props: InputProperties) {
@@ -14,8 +19,13 @@ export function Input(props: InputProperties) {
         id,
         label,
         FormControlProps: {fullWidth = true, ...FormControlProps} = {},
-        InputProps: {sx, size, ...inputProperties} = {},
+        InputProps: {sx, size, onChange, ...inputProperties} = {},
     } = props;
+
+    function handleChange(value: string) {
+        onChange?.(value);
+    }
+
     const inputId = id ?? randomInputId();
     return (
         <FormControl
@@ -42,6 +52,7 @@ export function Input(props: InputProperties) {
                     ...sx
                 }}
                 size={size ?? 'small'}
+                onChange={ev => handleChange(ev.target.value)}
                 {...inputProperties}
             />
         </FormControl>
