@@ -9,7 +9,17 @@ interface TableItemListProps<T> {
 
 export function TableItemList<T>({ loading, items, renderListRows }: TableItemListProps<T>) {
     return (
-        <Stack direction="column" component="ul" sx={{ p: 0, m: 0 }}>
+        <Stack
+            direction="column"
+            component="ul"
+            sx={{
+                p: 0,
+                m: 0,
+                '& li': {
+                    opacity: loading ? 0.3 : 1,
+                }
+            }}
+        >
             {loading && <LinearProgress />}
             {items?.map(renderListRows)}
             {items && items.length === 0 && (

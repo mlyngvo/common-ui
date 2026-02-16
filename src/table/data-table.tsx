@@ -1,16 +1,29 @@
+import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
+import FilterListRoundedIcon from '@mui/icons-material/FilterListRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import SortRoundedIcon from '@mui/icons-material/SortRounded';
 import {
+    Dialog,
+    DialogTitle,
+    Divider,
+    IconButton,
+    InputAdornment,
+    List,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
     Stack,
     Table,
     TableBody,
     TableCell,
-    TableContainer, TableFooter,
-    TableHead, TablePagination,
+    TableContainer,
+    TableHead,
     TableRow,
     TableSortLabel,
+    TextField,
     useMediaQuery
 } from "@mui/material";
-import {ReactElement} from "react";
-import React from "react";
+import React, {type ReactElement, type ReactNode, useEffect, useState} from "react";
 
 import {SortKey, SpringPage, SpringPageable} from "../data/page";
 import {TableItemList, TableItemRows} from "./share";
@@ -33,6 +46,9 @@ export interface DataTableProperties<T> {
     onPageNumber: (page: number) => void;
     onPageSize: (size: number) => void;
     onSort?: (sortKey: SortKey<T>, removeSortKey?: boolean) => void;
+    onFilter?: (filter: Record<string, string|number>) => void;
+    searchKey?: string;
+    filterInputs?: ReactNode;
     stickyLastColumn?: boolean;
 }
 
@@ -43,7 +59,6 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         error,
         headers,
         pageable: {
-            size: pSize,
             sort: pSort,
             filter: pFilter,
         } = {},
@@ -51,10 +66,15 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         renderListRows,
         stickyLastColumn = false,
         onSort,
+        onFilter,
+        searchKey,
+        filterInputs,
         onPageNumber,
         onPageSize,
     } = props;
     const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
+
+    const sortableHeaders = headers.filter(h => h.sortKey !== undefined);
 
     function getSortDirection(sortKey: keyof T) {
         const currentSorts = pSort ?? [];
@@ -84,6 +104,32 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         <>
             {isMobile && (
                 <>
+                    {(Boolean(searchKey) && onFilter != null || filterInputs != null || sortableHeaders.length > 0 && onSort != null) && (
+                        <>
+                            <Stack direction="row" gap={1} sx={{ px: 1, pt: 1, mb: 1 }} alignItems="center">
+                                {searchKey != null && searchKey !== '' && onFilter != null && (
+                                    <SearchBar
+                                        searchKey={searchKey}
+                                        filter={pFilter}
+                                        onFilter={onFilter}
+                                    />
+                                )}
+                                {filterInputs != null && (
+                                    <MobileFilterButton filter={pFilter}>
+                                        {filterInputs}
+                                    </MobileFilterButton>
+                                )}
+                                {sortableHeaders.length > 0 && onSort != null && (
+                                    <MobileSortButton
+                                        headers={sortableHeaders}
+                                        getSortDirection={getSortDirection}
+                                        onSort={handleSort}
+                                    />
+                                )}
+                            </Stack>
+                            <Divider />
+                        </>
+                    )}
                     <TableItemList
                         {...{
                             loading,
@@ -107,8 +153,25 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                     direction="column"
                     sx={{ maxHeight: '100%' }}
                 >
+                    {(Boolean(searchKey) && onFilter != null || filterInputs != null) && (
+                        <Stack
+                            direction="row"
+                            gap={1}
+                            sx={{ px: 1, py: 1 }}
+                            alignItems="center"
+                        >
+                            {searchKey != null && searchKey !== '' && onFilter != null && (
+                                <SearchBar
+                                    searchKey={searchKey}
+                                    filter={pFilter}
+                                    onFilter={onFilter}
+                                />
+                            )}
+                            {filterInputs}
+                        </Stack>
+                    )}
                     <TableContainer
-                        sx={{ maxHeight: 'calc(100dvh - 250px)' }}
+                        sx={{ maxHeight: 'calc(100dvh - 320px)' }}
                     >
                         <Table
                             stickyHeader
@@ -202,4 +265,151 @@ export function DataTable<T>(props: DataTableProperties<T>) {
             )}
         </>
     )
+}
+
+interface SearchBarProps {
+    searchKey: string;
+    filter: Record<string, string|number> | undefined;
+    onFilter: (filter: Record<string, string|number>) => void;
+}
+
+function SearchBar({ searchKey, filter, onFilter }: SearchBarProps) {
+    const [value, setValue] = useState(() => {
+        const current = filter?.[searchKey];
+        return current !== undefined ? String(current) : '';
+    });
+
+    const filterJson = JSON.stringify(filter);
+    useEffect(() => {
+        const current = filter?.[searchKey];
+        setValue(current !== undefined ? String(current) : '');
+    }, [filterJson]);
+
+    function handleApply() {
+        const updated = { ...(filter ?? {}) };
+        const trimmed = value.trim();
+        if (trimmed) {
+            updated[searchKey] = trimmed;
+        } else {
+            delete updated[searchKey];
+        }
+        onFilter(updated);
+    }
+
+    function handleClear() {
+        setValue('');
+        const updated = { ...(filter ?? {}) };
+        delete updated[searchKey];
+        onFilter(updated);
+    }
+
+    return (
+        <TextField
+            size="small"
+            placeholder="Search..."
+            value={value}
+            onChange={e => setValue(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleApply(); }}
+            sx={{ flex: 1 }}
+            slotProps={{
+                input: {
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            {value !== '' && (
+                                <IconButton size="small" onClick={handleClear} edge="end">
+                                    <ClearRoundedIcon fontSize="small" />
+                                </IconButton>
+                            )}
+                            <IconButton size="small" onClick={handleApply} edge="end">
+                                <SearchRoundedIcon fontSize="small" />
+                            </IconButton>
+                        </InputAdornment>
+                    ),
+                },
+            }}
+        />
+    );
+}
+
+function MobileFilterButton({ children, filter }: { children: ReactNode; filter: Record<string, string|number> | undefined }) {
+    const [open, setOpen] = useState(false);
+
+    const filterJson = JSON.stringify(filter);
+    useEffect(() => {
+        setOpen(false);
+    }, [filterJson]);
+
+    return (
+        <>
+            <IconButton size="small" onClick={() => setOpen(true)}>
+                <FilterListRoundedIcon />
+            </IconButton>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                fullWidth
+                maxWidth="xs"
+            >
+                <DialogTitle>Filters</DialogTitle>
+                <Stack direction="column" gap={2} sx={{ px: 3, pb: 3 }}>
+                    {children}
+                </Stack>
+            </Dialog>
+        </>
+    );
+}
+
+interface MobileSortButtonProps<T> {
+    headers: Array<DataTableHeaderItem<T>>;
+    getSortDirection: (sortKey: keyof T) => 'asc' | 'desc' | undefined;
+    onSort: (sortKey: keyof T) => void;
+}
+
+function MobileSortButton<T>({ headers, getSortDirection, onSort }: MobileSortButtonProps<T>) {
+    const [open, setOpen] = useState(false);
+
+    return (
+        <>
+            <IconButton
+                size="small"
+                onClick={() => setOpen(true)}
+            >
+                <SortRoundedIcon />
+            </IconButton>
+            <Dialog
+                open={open}
+                onClose={() => setOpen(false)}
+                fullWidth
+                maxWidth="xs"
+            >
+                <DialogTitle>Sort by</DialogTitle>
+                <List sx={{ pt: 0 }}>
+                    {headers.map(({ label, sortKey }) => {
+                        if (sortKey === undefined) return null;
+                        const direction = getSortDirection(sortKey);
+                        return (
+                            <ListItemButton
+                                key={String(sortKey)}
+                                onClick={() => {
+                                    onSort(sortKey);
+                                    setOpen(false);
+                                }}
+                                selected={direction !== undefined}
+                            >
+                                <ListItemText primary={label} />
+                                {direction !== undefined && (
+                                    <ListItemIcon sx={{ minWidth: 'auto' }}>
+                                        <TableSortLabel
+                                            active
+                                            direction={direction}
+                                        />
+                                    </ListItemIcon>
+                                )}
+                            </ListItemButton>
+                        );
+                    })}
+                </List>
+            </Dialog>
+        </>
+    );
 }

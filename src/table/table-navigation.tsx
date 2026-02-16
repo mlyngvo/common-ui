@@ -1,6 +1,7 @@
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded';
 import ArrowForwardIosRoundedIcon from '@mui/icons-material/ArrowForwardIosRounded';
 import {Box, Button, Menu, MenuItem, TablePagination} from "@mui/material";
+import Divider from "@mui/material/Divider";
 import React, {useState} from "react";
 
 import {SpringPageable} from "../data/page";
@@ -185,33 +186,36 @@ export function TableNavigation<T>(props: TableNavigationProps<T>) {
     const totalPages = Math.ceil(totalElements / pSize);
 
     return (
-        <TablePagination
-            component="div"
-            rowsPerPageOptions={[10, 25, 50]}
-            rowsPerPage={pSize}
-            count={totalElements}
-            page={pPage}
-            onPageChange={(_, p) => onPageNumber(p)}
-            onRowsPerPageChange={ev => onPageSize(parseInt(ev.target.value))}
-            labelRowsPerPage={"Rows:"}
-            ActionsComponent={({page}) => (
-                <Box
-                    sx={{
-                        flexGrow: 1,
-                        flexShrink: 0,
-                        display: 'flex',
-                        alignItems: 'center',
-                        mr: 1.5,
-                        ml: 4.5,
-                    }}
-                >
-                    <PageButtons
-                        page={page}
-                        totalPages={totalPages}
-                        onPageNumber={onPageNumber}
-                    />
-                </Box>
-            )}
-        />
+        <>
+            <Divider />
+            <TablePagination
+                component="div"
+                rowsPerPageOptions={[10, 25, 50]}
+                rowsPerPage={pSize}
+                count={totalElements}
+                page={pPage}
+                onPageChange={(_, p) => onPageNumber(p)}
+                onRowsPerPageChange={ev => onPageSize(parseInt(ev.target.value))}
+                labelRowsPerPage={"Rows:"}
+                ActionsComponent={({page}) => (
+                    <Box
+                        sx={{
+                            flexGrow: 1,
+                            flexShrink: 0,
+                            display: 'flex',
+                            alignItems: 'center',
+                            mr: 1.5,
+                            ml: 4.5,
+                        }}
+                    >
+                        <PageButtons
+                            page={page}
+                            totalPages={totalPages}
+                            onPageNumber={onPageNumber}
+                        />
+                    </Box>
+                )}
+            />
+        </>
     )
 }

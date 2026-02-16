@@ -1,5 +1,5 @@
 import {debounce} from "lodash";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 
 import {storage} from "../utils/local-storage";
 

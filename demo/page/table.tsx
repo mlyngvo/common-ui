@@ -8,13 +8,20 @@ import {
     Chip,
     type ChipProps,
     Divider,
+    FormControl,
+    InputLabel,
     ListItem,
     ListItemAvatar,
-    ListItemText, Stack, TableCell, TableRow,
+    ListItemText,
+    MenuItem,
+    Select,
+    Stack,
+    TableCell,
+    TableRow,
     Typography
 } from "@mui/material";
 import {useQuery} from '@tanstack/react-query';
-import React, {Fragment, ReactElement, useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
 import {Body, Breadcrumbs, DataTable, PageTitle, PlainTable, Switch} from '../../src';
@@ -160,6 +167,17 @@ export default function TablePage() {
 
     const [showDataTable, setShowDataTable] = useState(true);
 
+    const statusFilter = (pageable?.filter?.['status'] as string) ?? '';
+    function handleStatusChange(value: string) {
+        const filter = { ...(pageable?.filter ?? {}) };
+        if (value) {
+            filter['status'] = value;
+        } else {
+            delete filter['status'];
+        }
+        restPagination.onFilter(filter);
+    }
+
     return (
         <Body
             title={(
@@ -167,7 +185,7 @@ export default function TablePage() {
                     direction="row"
                     gap={1}
                     alignItems="center"
-                    flex="1 1 auto"
+                    width="100%"
                 >
                     <Box flexGrow={1}>
                         <PageTitle title="Table" />
@@ -207,6 +225,22 @@ export default function TablePage() {
                         renderTableRows={renderTableRows}
                         renderListRows={renderListRows}
                         pageable={pageable}
+                        searchKey="needle"
+                        filterInputs={
+                            <FormControl size="small" sx={{ minWidth: 140 }}>
+                                <InputLabel>Status</InputLabel>
+                                <Select
+                                    label="Status"
+                                    value={statusFilter}
+                                    onChange={e => handleStatusChange(e.target.value)}
+                                >
+                                    <MenuItem value="">All</MenuItem>
+                                    <MenuItem value="Paid">Paid</MenuItem>
+                                    <MenuItem value="Refunded">Refunded</MenuItem>
+                                    <MenuItem value="Cancelled">Cancelled</MenuItem>
+                                </Select>
+                            </FormControl>
+                        }
                         {...restPagination}
                     />
                 </Card>

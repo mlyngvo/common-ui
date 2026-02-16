@@ -10,9 +10,29 @@ export async function mockFetch<T>(data: T, sleepDuration?: number): Promise<T> 
 }
 
 export async function mockFetchPageable<T>(data: Array<T>, pageable?: SpringPageable<T>, sleepDuration?: number): Promise<SpringPage<T>> {
-    const {page = 0, size = 25} = pageable ?? {};
+    const {page = 0, size = 25, filter} = pageable ?? {};
     await sleep(sleepDuration ?? DEFAULT_SLEEP_MS);
-    const content = data.slice(page * size, page * size + size);
+
+    let filtered = data;
+    const needle = filter?.['needle'];
+    if (needle !== undefined) {
+        const query = String(needle).toLowerCase();
+        filtered = filtered.filter(item => {
+            const row = item as Record<string, string>;
+            const id = (row['id'] ?? '').toLowerCase();
+            const name = ((row['customer'] as unknown as Record<string, string>)?.['name'] ?? '').toLowerCase();
+            return id.includes(query) || name.includes(query);
+        });
+    }
+    const status = filter?.['status'];
+    if (status !== undefined) {
+        filtered = filtered.filter(item => {
+            const row = item as Record<string, string>;
+            return (row['status'] ?? '') === String(status);
+        });
+    }
+
+    const content = filtered.slice(page * size, page * size + size);
     if (pageable?.sort !== undefined) {
         for (const s of pageable.sort) {
             content.sort((a, b) => {
@@ -24,7 +44,7 @@ export async function mockFetchPageable<T>(data: Array<T>, pageable?: SpringPage
             })
         }
     }
-    const totalPages = Math.ceil(data.length / size);
+    const totalPages = Math.ceil(filtered.length / size);
     const isLast = page == totalPages;
     return {
         content,
@@ -32,7 +52,7 @@ export async function mockFetchPageable<T>(data: Array<T>, pageable?: SpringPage
         isFirst: page === 0,
         isLast,
         number: page,
-        totalElements: data.length,
+        totalElements: filtered.length,
         totalPages
     };
 }
