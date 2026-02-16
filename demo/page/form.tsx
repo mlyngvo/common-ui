@@ -15,6 +15,7 @@ import {
     Radio,
     Select, Switch
 } from "../../src";
+import {AvatarEditor} from "../../src/editor";
 import {mockFetch} from "../utils";
 
 export default function FormPage() {
@@ -123,6 +124,9 @@ export default function FormPage() {
                                     />
                                 </Stack>
                             </CardContent>
+                        </Card>
+                        <Card sx={{ p: 2 }}>
+                            <AvatarEditor onSave={() => {}} onCancel={() => {}} />
                         </Card>
                     </Stack>
                 </Grid>

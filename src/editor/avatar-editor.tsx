@@ -1,9 +1,7 @@
+import {Button, Slider, Stack} from "@mui/material";
+import {styled} from "@mui/material/styles";
 import React, {useEffect, useRef, useState} from 'react';
 import ReactAvatarEditor from 'react-avatar-editor';
-import {Button, Slider, Stack, styled} from '@mui/joy';
-import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
-import SaveRoundedIcon from '@mui/icons-material/SaveRounded';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const VisuallyHiddenInput = styled('input')`
     clip: rect(0 0 0 0);
@@ -86,14 +84,13 @@ export function AvatarEditor({defaultImageUrl, onSave, onCancel, i18n}: AvatarEd
                     />
                     <Slider
                         marks
-                        size="sm"
+                        size="small"
                         valueLabelDisplay="auto"
-                        variant="solid"
                         step={0.1}
                         min={0.5}
                         max={1.5}
                         value={scale}
-                        onChange={(_, v) => { handleScale(v); }}
+                        onChange={(_, v) => handleScale(v)}
                     />
                 </>
             )}
@@ -103,8 +100,8 @@ export function AvatarEditor({defaultImageUrl, onSave, onCancel, i18n}: AvatarEd
                 role={undefined}
                 tabIndex={-1}
                 variant="outlined"
-                color="neutral"
-                startDecorator={<UploadFileRoundedIcon />}
+                color="inherit"
+                // startDecorator={<UploadFileRoundedIcon />}
             >
                 {uploadFile ?? 'Upload a file'}
                 <VisuallyHiddenInput
@@ -116,9 +113,9 @@ export function AvatarEditor({defaultImageUrl, onSave, onCancel, i18n}: AvatarEd
 
             {file !== undefined && (
                 <Button
-                    variant="solid"
+                    variant="contained"
                     color="primary"
-                    startDecorator={<SaveRoundedIcon />}
+                    // startDecorator={<SaveRoundedIcon />}
                     onClick={handleSave}
                 >
                     {save ?? 'Save'}
@@ -126,9 +123,9 @@ export function AvatarEditor({defaultImageUrl, onSave, onCancel, i18n}: AvatarEd
             )}
 
             <Button
-                variant="soft"
-                color="neutral"
-                startDecorator={<CloseRoundedIcon />}
+                variant="outlined"
+                color="inherit"
+                // startDecorator={<CloseRoundedIcon />}
                 onClick={onCancel}
             >
                 {cancel ?? 'Cancel'}
