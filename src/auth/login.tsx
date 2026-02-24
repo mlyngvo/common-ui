@@ -1,13 +1,10 @@
-import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
-import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
-import {Alert, Box, Button, IconButton, InputAdornment, Link, Stack} from "@mui/material";
+import {Alert, Box, Button, Link, Stack} from "@mui/material";
 import React, {type ReactNode, useState} from "react";
 
-import {Checkbox, Input} from "../form";
-import {useFlag} from "../utils/use-flag";
+import {Checkbox, Input, PasswordInput} from "../form";
 import {FormDialog} from "./share";
 
-interface LoginFormData {
+export interface LoginFormData {
     email: string;
     password: string;
     persistent: boolean;
@@ -51,8 +48,6 @@ export function LoginForm(props: LoginFormProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [persistent, setPersistent] = useState(false);
-    const [showPassword, , , toggleShowPassword] = useFlag(false);
-
     function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
         ev.preventDefault();
         onSubmit({ email, password, persistent })
@@ -80,38 +75,19 @@ export function LoginForm(props: LoginFormProps) {
                             disabled: loading,
                         }}
                     />
-                    <Input
+                    <PasswordInput
                         label={lPassword ?? 'Password'}
-                        InputProps={{
-                            required: true,
-                            type: showPassword ? 'text' : 'password',
-                            value: password,
-                            onChange: setPassword,
-                            disabled: loading,
-                            slotProps: {
-                                input: {
-                                    endAdornment: (
-                                        <InputAdornment position="end">
-                                            <IconButton
-                                                size="small"
-                                                onClick={toggleShowPassword}
-                                            >
-                                                {showPassword
-                                                    ? <VisibilityRoundedIcon fontSize="inherit" />
-                                                    : <VisibilityOffRoundedIcon fontSize="inherit" />
-                                                }
-                                            </IconButton>
-                                        </InputAdornment>
-                                    )
-                                }
-                            }
-                        }}
+                        value={password}
+                        onChange={setPassword}
+                        required
+                        disabled={loading}
                     />
                     <Checkbox
                         label={lPersistent ?? 'Remember me'}
                         CheckboxProps={{
                             checked: persistent,
-                            onChange: setPersistent
+                            onChange: setPersistent,
+                            disabled: loading,
                         }}
                     />
                 </Stack>

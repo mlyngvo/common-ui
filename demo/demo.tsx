@@ -20,6 +20,7 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
     '/display': { title: 'Display', element: <Display /> },
     '/table': { title: 'Table', element: <Table /> },
     '/auth': { title: 'Auth', element: <Auth /> },
+    '/auth/forgot-password': { title: 'Auth - Forgot Password', element: <Auth forgotPassword /> },
 };
 
 function Shell({children}: PropsWithChildren) {

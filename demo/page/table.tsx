@@ -159,6 +159,7 @@ export default function TablePage() {
         queryKey: ['orders', ...serializePageable(pageable)],
         queryFn: () => mockFetchPageable(orders, pageable),
         enabled: pageable !== undefined,
+        staleTime: 60 * 1000
     });
 
     const [showDataTable, setShowDataTable] = useState(true);

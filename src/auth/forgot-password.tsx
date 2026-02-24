@@ -1,12 +1,13 @@
-import React, {ReactNode, useEffect, useMemo, useState} from "react";
-import {FormDialog} from "./share";
-import {Input} from "../form";
 import {Alert, Box, Button, Link, Stack} from "@mui/material";
+import React, {ReactNode, useEffect, useState} from "react";
+
+import {Input, PasswordInput, VerificationCodeInput} from "../form";
 import {isNonBlank} from "../utils/strings";
+import {FormDialog} from "./share";
 
-type ForgotPasswordMode = 'Email' | 'Code' | 'Password';
+type ForgotPasswordMode = 'Email' | 'Code' | 'Password' | 'Completed';
 
-interface ForgotPasswordFormData {
+export interface ForgotPasswordFormData {
     email: string;
     verificationCode?: string;
     newPassword?: string;
@@ -17,6 +18,7 @@ export interface ForgotPasswordProps {
     appTitle: string;
     logo: ReactNode;
     onSubmit: (data: ForgotPasswordFormData) => Promise<void>;
+    onRestart: () => void;
     loginUrl?: string;
     loading?: boolean;
     error?: Error;
@@ -26,7 +28,9 @@ export interface ForgotPasswordProps {
         code?: string;
         newPassword?: string;
         confirmPassword?: string;
+        restart?: string;
         submit?: string;
+        enterCodeMessage?: string;
         successMessage?: string;
         backToLogin?: string;
     };
@@ -37,13 +41,16 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
         appTitle,
         logo,
         onSubmit,
+        onRestart,
         i18n: {
             form: lForm,
             email: lEmail,
             code: lCode,
             newPassword: lNewPassword,
             confirmPassword: lConfirmPassword,
+            restart: lRestart,
             submit: lSubmit,
+            enterCodeMessage: lEnterCodeMessage,
             successMessage: lSuccessMessage,
             backToLogin: lBackToLogin,
         } = {},
@@ -55,6 +62,8 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
     const [mode, setMode] = useState<ForgotPasswordMode>('Email');
     const [email, setEmail] = useState('');
     const [code, setCode] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     useEffect(() => {
         const url = new URLSearchParams(window.location.search);
@@ -76,20 +85,34 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
     function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
         ev.preventDefault();
 
+        const data: ForgotPasswordFormData = { email };
+        let nextMode: ForgotPasswordMode | undefined;
+
         if (mode === 'Email') {
-            onSubmit({ email })
-                .then(() => setMode('Code'))
-                .catch(console.error);
+            nextMode = 'Code';
         }
         else if (mode === 'Code') {
-            onSubmit({ email, verificationCode: code })
-                .then(() => setMode('Password'))
-                .catch(console.error);
+            data.verificationCode = code;
+            nextMode = 'Password';
         }
         else {
-            onSubmit({ email, newPassword: '', confirmNewPassword: '' })
-                .catch(console.error);
+            data.newPassword = password;
+            data.confirmNewPassword = confirmPassword;
+            nextMode = 'Completed';
         }
+
+        onSubmit(data)
+            .then(() => { if (nextMode) setMode(nextMode); })
+            .catch(console.error);
+    }
+
+    function handleRestart() {
+        setMode('Email');
+        setEmail('');
+        setCode('');
+        setPassword('');
+        setConfirmPassword('');
+        onRestart();
     }
 
     return (
@@ -117,30 +140,79 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
                     )}
                     {mode === 'Code' && (
                         <>
-                            <Alert>
-                                We have sent the verification code to your email. Please check your inbox.
+                            <Alert variant="outlined" severity="info">
+                                {lEnterCodeMessage ?? 'We have sent the verification code to your email. Please check your inbox.'}
                             </Alert>
-                            <Input
+                            <VerificationCodeInput
                                 label={lCode ?? 'Verification code'}
-                                InputProps={{
-                                    required: true,
-                                    value: code,
-                                    onChange: setCode,
-                                }}
+                                value={code}
+                                onChange={setCode}
+                                required
+                                disabled={loading}
                             />
                         </>
                     )}
+                    {mode === 'Password' && (
+                        <>
+                            <PasswordInput
+                                label={lNewPassword ?? 'New Password'}
+                                value={password}
+                                onChange={setPassword}
+                                required
+                                disabled={loading}
+                            />
+                            <PasswordInput
+                                label={lConfirmPassword ?? 'Confirm Password'}
+                                value={confirmPassword}
+                                onChange={setConfirmPassword}
+                                required
+                                disabled={loading}
+                            />
+                        </>
+                    )}
+                    {mode === 'Completed' && (
+                        <Alert variant="outlined" severity="success">
+                            {lSuccessMessage ?? 'Your password has been changed successfully.'}
+                        </Alert>
+                    )}
                 </Stack>
                 <Box my={3} />
-                <Button
-                    fullWidth
-                    type="submit"
-                    size="large"
-                    variant="contained"
-                    disabled={loading}
-                >
-                    {lSubmit ?? 'Submit'}
-                </Button>
+                {mode !== 'Completed' && (
+                    <Button
+                        fullWidth
+                        type="submit"
+                        size="large"
+                        variant="contained"
+                        disabled={loading}
+                    >
+                        {lSubmit ?? 'Submit'}
+                    </Button>
+                )}
+                {!['Email', 'Completed'].includes(mode) && (
+                    <>
+                        <Box my={1} />
+                        <Button
+                            fullWidth
+                            size="large"
+                            variant="outlined"
+                            disabled={loading}
+                            color="inherit"
+                            onClick={handleRestart}
+                        >
+                            {lRestart ?? 'Restart'}
+                        </Button>
+                    </>
+                )}
+
+                {error !== undefined && (
+                    <Alert
+                        severity="error"
+                        sx={{ mt: 2 }}
+                    >
+                        {error?.message ?? 'Error'}
+                    </Alert>
+                )}
+
                 {loginUrl !== undefined && (
                     <Stack
                         direction="column"
