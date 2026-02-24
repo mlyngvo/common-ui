@@ -1,5 +1,5 @@
 import {Alert, Box, Button, Link, Stack} from "@mui/material";
-import React, {ReactNode, useEffect, useState} from "react";
+import React, {ReactNode, useState} from "react";
 
 import {Input, PasswordInput, VerificationCodeInput} from "../form";
 import {isNonBlank} from "../utils/strings";
@@ -59,28 +59,23 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
         loginUrl,
     } = props;
 
-    const [mode, setMode] = useState<ForgotPasswordMode>('Email');
-    const [email, setEmail] = useState('');
-    const [code, setCode] = useState('');
+    const [urlParams] = useState(() => {
+        const url = new URLSearchParams(window.location.search);
+        return {
+            email: url.get('email') ?? '',
+            code: url.get('code') ?? '',
+        };
+    });
+
+    const [mode, setMode] = useState<ForgotPasswordMode>(() => {
+        if (isNonBlank(urlParams.email) && isNonBlank(urlParams.code)) return 'Password';
+        if (isNonBlank(urlParams.email)) return 'Code';
+        return 'Email';
+    });
+    const [email, setEmail] = useState(urlParams.email);
+    const [code, setCode] = useState(urlParams.code);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-
-    useEffect(() => {
-        const url = new URLSearchParams(window.location.search);
-        const email = url.get('email');
-        const code = url.get('code');
-        if (isNonBlank(email)) setEmail(email);
-        if (isNonBlank(code)) setCode(code);
-        if (isNonBlank(email) && isNonBlank(code)) {
-            setMode('Password');
-        }
-        else if (isNonBlank(email)) {
-            setMode('Code')
-        }
-        else {
-            setMode('Email');
-        }
-    }, []);
 
     function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
         ev.preventDefault();
