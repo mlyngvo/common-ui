@@ -4,6 +4,7 @@ import {HashRouter, Route, Routes} from 'react-router-dom';
 
 import {AppTheme} from '../src';
 import {PageTitleProvider} from './context';
+import Auth from "./page/auth";
 import Display from "./page/display";
 import Form from "./page/form";
 import Index from './page/index';
@@ -18,6 +19,7 @@ const routes: Record<string, { title: string, element: ReactElement }> = {
     '/form': { title: 'Form', element: <Form /> },
     '/display': { title: 'Display', element: <Display /> },
     '/table': { title: 'Table', element: <Table /> },
+    '/auth': { title: 'Auth', element: <Auth /> },
 };
 
 function Shell({children}: PropsWithChildren) {

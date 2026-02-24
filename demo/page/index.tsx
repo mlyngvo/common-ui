@@ -25,6 +25,11 @@ const COMPONENTS = [
         description: 'Various table components.',
         path: '/table',
     },
+    {
+        title: 'Auth',
+        description: 'Various authentication components.',
+        path: '/auth',
+    },
 ];
 
 export default function IndexPage() {

@@ -50,8 +50,29 @@ export function AppTheme({children, themeComponents}: AppThemeProps) {
                         }
                     }
                 },
-                MuiTableCell: {
+                MuiLink: {
                     styleOverrides: {
+                        root: {
+                            textDecoration: 'none',
+                        }
+                    }
+                },
+                MuiInputBase: {
+                    styleOverrides: {
+                        root: {
+                            background: 'rgba(255,255,255,0.07)',
+                        }
+                    }
+                },
+                MuiButton: {
+                    styleOverrides: {
+                        root: {
+                            textTransform: 'none',
+                        },
+                        contained: {
+                            boxShadow: '0 0 1px 0px rgba(0, 0, 0, 0.1) !important',
+                            fontWeight: 600
+                        }
                     }
                 },
                 ...themeComponents,
