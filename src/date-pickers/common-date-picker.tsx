@@ -1,37 +1,84 @@
-import React from 'react';
+import {FormControl, FormControlProps, FormLabel, useMediaQuery} from "@mui/material";
 import {
     DatePicker,
-    type DatePickerProps,
-    type DatePickerSlotProps,
-    LocalizationProvider
-} from '@mui/x-date-pickers';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {type Dayjs} from 'dayjs';
-import useDayJsLocales from './dayjs-locales';
-import {useStyleOverride} from './style-override';
+    DatePickerProps,
+    DatePickerSlotProps,
+    LocalizationProvider,
+    MobileDatePicker
+} from "@mui/x-date-pickers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {Dayjs} from "dayjs";
+import React from "react";
 
-export interface CommonDatePickerProperties extends Omit<DatePickerProps<Dayjs>, 'label'> {
-    locale?: string
+import {randomInputId} from "../form/form-utils";
+import useDayJsLocales from "./dayjs-locales";
+import {useStyleOverride} from "./style-override";
+
+export interface CommonDatePickerProps {
+    label: string;
+    id?: string;
+    locale?: string;
+    FormControlProps?: FormControlProps;
+    DatePickerProps?: DatePickerProps<Dayjs>;
 }
 
-export function CommonDatePicker(properties: CommonDatePickerProperties) {
+export function CommonDatePicker(props: CommonDatePickerProps) {
     const {
         locale: pLocale,
-        ...rest
-    } = properties;
-
+        id,
+        label,
+        FormControlProps: {fullWidth = true, ...restFormControlProps} = {},
+        DatePickerProps: {sx, ...restProps} = {},
+    } = props;
+    const inputId = id ?? randomInputId();
+    const mobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
     const locale = useDayJsLocales(pLocale);
-
-    const slotProperties = useStyleOverride(true, false) as DatePickerSlotProps<Dayjs, false>;
+    const slotProps = useStyleOverride(inputId, true, false) as DatePickerSlotProps<Dayjs, false>;
     return (
         <LocalizationProvider
             dateAdapter={AdapterDayjs}
             adapterLocale={locale}
         >
-            <DatePicker
-                {...rest}
-                slotProps={slotProperties}
-            />
+            <FormControl
+                fullWidth={fullWidth}
+                {...restFormControlProps}
+            >
+                <FormLabel
+                    htmlFor={inputId}
+                    sx={{
+                        fontSize: 'small',
+                        fontWeight: 600,
+                        pl: 1,
+                        mb: 0.5
+                    }}
+                >
+                    {label}
+                </FormLabel>
+                {mobile
+                    ? (
+                        <MobileDatePicker
+                            sx={{
+                                ...sx,
+                                mt: '0.3rem !important',
+                                display: { xs: 'block', sm: 'none' },
+                            }}
+                            {...restProps}
+                            slotProps={slotProps}
+                        />
+                    )
+                    : (
+                        <DatePicker
+                            sx={{
+                                ...sx,
+                                mt: '0.3rem !important',
+                                display: { xs: 'none', sm: 'block' },
+                            }}
+                            {...restProps}
+                            slotProps={slotProps}
+                        />
+                    )
+                }
+            </FormControl>
         </LocalizationProvider>
-    );
+    )
 }

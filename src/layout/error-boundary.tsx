@@ -1,20 +1,12 @@
-import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionGroup,
-    AccordionSummary,
-    Box,
-    Modal,
-    ModalDialog, Stack,
-    Typography
-} from '@mui/joy';
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
+import {Accordion, AccordionDetails, AccordionSummary, Box, Dialog, DialogContent, Stack, Typography} from '@mui/material';
+import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
 
 interface ErrorContext {
     url: string;
     referrer: string;
     userAgent: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     error: any;
 }
 
@@ -60,12 +52,14 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
      * @param error
      * @doc https://reactjs.org/docs/react-component.html#static-getderivedstatefromerror
      */
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     static getDerivedStateFromError(error: any) {
         // Store error context
         ErrorBoundary.errorContext = {
             url: window.location.href,
             referrer: document.referrer,
             userAgent: navigator.userAgent,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             error
         };
         // Update state so the next render will show the fallback UI
@@ -93,7 +87,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
         return kv
             .sort((x, y) => x.key.localeCompare(y.key))
             .map((o, index) => {
-                let {key, value} = o;
+                let value = o.value;
                 try {
                     value = JSON.stringify(JSON.parse(value ?? ''), undefined, 3);
                 } catch (error) {
@@ -101,7 +95,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
                 }
                 return (
                     <Fragment key={`kv-${index}`} >
-                        <Typography level="body-xs">{key}</Typography>
+                        <Typography variant="body2">{o.key}</Typography>
                         <Box component="code" sx={{ ...codeSx, mb: 2 }}>
                             {value}
                         </Box>
@@ -111,7 +105,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
     }
 
     render() {
-        // eslint-disable-next-line react/destructuring-assignment
+         
         if (!this.state.hasError) return this.props.children;
         const {
             errorContext: {
@@ -122,62 +116,77 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
             } = {}} = ErrorBoundary;
 
         return (
-            <Modal open>
-                <ModalDialog>
-                    <Box
-                        sx={{
-                            overflow: 'scroll',
-                            mx: 'calc(-1 * var(--ModalDialog-padding))',
-                            px: 'var(--ModalDialog-padding)',
-                        }}
+            <Dialog open>
+                <DialogContent
+                    sx={{
+                        overflow: 'scroll',
+                        mx: 'calc(-1 * var(--ModalDialog-padding))',
+                        px: 'var(--ModalDialog-padding)',
+                    }}
+                >
+                    <Stack
+                        direction="column"
+                        alignItems="center"
                     >
-                        <Stack
-                            direction="column"
-                            alignItems="center"
-                        >
-                            <ErrorOutlineRoundedIcon sx={{ color: 'var(--joy-palette-danger-500)', fontSize: '4rem' }} />
-                            <Typography level="h3" textAlign="center" sx={{ mb: 3 }}>Oops, something went wrong!</Typography>
-                        </Stack>
+                        <ErrorOutlineRoundedIcon sx={{ color: 'var(--joy-palette-danger-500)', fontSize: '4rem' }} />
+                        <Typography variant="h3" textAlign="center" sx={{ mb: 3 }}>Oops, something went wrong!</Typography>
+                    </Stack>
 
-                        <AccordionGroup>
-                            <Accordion>
-                                <AccordionSummary
-                                    sx={theme => ({
-                                        '& > button': {
-                                            background: theme.palette.background.level3,
-                                            borderRadius: 5,
-                                            '&:hover': {
-                                                background: `${theme.palette.background.level2} !important`,
-                                            }
-                                        }
-                                    })}
-                                >
-                                    {error?.message}
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <Typography level="body-sm"><strong>URL</strong></Typography>
+                    <Accordion>
+                        <AccordionSummary
+                            sx={() => ({
+                                '& > button': {
+                                    // background: theme.palette.background.level3,
+                                    borderRadius: 5,
+                                    '&:hover': {
+                                        // background: `${theme.palette.background.level2} !important`,
+                                    }
+                                }
+                            })}
+                        >
+                            {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
+                            {error?.message}
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <Stack
+                                direction="column"
+                                gap={1}
+                            >
+                                <div>
+                                    <Typography variant="body2"><strong>URL</strong></Typography>
                                     <Box component="code" sx={codeSx}>{url}</Box>
-                                    <Box my={1} />
-                                    <Typography level="body-sm"><strong>Referrer</strong></Typography>
+                                </div>
+
+                                <div>
+                                    <Typography variant="body2"><strong>Referrer</strong></Typography>
                                     <Box component="code" sx={codeSx}>{referrer}</Box>
-                                    <Box my={1} />
-                                    <Typography level="body-sm"><strong>User-Agent</strong></Typography>
+                                </div>
+
+                                <div>
+                                    <Typography variant="body2"><strong>User-Agent</strong></Typography>
                                     <Box component="code" sx={codeSx}>{userAgent}</Box>
-                                    <Box my={1} />
-                                    <Typography level="body-sm"><strong>Trace</strong></Typography>
+                                </div>
+
+                                <div>
+                                    <Typography variant="body2"><strong>Trace</strong></Typography>
+                                    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-member-access */}
                                     <Box component="code" sx={codeSx}>{error?.stack}</Box>
-                                    <Box my={1} />
-                                    <Typography level="body-sm"><strong>Session Storage</strong></Typography>
+                                </div>
+
+                                <div>
+                                    <Typography variant="body2"><strong>Session Storage</strong></Typography>
                                     {this.renderStorage(sessionStorage)}
-                                    <Box my={1} />
-                                    <Typography level="body-sm"><strong>Local Storage</strong></Typography>
+                                </div>
+
+                                <div>
+                                    <Typography variant="body2"><strong>Local Storage</strong></Typography>
                                     {this.renderStorage(localStorage)}
-                                </AccordionDetails>
-                            </Accordion>
-                        </AccordionGroup>
-                    </Box>
-                </ModalDialog>
-            </Modal>
+                                </div>
+                            </Stack>
+                        </AccordionDetails>
+                    </Accordion>
+                </DialogContent>
+            </Dialog>
         );
     }
 }

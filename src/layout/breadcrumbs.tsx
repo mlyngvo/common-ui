@@ -1,7 +1,7 @@
-import React from 'react';
-import {Breadcrumbs as MuiBreadcrumbs, Link, Typography, useTheme} from '@mui/joy';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import {Breadcrumbs as MuiBreadcrumbs, Link, Typography,useTheme} from '@mui/material';
+import React from 'react';
 
 interface BreadcrumbsProperties {
     onHomeClick: () => void;
@@ -13,12 +13,11 @@ export function Breadcrumbs({onHomeClick, items}: BreadcrumbsProperties) {
 
     return (
         <MuiBreadcrumbs
-            size="sm"
             aria-label="breadcrumbs"
-            separator={<ChevronRightRoundedIcon sx={{ fontSize: theme.typography['body-xs'].fontSize }} />}
+            separator={<ChevronRightRoundedIcon sx={{ fontSize: theme.typography.body2.fontSize }} />}
             sx={{ pl: 0 }}
         >
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+            { }
             <Link
                 component="button"
                 underline="none"
@@ -30,7 +29,7 @@ export function Breadcrumbs({onHomeClick, items}: BreadcrumbsProperties) {
             {items.map(({label, onClick}) => onClick === undefined
                 ? <Typography key={label} color="primary" fontWeight={500} fontSize={12}>{label}</Typography>
                 : (
-                    // eslint-disable-next-line jsx-a11y/anchor-is-valid
+                     
                     <Link
                         key={label}
                         component="button"

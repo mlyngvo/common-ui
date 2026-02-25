@@ -4,7 +4,9 @@
     "sourceMap": false
   },
   "exclude": [
+    "src/legacy/**/*",
     "src/**/*.test.*",
-    "src/setupTests.ts"
+    "src/setupTests.ts",
+    "src/test-components.tsx"
   ]
 }

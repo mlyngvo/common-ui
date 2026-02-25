@@ -1,87 +1,152 @@
-import React, {type ReactElement} from 'react';
-import {
-    Select as MuiSelect,
-    FormControl,
-    FormLabel,
-    type SelectProps as MuiSelectProperties,
-    type FormControlProps,
-    Option, IconButton
-} from '@mui/joy';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import {Box, CircularProgress, FormControl, type FormControlProps, FormHelperText, FormLabel, IconButton, MenuItem, Select as MuiSelect, type SelectProps as MuiSelectProps} from "@mui/material";
+import React, {type ReactElement, useState} from 'react';
 
-export interface SelectProperties<T> {
+import {useFlag} from "../utils/use-flag";
+import {randomInputId} from "./form-utils";
+
+type SelectValue = string|number;
+
+type SelectOption = { label: string, value: SelectValue };
+
+interface SelectInputProps<T extends SelectValue = SelectValue> {
+    value?: T;
+    onChange?: (value: T) => void;
+}
+
+export interface SelectProperties<T extends SelectValue = SelectValue> {
     label: string;
-    options: T[];
-    renderOption?: (option: T, index: number) => ReactElement;
-    emptyValue?: boolean;
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    SelectProps?: MuiSelectProperties<T & {}, false> & { onClear?: () => void };
+    options: Array<SelectOption>;
+    id?: string;
+    loading?: boolean;
+    preventEmpty?: boolean;
+    renderOption?: (option: SelectOption) => ReactElement;
+    helperText?: ReactElement|string|number|undefined;
     FormControlProps?: FormControlProps;
+    SelectProps?: Omit<MuiSelectProps, 'value'|'onChange'> & SelectInputProps<T>;
     i18n?: {
-        allLabel?: string;
+        emptyLabel?: string;
     };
 }
 
-export function Select<T>(properties: SelectProperties<T>) {
+export function Select<T extends SelectValue = SelectValue>(properties: SelectProperties<T>) {
     const {
+        id,
         label,
         options,
         renderOption,
-        emptyValue = false,
+        loading = false,
+        preventEmpty = false,
+        helperText,
+        FormControlProps: {
+            fullWidth = true,
+            ...formControlProperties
+        } = {},
         SelectProps: {
-            sx,
+            size = 'small',
+            displayEmpty = true,
             value,
-            onClear,
+            onChange,
             ...selectProperties
         } = {},
-        FormControlProps,
         i18n: {
-            allLabel
+            emptyLabel
         } = {}
     } = properties;
+
+    const [open, setOpen, clearOpen, toggleOpen] = useFlag(false);
+
+    const [stateVal, setStateVal] = useState<SelectValue>(value ?? "");
+
+    function handleChange(value: SelectValue) {
+        setStateVal(value);
+        onChange?.(value as T);
+    }
+
+    function handleClear() {
+        setStateVal("");
+        onChange?.("" as T);
+    }
+
+    const inputId = id ?? randomInputId();
     return (
-        <FormControl {...FormControlProps}>
-            <FormLabel
-                sx={{
-                    typography: 'body-sm',
-                    fontWeight: 600
-                }}
-            >
-                {label}
-            </FormLabel>
+        <FormControl
+            fullWidth={fullWidth}
+            {...formControlProperties}
+        >
+            {label !== undefined && (
+                <FormLabel
+                    htmlFor={inputId}
+                    onClick={toggleOpen}
+                    sx={{
+                        fontSize: 'small',
+                        fontWeight: 600,
+                        pl: 1,
+                        mb: 0.5
+                    }}
+                >
+                    {label}
+                </FormLabel>
+            )}
             <MuiSelect
-                sx={{
-                    bgcolor: 'background.body',
-                    ...sx
+                inputProps={{
+                    id: inputId,
                 }}
+                size={size}
+                displayEmpty={displayEmpty}
                 {...selectProperties}
-                value={
-                    // eslint-disable-next-line unicorn/no-null
-                    value ?? null
-                }
-                {...((emptyValue && value !== undefined && value !== null) && {
-                    endDecorator: (
-                        <IconButton
-                            size="sm"
-                            variant="plain"
-                            color="neutral"
-                            onMouseDown={(event) => {
-                                event.stopPropagation();
-                            }}
-                            onClick={onClear}
-                        >
-                            <CloseRoundedIcon />
-                        </IconButton>
-                    )
-                })}
+                value={stateVal}
+                onChange={ev => handleChange(ev.target.value as string | number)}
+                open={open}
+                onOpen={setOpen}
+                onClose={clearOpen}
+                disabled={loading}
+                {...(loading
+                        ? ({
+                            endAdornment: (
+                                <Box
+                                    sx={{
+                                        mt: 0.5,
+                                        mr: 3
+                                    }}
+                                >
+                                    <CircularProgress size={18} sx={{ color: 'text.secondary' }} />
+                                </Box>
+                            )
+                        })
+                        : ((stateVal !== '' && !preventEmpty) && {
+                            endAdornment: (
+                                <IconButton
+                                    sx={{
+                                        mr: 1.5
+                                    }}
+                                    size="small"
+                                    color="default"
+                                    onMouseDown={(event) => {
+                                        event.stopPropagation();
+                                    }}
+                                    onClick={handleClear}
+                                >
+                                    <CloseRoundedIcon />
+                                </IconButton>
+                            )
+                        })
+                )}
             >
-                {emptyValue && <Option value="">{allLabel ?? 'All'}</Option>}
-                {options.map((o, index) =>
-                    renderOption === undefined
-                        ? <Option key={String(o)} value={o}>{String(o)}</Option>
-                        : renderOption(o, index)
+                {!preventEmpty && <MenuItem value="">{emptyLabel ?? 'None'}</MenuItem>}
+                {options.map(o =>
+                    <MenuItem key={o.value} value={o.value}>
+                        {renderOption === undefined
+                            ? o.label
+                            : renderOption(o)
+                        }
+                    </MenuItem>
+
                 )}
             </MuiSelect>
+            {helperText !== undefined && (
+                <FormHelperText>{helperText}</FormHelperText>
+            )}
         </FormControl>
     );
 }

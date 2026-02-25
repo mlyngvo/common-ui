@@ -1,7 +1,8 @@
-import React, {useEffect, useState} from 'react';
-import {IconButton, type IconButtonProps, useColorScheme} from '@mui/joy';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeIcon from '@mui/icons-material/LightMode';
+import {IconButton, IconButtonProps} from '@mui/material';
+import {useColorScheme} from '@mui/material/styles';
+import React, {useEffect, useState} from 'react';
 
 export function ColorSchemeToggle(properties: IconButtonProps) {
     const {
@@ -13,15 +14,16 @@ export function ColorSchemeToggle(properties: IconButtonProps) {
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        // This pattern is intentional for SSR hydration to avoid hydration mismatch
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
     }, []);
 
     if (!mounted) {
         return (
             <IconButton
-                size="sm"
-                variant="outlined"
-                color="neutral"
+                size="small"
+                color="inherit"
                 {...other}
                 sx={sx}
                 disabled
@@ -31,9 +33,8 @@ export function ColorSchemeToggle(properties: IconButtonProps) {
     return (
         <IconButton
             id="toggle-mode"
-            size="sm"
-            variant="outlined"
-            color="neutral"
+            size="small"
+            color="inherit"
             {...other}
             onClick={(event) => {
                 if (mode === 'light') {
@@ -45,18 +46,15 @@ export function ColorSchemeToggle(properties: IconButtonProps) {
             }}
             sx={[
                 {
-                    '& > *:first-child': {
-                        display: mode === 'dark' ? 'none' : 'initial',
-                    },
-                    '& > *:last-child': {
-                        display: mode === 'light' ? 'none' : 'initial',
-                    },
+                    borderRadius: '5px',
+                    border: `1px solid ${mode === 'dark' ? '#333' : '#ccc'}`,
                 },
-                ...(Array.isArray(sx) ? sx : [sx]),
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                ...(Array.isArray(sx) ? sx : (sx ? [sx] : [])),
             ]}
         >
-            <DarkModeRoundedIcon />
-            <LightModeIcon />
+            {mode === 'light' && <DarkModeRoundedIcon color="inherit" />}
+            {mode === 'dark' && <LightModeIcon color="inherit" />}
         </IconButton>
     );
 }

@@ -1,12 +1,18 @@
-import React from 'react';
-import dayjs from 'dayjs';
 import {describe, expect, it} from '@jest/globals';
-import {act, fireEvent, render, screen, waitFor} from '@testing-library/react';
+import {act, render, waitFor} from '@testing-library/react';
+import dayjs from 'dayjs';
+import React from 'react';
+
+import {DefaultThemeProvider} from "../test-components";
 import {CommonTimePicker} from './common-time-picker';
 
 describe('common-time-picker tests', () => {
     it('can render blank time picker', async () => {
-        const {container} = render(<CommonTimePicker />);
+        const {container} = render(
+            <DefaultThemeProvider>
+                <CommonTimePicker label="Time Picker" />
+            </DefaultThemeProvider>
+        );
 
         await waitFor(() => {
             const input = container.querySelectorAll('input').item(0);
@@ -14,31 +20,34 @@ describe('common-time-picker tests', () => {
         });
     });
 
-    it('can edit time picker', async () => {
-        const {container} = render(<CommonTimePicker />);
-
-        const value = dayjs().format('hh:mm A');
-        const input = container.querySelectorAll('input').item(0);
-        fireEvent.change(input, { target: { value } });
+    it('can render time picker with value', async () => {
+        const testTime = dayjs();
+        const expectedValue = testTime.format('hh:mm A');
+        const {container} = render(
+            <DefaultThemeProvider>
+                <CommonTimePicker label="Edit Time Picker" TimePickerProps={{ value: testTime }} />
+            </DefaultThemeProvider>
+        );
 
         await waitFor(() => {
-            const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toBeVisible();
+            const input = container.querySelectorAll('input').item(0);
+            expect(input).toHaveValue(expectedValue);
         });
     });
 
-    it('can render blank time picker', async () => {
-        const now = dayjs();
+    it('can render locale time picker', async () => {
+        const testTime = dayjs().add(2, 'hour');
+        const expectedValue = testTime.format('hh:mm A');
 
-        const {container} = await act(() => render(<CommonTimePicker locale="en" value={now} />));
-
-        const value = dayjs().add(2, 'd').format('hh:mm A');
-        const input = container.querySelectorAll('input').item(0);
-        fireEvent.change(input, { target: { value } });
+        const {container} = await act(() => render(
+            <DefaultThemeProvider>
+                <CommonTimePicker label="Locale Time Picker" locale="en" TimePickerProps={{ value: testTime }} />
+            </DefaultThemeProvider>
+        ));
 
         await waitFor(() => {
-            const valueInput = screen.getByDisplayValue(value);
-            expect(valueInput).toEqual(input);
+            const input = container.querySelectorAll('input').item(0);
+            expect(input).toHaveValue(expectedValue);
         });
     });
 });

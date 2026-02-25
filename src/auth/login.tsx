@@ -1,25 +1,8 @@
-import React, {type ReactElement} from 'react';
-import {
-    Alert,
-    Box, Button,
-    Checkbox,
-    FormControl,
-    FormLabel,
-    Input, Link,
-    Stack,
-} from '@mui/joy';
-import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
-import {FormModal} from './modal';
+import {Alert, Box, Button, Link, Stack} from "@mui/material";
+import React, {type ReactNode, useState} from "react";
 
-interface FormElements extends HTMLFormControlsCollection {
-    email: HTMLInputElement;
-    password: HTMLInputElement;
-    persistent: HTMLInputElement;
-}
-
-interface LoginFormElement extends HTMLFormElement {
-    readonly elements: FormElements;
-}
+import {Checkbox, Input, PasswordInput} from "../form";
+import {FormDialog} from "./share";
 
 export interface LoginFormData {
     email: string;
@@ -27,97 +10,117 @@ export interface LoginFormData {
     persistent: boolean;
 }
 
-interface LoginDialogProperties {
+export interface LoginFormProps {
     appTitle: string;
-    logo: ReactElement;
+    logo: ReactNode;
     onSubmit: (data: LoginFormData) => Promise<void>;
-    i18n: {
+    forgotPasswordUrl?: string;
+    loading?: boolean;
+    error?: Error;
+    i18n?: {
         form?: string;
         email?: string;
         password?: string;
         persistent?: string;
         forgotPassword?: string;
         submit?: string;
-    }|undefined;
-    error: string|undefined;
-    forgotPasswordUrl: string|undefined;
+    };
 }
 
-export function LoginDialog({appTitle, logo, onSubmit, i18n, error, forgotPasswordUrl}: LoginDialogProperties) {
+export function LoginForm(props: LoginFormProps) {
     const {
-        form,
-        email,
-        password,
-        persistent,
-        forgotPassword,
-        submit,
-    } = i18n ?? {};
+        appTitle,
+        logo,
+        onSubmit,
+        forgotPasswordUrl,
+        error,
+        loading = false,
+        i18n: {
+            form: lForm,
+            email: lEmail,
+            password: lPassword,
+            persistent: lPersistent,
+            forgotPassword: lForgotPassword,
+            submit: lSubmit,
+        } = {},
+    } = props;
 
-    function handleFormSubmit(event: React.FormEvent<LoginFormElement>) {
-        event.preventDefault();
-        const formElements = event.currentTarget.elements;
-        const data: LoginFormData = {
-            email: formElements.email.value,
-            password: formElements.password.value,
-            persistent: formElements.persistent.checked,
-        };
-        onSubmit(data)
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [persistent, setPersistent] = useState(false);
+    function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
+        ev.preventDefault();
+        onSubmit({ email, password, persistent })
             .catch(console.error);
     }
 
     return (
-        <FormModal
+        <FormDialog
             logo={logo}
             appTitle={appTitle}
-            formTitle={form ?? 'Login'}
+            formTitle={lForm ?? 'Login'}
         >
-            <form onSubmit={handleFormSubmit}>
-                <FormControl>
-                    <FormLabel>{email ?? 'Email'}</FormLabel>
-                    <Input type="email" name="email"/>
-                </FormControl>
-                <Box my={3}/>
-                <FormControl>
-                    <FormLabel>{password ?? 'Password'}</FormLabel>
-                    <Input type="password" name="password"/>
-                </FormControl>
-
+            <form onSubmit={handleSubmit}>
+                <Stack
+                    gap={2}
+                    direction="column"
+                >
+                    <Input
+                        label={lEmail ?? 'Email'}
+                        InputProps={{
+                            required: true,
+                            type: 'email',
+                            value: email,
+                            onChange: setEmail,
+                            disabled: loading,
+                        }}
+                    />
+                    <PasswordInput
+                        label={lPassword ?? 'Password'}
+                        value={password}
+                        onChange={setPassword}
+                        required
+                        disabled={loading}
+                    />
+                    <Checkbox
+                        label={lPersistent ?? 'Remember me'}
+                        CheckboxProps={{
+                            checked: persistent,
+                            onChange: setPersistent,
+                            disabled: loading,
+                        }}
+                    />
+                </Stack>
+                <Box my={3} />
+                <Button
+                    fullWidth
+                    type="submit"
+                    size="large"
+                    variant="contained"
+                    disabled={loading}
+                >
+                    {lSubmit ?? 'Log in'}
+                </Button>
                 {error !== undefined && (
                     <Alert
-                        color="danger"
-                        variant="soft"
+                        severity="error"
                         sx={{ mt: 2 }}
-                        startDecorator={<ErrorOutlineRoundedIcon />}
                     >
-                        {error}
+                        {error?.message ?? 'Error'}
                     </Alert>
                 )}
-
-                <Stack gap={4} sx={{mt: 3}}>
-                    <Box
-                        sx={theme => ({
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            [theme.breakpoints.down('sm')]: {
-                                flexDirection: 'column',
-                                alignItems: 'flex-start'
-                            }
-                        })}
+                {forgotPasswordUrl !== undefined && (
+                    <Stack
+                        direction="column"
+                        alignItems="center"
+                        mt={2}
                     >
-                        <Checkbox size="sm" label={persistent ?? 'Remember me'} name="persistent"/>
-                        <Box my={1}/>
-                        {forgotPasswordUrl !== undefined && (
-                            <Link level="title-sm" href={forgotPasswordUrl}>
-                                {forgotPassword ?? 'Forgot your password?'}
-                            </Link>
-                        )}
-                    </Box>
-                    <Button type="submit" fullWidth>
-                        {submit ?? 'Log in'}
-                    </Button>
-                </Stack>
+                        <Link href={forgotPasswordUrl}>
+                            {lForgotPassword ?? 'Forgot your password?'}
+                        </Link>
+                    </Stack>
+                )}
             </form>
-        </FormModal>
-    );
+        </FormDialog>
+    )
 }
