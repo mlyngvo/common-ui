@@ -33,10 +33,6 @@ export default function DisplayPage() {
                     <Stack spacing={2}>
                         <Card>
                             <CardContent>
-                            </CardContent>
-                        </Card>
-                        <Card>
-                            <CardContent>
                                 <Typography variant="h6">Date & Time Display</Typography>
 
                                 <Stack gap={2} my={1}>

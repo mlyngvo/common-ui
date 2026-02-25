@@ -5,5 +5,20 @@
     "findMe": {
       "theValue": "deep EN"
     }
+  },
+  "localization": {
+    "title": "Localization",
+    "greeting": "Hello, welcome to the localization demo!",
+    "description": "This page demonstrates the createLocalization utility with translations in English, German, and Japanese."
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "pending": "Pending"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
   }
 }

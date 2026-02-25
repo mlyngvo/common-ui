@@ -1,0 +1,24 @@
+{
+  "foo": "bar JA",
+  "key": "value JA",
+  "depth": {
+    "findMe": {
+      "theValue": "deep JA"
+    }
+  },
+  "localization": {
+    "title": "ローカリゼーション",
+    "greeting": "こんにちは、ローカリゼーションデモへようこそ！",
+    "description": "このページでは、英語、ドイツ語、日本語の翻訳を使用したcreateLocalizationユーティリティを紹介します。"
+  },
+  "status": {
+    "active": "有効",
+    "inactive": "無効",
+    "pending": "保留中"
+  },
+  "priority": {
+    "low": "低",
+    "medium": "中",
+    "high": "高"
+  }
+}

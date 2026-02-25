@@ -75,7 +75,6 @@ export function createLocalization<T extends MessageObject>({i18n}: Localization
         setLanguage: () => {},
         message: undefined
     });
-
     function LocalizationProvider({children}: PropsWithChildren) {
         const [language, setLanguage] = useState(
             () => storage.get<string>(StorageKey) ?? navigator.language.slice(0, 2)

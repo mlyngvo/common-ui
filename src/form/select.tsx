@@ -19,6 +19,7 @@ export interface SelectProperties<T extends SelectValue = SelectValue> {
     options: Array<SelectOption>;
     id?: string;
     loading?: boolean;
+    preventEmpty?: boolean;
     renderOption?: (option: SelectOption) => ReactElement;
     helperText?: ReactElement|string|number|undefined;
     FormControlProps?: FormControlProps;
@@ -35,6 +36,7 @@ export function Select<T extends SelectValue = SelectValue>(properties: SelectPr
         options,
         renderOption,
         loading = false,
+        preventEmpty = false,
         helperText,
         FormControlProps: {
             fullWidth = true,
@@ -112,7 +114,7 @@ export function Select<T extends SelectValue = SelectValue>(properties: SelectPr
                                 </Box>
                             )
                         })
-                        : (stateVal !== '' && {
+                        : ((stateVal !== '' && !preventEmpty) && {
                             endAdornment: (
                                 <IconButton
                                     sx={{
@@ -131,7 +133,7 @@ export function Select<T extends SelectValue = SelectValue>(properties: SelectPr
                         })
                 )}
             >
-                <MenuItem value="">{emptyLabel ?? 'None'}</MenuItem>
+                {!preventEmpty && <MenuItem value="">{emptyLabel ?? 'None'}</MenuItem>}
                 {options.map(o =>
                     <MenuItem key={o.value} value={o.value}>
                         {renderOption === undefined

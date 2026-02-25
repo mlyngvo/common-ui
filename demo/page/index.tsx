@@ -26,9 +26,19 @@ const COMPONENTS = [
         path: '/table',
     },
     {
+        title: 'Localization',
+        description: 'Text translation, enum translation, and locale-aware date components.',
+        path: '/localization',
+    },
+    {
         title: 'Auth',
         description: 'Various authentication components.',
         path: '/auth',
+    },
+    {
+        title: 'Typography',
+        description: 'Typography variants, colors, and font weights.',
+        path: '/typography',
     },
 ];
 
