@@ -4,6 +4,12 @@ import React from 'react';
 
 import {VerificationCodeInput} from './verification-code-input';
 
+function getInput(id: string): HTMLElement {
+  const el = document.getElementById(id);
+  if (el == null) throw new Error(`Element #${id} not found`);
+  return el;
+}
+
 afterEach(() => {
   document.body.innerHTML = '';
 });
@@ -44,7 +50,7 @@ describe('verification-code-input test', () => {
     const onChange = jest.fn<(value: string) => void>();
     render(<VerificationCodeInput label="Code" id="vc" value="" onChange={onChange} />);
 
-    const firstInput = document.getElementById('vc-0')!;
+    const firstInput = getInput('vc-0');
     fireEvent.change(firstInput, {target: {value: '1'}});
 
     expect(onChange).toHaveBeenCalledWith('1');
@@ -53,7 +59,7 @@ describe('verification-code-input test', () => {
   it('moves focus to next input on change', () => {
     render(<VerificationCodeInput label="Code" id="vc" value="" onChange={() => {}} />);
 
-    const firstInput = document.getElementById('vc-0')!;
+    const firstInput = getInput('vc-0');
     fireEvent.change(firstInput, {target: {value: '1'}});
 
     expect(document.getElementById('vc-1')).toHaveFocus();
@@ -63,7 +69,7 @@ describe('verification-code-input test', () => {
     const onChange = jest.fn<(value: string) => void>();
     render(<VerificationCodeInput label="Code" id="vc" value="12" onChange={onChange} />);
 
-    const thirdInput = document.getElementById('vc-2')!;
+    const thirdInput = getInput('vc-2');
     fireEvent.keyDown(thirdInput, {key: 'Backspace'});
 
     expect(onChange).toHaveBeenCalledWith('1');
@@ -74,7 +80,7 @@ describe('verification-code-input test', () => {
     const onChange = jest.fn<(value: string) => void>();
     render(<VerificationCodeInput label="Code" id="vc" value="123" onChange={onChange} />);
 
-    const secondInput = document.getElementById('vc-1')!;
+    const secondInput = getInput('vc-1');
     fireEvent.keyDown(secondInput, {key: 'Backspace'});
 
     expect(onChange).toHaveBeenCalledWith('13');
@@ -84,7 +90,7 @@ describe('verification-code-input test', () => {
     const onChange = jest.fn<(value: string) => void>();
     render(<VerificationCodeInput label="Code" id="vc" value="" onChange={onChange} />);
 
-    const firstInput = document.getElementById('vc-0')!;
+    const firstInput = getInput('vc-0');
     fireEvent.paste(firstInput, {
       clipboardData: {getData: () => '123456'},
     });
@@ -96,7 +102,7 @@ describe('verification-code-input test', () => {
     const onChange = jest.fn<(value: string) => void>();
     render(<VerificationCodeInput label="Code" id="vc" value="" length={4} onChange={onChange} />);
 
-    const firstInput = document.getElementById('vc-0')!;
+    const firstInput = getInput('vc-0');
     fireEvent.paste(firstInput, {
       clipboardData: {getData: () => '123456'},
     });
