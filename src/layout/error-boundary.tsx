@@ -1,6 +1,6 @@
 import ErrorOutlineRoundedIcon from '@mui/icons-material/ErrorOutlineRounded';
 import {Accordion, AccordionDetails, AccordionSummary, Box, Dialog, DialogContent, Stack, Typography} from '@mui/material';
-import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren} from 'react';
+import React, {Component, type ErrorInfo, Fragment, type PropsWithChildren, ReactNode} from 'react';
 
 interface ErrorContext {
     url: string;
@@ -104,8 +104,7 @@ export class ErrorBoundary extends Component<PropsWithChildren<ErrorBoundaryProp
             });
     }
 
-    render() {
-         
+    render(): ReactNode {
         if (!this.state.hasError) return this.props.children;
         const {
             errorContext: {
