@@ -1,3 +1,4 @@
+export * from './data';
 export * from './date-pickers';
 export * from './display';
 export * from './editor';
