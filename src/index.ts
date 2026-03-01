@@ -5,6 +5,7 @@ export * from './editor';
 export * from './form';
 export * from './layout';
 export * from './table';
+export * from './auth';
 export {storage} from './utils/local-storage';
 export {createLocalization} from './utils/localization';
 export {useFlag} from './utils/use-flag';
