@@ -10,3 +10,4 @@ export {storage} from './utils/local-storage';
 export {createLocalization} from './utils/localization';
 export {useFlag} from './utils/use-flag';
 export {useTabs} from './utils/use-tabs';
+export {isNonBlank, isNonEmpty} from './utils/strings'
