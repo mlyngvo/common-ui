@@ -130,6 +130,7 @@ describe('forgot-password form test', () => {
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledWith({
         email: 'user@test.com',
+        verificationCode: '123456',
         newPassword: 'newpass',
         confirmNewPassword: 'newpass',
       });

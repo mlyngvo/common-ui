@@ -8,6 +8,6 @@ export * from './layout';
 export * from './table';
 export {storage} from './utils/local-storage';
 export {createLocalization} from './utils/localization';
+export {isNonBlank, isNonEmpty} from './utils/strings'
 export {useFlag} from './utils/use-flag';
 export {useTabs} from './utils/use-tabs';
-export {isNonBlank, isNonEmpty} from './utils/strings'

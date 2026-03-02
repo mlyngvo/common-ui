@@ -24,6 +24,7 @@ export default function AuthPage({forgotPassword = false}: { forgotPassword?: bo
     const forgotPasswordMutate = useMutation({
         mutationFn: async ({email, verificationCode, newPassword, confirmNewPassword}: ForgotPasswordFormData) => {
             if (isNonBlank(newPassword)) {
+                if (verificationCode !== '123456') throw new Error('Correct code is 123456.');
                 if (newPassword !== confirmNewPassword) throw new Error('Passwords mismatch.');
                 console.info('Password changed.');
             }
