@@ -2,11 +2,16 @@ import {useMutation} from "@tanstack/react-query";
 import React from "react";
 import {useNavigate} from "react-router-dom";
 
-import {Body, Breadcrumbs, PageTitle} from "../../src";
-import {ForgotPasswordForm, LoginForm} from "../../src/auth";
-import {ForgotPasswordFormData} from "../../src/auth/forgot-password";
-import {LoginFormData} from "../../src/auth/login";
-import {isNonBlank} from "../../src/utils/strings";
+import {
+    Body,
+    Breadcrumbs,
+    ForgotPasswordForm,
+    ForgotPasswordFormData,
+    isNonBlank,
+    LoginForm,
+    LoginFormData,
+    PageTitle
+} from "../../src";
 import {Logo} from "../logo";
 import {sleep} from "../utils";
 
