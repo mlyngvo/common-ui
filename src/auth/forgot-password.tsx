@@ -80,7 +80,12 @@ export function ForgotPasswordForm(props: ForgotPasswordProps) {
     function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
         ev.preventDefault();
 
-        const data: ForgotPasswordFormData = { email };
+        const data: ForgotPasswordFormData = {
+            email,
+            verificationCode: code,
+            newPassword: password,
+            confirmNewPassword: confirmPassword
+        };
         let nextMode: ForgotPasswordMode | undefined;
 
         if (mode === 'Email') {
