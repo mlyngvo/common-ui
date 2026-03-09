@@ -58,6 +58,12 @@ export function Select<T extends SelectValue = SelectValue>(properties: SelectPr
 
     const [stateVal, setStateVal] = useState<SelectValue>(value ?? "");
 
+    const [prevValue, setPrevValue] = useState(value);
+    if (value !== prevValue) {
+        setPrevValue(value);
+        setStateVal(value ?? "");
+    }
+
     function handleChange(value: SelectValue) {
         setStateVal(value);
         onChange?.(value as T);

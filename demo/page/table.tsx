@@ -240,21 +240,6 @@ export default function TablePage() {
                                         onChange: handleStatusChange
                                     }}
                                 />
-                                <Select
-                                    FormControlProps={{
-                                        fullWidth: false
-                                    }}
-                                    label="Status"
-                                    options={[
-                                        { label: 'Paid', value: 'Paid' },
-                                        { label: 'Refunded', value: 'Refunded' },
-                                        { label: 'Cancelled', value: 'Cancelled' },
-                                    ]}
-                                    SelectProps={{
-                                        value: statusFilter,
-                                        onChange: handleStatusChange
-                                    }}
-                                />
                             </>
                         }
                         {...restPagination}
