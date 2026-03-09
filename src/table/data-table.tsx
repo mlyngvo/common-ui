@@ -73,7 +73,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         onPageNumber,
         onPageSize,
     } = props;
-    const isMobile = useMediaQuery(theme => theme.breakpoints.down('sm'));
+    const isMobile = useMediaQuery(theme => theme.breakpoints.down('md'));
 
     const sortableHeaders = headers.filter(h => h.sortKey !== undefined);
 
@@ -169,7 +169,9 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                     onFilter={onFilter}
                                 />
                             )}
-                            {filterInputs}
+                            <Stack direction="row" gap={1}>
+                                {filterInputs}
+                            </Stack>
                         </Stack>
                     )}
                     <TableContainer
@@ -311,11 +313,14 @@ function SearchBar({ searchKey, filter, onFilter }: SearchBarProps) {
     return (
         <Input
             label="Search"
+            FormControlProps={{
+                fullWidth: false,
+                sx: { flexGrow: 1 },
+            }}
             InputProps={{
                 value,
                 onChange: setValue,
                 onKeyDown: e => { if (e.key === 'Enter') handleApply(); },
-                sx: { flex: 1 },
                 slotProps: {
                     input: {
                         endAdornment: (

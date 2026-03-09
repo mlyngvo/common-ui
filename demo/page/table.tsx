@@ -21,7 +21,7 @@ import React, {Fragment, useState} from 'react';
 import {useNavigate} from "react-router-dom";
 
 import {Body, Breadcrumbs, DataTable, PageTitle, PlainTable, Select, Switch} from '../../src';
-import {serializePageable, usePagination} from "../../src/data/page";
+import {serializePageable, usePagination} from "../../src";
 import {mockFetchPageable} from "../utils";
 
 const orders = [
@@ -226,6 +226,24 @@ export default function TablePage() {
                         filterInputs={
                             <>
                                 <Select
+                                    FormControlProps={{
+                                        fullWidth: false
+                                    }}
+                                    label="Status"
+                                    options={[
+                                        { label: 'Paid', value: 'Paid' },
+                                        { label: 'Refunded', value: 'Refunded' },
+                                        { label: 'Cancelled', value: 'Cancelled' },
+                                    ]}
+                                    SelectProps={{
+                                        value: statusFilter,
+                                        onChange: handleStatusChange
+                                    }}
+                                />
+                                <Select
+                                    FormControlProps={{
+                                        fullWidth: false
+                                    }}
                                     label="Status"
                                     options={[
                                         { label: 'Paid', value: 'Paid' },
