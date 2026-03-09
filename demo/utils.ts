@@ -1,4 +1,4 @@
-import {SpringPage, SpringPageable} from "../src/data/page";
+import {SpringPage, SpringPageable} from "../src";
 
 export async function sleep(ms: number) { return new Promise(resolve => setTimeout(resolve, ms)); }
 

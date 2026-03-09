@@ -169,9 +169,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                     onFilter={onFilter}
                                 />
                             )}
-                            <Stack>
-                                {filterInputs}
-                            </Stack>
+                            {filterInputs}
                         </Stack>
                     )}
                     <TableContainer
