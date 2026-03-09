@@ -24,7 +24,7 @@ import {
 } from "@mui/material";
 import React, {type ReactElement, type ReactNode, useState} from "react";
 
-import {SortKey, SpringPage, SpringPageable} from "../data/page";
+import {SortKey, SpringPage, SpringPageable} from "../data";
 import {Input} from "../form";
 import {isNonBlank} from "../utils/strings";
 import {TableItemList, TableItemRows} from "./share";
