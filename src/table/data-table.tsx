@@ -171,7 +171,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                             )}
 
                             {filterInputs !== undefined && (
-                                <Stack direction="row" gap={1}>
+                                <Stack direction="row" gap={1} flexGrow={1}>
                                     {filterInputs}
                                 </Stack>
                             )}
