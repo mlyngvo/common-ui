@@ -105,22 +105,22 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         <>
             {isMobile && (
                 <Stack direction="column" sx={{ height: '100%', minHeight: 0 }}>
-                    {(Boolean(searchKey) && onFilter != null || filterInputs != null || sortableHeaders.length > 0 && onSort != null) && (
+                    {(Boolean(searchKey) && onFilter !== undefined || filterInputs !== undefined || sortableHeaders.length > 0 && onSort !== undefined) && (
                         <>
                             <Stack direction="row" gap={1} sx={{ px: 1, pt: 1, mb: 1 }} alignItems="flex-end">
-                                {searchKey != null && searchKey !== '' && onFilter != null && (
+                                {searchKey !== undefined && searchKey !== '' && onFilter !== undefined && (
                                     <SearchBar
                                         searchKey={searchKey}
                                         filter={pFilter}
                                         onFilter={onFilter}
                                     />
                                 )}
-                                {filterInputs != null && (
+                                {filterInputs !== undefined && (
                                     <MobileFilterButton filter={pFilter}>
                                         {filterInputs}
                                     </MobileFilterButton>
                                 )}
-                                {sortableHeaders.length > 0 && onSort != null && (
+                                {sortableHeaders.length > 0 && onSort !== undefined && (
                                     <MobileSortButton
                                         headers={sortableHeaders}
                                         getSortDirection={getSortDirection}
@@ -155,23 +155,26 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                     direction="column"
                     sx={{ height: '100%', minHeight: 0 }}
                 >
-                    {(Boolean(searchKey) && onFilter != null || filterInputs != null) && (
+                    {(Boolean(searchKey) && onFilter !== undefined || filterInputs !== undefined) && (
                         <Stack
                             direction="row"
                             gap={1}
                             sx={{ px: 1, py: 1 }}
                             alignItems="center"
                         >
-                            {searchKey != null && searchKey !== '' && onFilter != null && (
+                            {searchKey !== undefined && searchKey !== '' && onFilter !== undefined && (
                                 <SearchBar
                                     searchKey={searchKey}
                                     filter={pFilter}
                                     onFilter={onFilter}
                                 />
                             )}
-                            <Stack direction="row" gap={1}>
-                                {filterInputs}
-                            </Stack>
+
+                            {filterInputs !== undefined && (
+                                <Stack direction="row" gap={1}>
+                                    {filterInputs}
+                                </Stack>
+                            )}
                         </Stack>
                     )}
                     <TableContainer
