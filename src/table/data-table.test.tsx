@@ -3,7 +3,7 @@ import {useMediaQuery} from '@mui/material';
 import {fireEvent, render, screen} from '@testing-library/react';
 import React from 'react';
 
-import {SpringPage, SpringPageable} from '../data/page';
+import {SpringPage, SpringPageable} from '../data';
 import {DataTable, DataTableProperties} from './data-table';
 
 function getButtonByIcon(testId: string): HTMLElement {
