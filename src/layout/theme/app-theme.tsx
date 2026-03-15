@@ -29,7 +29,11 @@ export function AppTheme({children, themeComponents}: AppThemeProps) {
                             font-size: 0.84em;
                         }
                         :root, [data-mui-color-scheme="light"] {
-                            --template-palette-TableCell-border: #ddd !important;
+                            // --template-palette-TableCell-border: #ddd !important;
+                            
+                            --template-palette-Table-border: #cbd5e1;
+                            --template-palette-TableCell-headBackground: #f1f5f9;
+                            --template-palette-TableCell-dataBackground: #f9fafc;
                         }
                     `
                 },

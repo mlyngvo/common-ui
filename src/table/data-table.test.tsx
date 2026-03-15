@@ -51,7 +51,7 @@ const testHeaders: DataTableProperties<TestItem>['headers'] = [
     {label: 'Status', width: 100},
 ];
 
-function renderTableRows(item: TestItem) {
+function renderTableRow(item: TestItem) {
     return (
         <tr key={item.id} data-testid={`row-${item.id}`}>
             <td>{item.id}</td>
@@ -61,7 +61,7 @@ function renderTableRows(item: TestItem) {
     );
 }
 
-function renderListRows(item: TestItem) {
+function renderListRow(item: TestItem) {
     return (
         <li key={item.id} data-testid={`list-item-${item.id}`}>
             {item.name}
@@ -75,8 +75,8 @@ const defaultProps: DataTableProperties<TestItem> = {
     error: undefined,
     headers: testHeaders,
     pageable: testPageable,
-    renderTableRows,
-    renderListRows,
+    renderTableRow,
+    renderListRow,
     onPageNumber: jest.fn(),
     onPageSize: jest.fn(),
 };

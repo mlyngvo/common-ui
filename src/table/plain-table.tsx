@@ -22,8 +22,8 @@ export interface PlainTableProperties<T> {
     loading: boolean;
     error: Error|null|undefined;
     headers: PlainTableHeaderItem[];
-    renderTableRows: (item: T, index: number) => ReactElement;
-    renderListRows: (item: T, index: number) => ReactElement;
+    renderTableRow: (item: T, index: number) => ReactElement;
+    renderListRow: (item: T, index: number) => ReactElement;
     stickyLastColumn?: boolean;
 }
 
@@ -33,8 +33,8 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
         loading,
         error,
         headers,
-        renderTableRows,
-        renderListRows,
+        renderTableRow,
+        renderListRow,
         stickyLastColumn = false,
     } = props;
 
@@ -47,12 +47,18 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
                     {...{
                         loading,
                         items,
-                        renderListRows,
+                        renderListRow,
                     }}
                 />
             )}
             {!isMobile && (
-                <TableContainer sx={{ maxHeight: '100%' }}>
+                <TableContainer
+                    sx={{
+                        maxHeight: '100%',
+                        border: '1px solid var(--template-palette-Table-border)',
+                        borderRadius: 'var(--template-shape-borderRadius)',
+                    }}
+                >
                     <Table
                         stickyHeader
                         size="small"
@@ -62,14 +68,18 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
                                     ? {
                                         '& tr > *:last-child': {
                                             position: 'sticky',
-                                            right: 0,
+                                            right: 0
+                                        },
+                                        '& tbody tr > *:last-child': {
+                                            backgroundColor: 'var(--template-palette-TableCell-headBackground)',
                                         },
                                     }
                                     : {}
                             )
                         })}
                     >
-                        <TableHead>
+                        <TableHead
+                        >
                             <TableRow>
                                 {headers.map((header, index) => (
                                     <TableCell
@@ -78,10 +88,11 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
                                             width: header.width,
                                             fontWeight: 600,
                                             color: 'var(--template-palette-text-secondary)',
-                                            background: 'var(--template-palette-divider)',
+                                            background: 'var(--template-palette-TableCell-headBackground)',
                                             borderBottom: '2px solid var(--template-palette-divider)',
-                                            paddingTop: '0.39rem',
-                                            paddingBottom: '0.39rem',
+                                            lineHeight: '1em',
+                                            paddingTop: '0.75rem',
+                                            paddingBottom: '0.75rem',
                                             backdropFilter: 'blur(8px)',
                                         }}
                                     >
@@ -94,6 +105,7 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
                             sx={{
                                 '& tr > td': {
                                     borderBottom: '1px solid var(--template-palette-divider)',
+                                    backgroundColor: 'var(--template-palette-TableCell-dataBackground)',
                                 },
                                 '& tr:last-child > td': {
                                     borderBottom: 'none',
@@ -113,7 +125,7 @@ export function PlainTable<T>(props: PlainTableProperties<T>) {
                                     error,
                                     loading,
                                     items,
-                                    renderTableRows,
+                                    renderTableRow,
                                     columnLength: headers.length,
                                 }}
                             />

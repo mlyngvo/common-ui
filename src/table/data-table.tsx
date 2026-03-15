@@ -42,8 +42,8 @@ export interface DataTableProperties<T> {
     error: Error|null|undefined;
     headers: Array<DataTableHeaderItem<T>>;
     pageable: SpringPageable<T>|undefined;
-    renderTableRows: (item: T, index: number) => ReactElement;
-    renderListRows: (item: T, index: number) => ReactElement;
+    renderTableRow: (item: T, index: number) => ReactElement;
+    renderListRow: (item: T, index: number) => ReactElement;
     onPageNumber: (page: number) => void;
     onPageSize: (size: number) => void;
     onSort?: (sortKey: SortKey<T>, removeSortKey?: boolean) => void;
@@ -63,8 +63,8 @@ export function DataTable<T>(props: DataTableProperties<T>) {
             sort: pSort,
             filter: pFilter,
         } = {},
-        renderTableRows,
-        renderListRows,
+        renderTableRow,
+        renderListRow,
         stickyLastColumn = false,
         onSort,
         onFilter,
@@ -135,7 +135,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                         {...{
                             loading,
                             items: page?.content,
-                            renderListRows,
+                            renderListRow,
                             sx: { flex: 1, overflow: 'auto' },
                         }}
                     />
@@ -159,7 +159,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                         <Stack
                             direction="row"
                             gap={1}
-                            sx={{ px: 1, py: 1 }}
+                            sx={{ px: 1, py: 1, mb: 1 }}
                             alignItems="center"
                         >
                             {searchKey !== undefined && searchKey !== '' && onFilter !== undefined && (
@@ -178,7 +178,12 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                         </Stack>
                     )}
                     <TableContainer
-                        sx={{ flex: 1, overflow: 'auto' }}
+                        sx={{
+                            flex: 1,
+                            overflow: 'auto',
+                            border: '1px solid var(--template-palette-Table-border)',
+                            borderRadius: 'var(--template-shape-borderRadius)',
+                        }}
                     >
                         <Table
                             stickyHeader
@@ -190,6 +195,9 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                             '& tr > *:last-child': {
                                                 position: 'sticky',
                                                 right: 0,
+                                            },
+                                            '& tbody tr > *:last-child': {
+                                                backgroundColor: 'var(--template-palette-TableCell-headBackground)',
                                             },
                                         }
                                         : {}
@@ -205,10 +213,11 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                                 width,
                                                 fontWeight: 600,
                                                 color: 'var(--template-palette-text-secondary)',
-                                                background: 'var(--template-palette-divider)',
+                                                background: 'var(--template-palette-TableCell-headBackground)',
                                                 borderBottom: '2px solid var(--template-palette-divider)',
-                                                paddingTop: '0.39rem',
-                                                paddingBottom: '0.39rem',
+                                                lineHeight: '1em',
+                                                paddingTop: '0.75rem',
+                                                paddingBottom: '0.75rem',
                                                 backdropFilter: 'blur(8px)',
                                             }}
                                         >
@@ -251,7 +260,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                                         error,
                                         loading,
                                         items: page?.content,
-                                        renderTableRows,
+                                        renderTableRow,
                                         columnLength: headers.length,
                                     }}
                                 />

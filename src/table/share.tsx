@@ -4,11 +4,11 @@ import React, {type CSSProperties, type ReactElement} from "react";
 interface TableItemListProps<T> {
     loading: boolean;
     items: T[]|undefined;
-    renderListRows: (item: T, index: number) => ReactElement;
+    renderListRow: (item: T, index: number) => ReactElement;
     sx?: CSSProperties;
 }
 
-export function TableItemList<T>({ loading, items, renderListRows, sx }: TableItemListProps<T>) {
+export function TableItemList<T>({ loading, items, renderListRow, sx }: TableItemListProps<T>) {
     return (
         <Stack
             direction="column"
@@ -23,7 +23,7 @@ export function TableItemList<T>({ loading, items, renderListRows, sx }: TableIt
             }}
         >
             {loading && <LinearProgress />}
-            {items?.map(renderListRows)}
+            {items?.map(renderListRow)}
             {items && items.length === 0 && (
                 <ListItem>
                     <ListItemText>
@@ -39,11 +39,11 @@ interface TableItemRowsProps<T> {
     error: Error|null|undefined;
     loading: boolean;
     items: T[]|undefined;
-    renderTableRows: (item: T, index: number) => ReactElement;
+    renderTableRow: (item: T, index: number) => ReactElement;
     columnLength: number;
 }
 
-export function TableItemRows<T>({error, loading, items, renderTableRows, columnLength}: TableItemRowsProps<T>) {
+export function TableItemRows<T>({error, loading, items, renderTableRow, columnLength}: TableItemRowsProps<T>) {
     return (
         <>
             {loading && (
@@ -65,7 +65,7 @@ export function TableItemRows<T>({error, loading, items, renderTableRows, column
                     </TableCell>
                 </TableRow>
             )}
-            {items?.map(renderTableRows)}
+            {items?.map(renderTableRow)}
         </>
     )
 }
