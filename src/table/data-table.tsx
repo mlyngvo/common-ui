@@ -89,8 +89,10 @@ export function DataTable<T>(props: DataTableProperties<T>) {
         // Add a new sort key if not found (starting with ascending order)
         if (pSort === undefined || pSort.size === 0) onSort?.({ field: sortKey, direction: 'asc' });
         else {
+            let found = false;
             for (const sort of pSort) {
                 if (sortKey === sort.field) {
+                    found = true;
                     // Remove the sort key if the current sort key is found with descending order
                     if (sort.direction === 'desc') onSort?.(sort, true);
                     // Revert sort direction if found
@@ -98,6 +100,7 @@ export function DataTable<T>(props: DataTableProperties<T>) {
                     break;
                 }
             }
+            if (!found) onSort?.({ field: sortKey, direction: 'asc' });
         }
     }
 
