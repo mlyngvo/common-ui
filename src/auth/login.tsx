@@ -17,6 +17,7 @@ export interface LoginFormProps {
     forgotPasswordUrl?: string;
     loading?: boolean;
     error?: Error;
+    defaultValues?: Partial<LoginFormData>;
     i18n?: {
         form?: string;
         email?: string;
@@ -45,9 +46,9 @@ export function LoginForm(props: LoginFormProps) {
         } = {},
     } = props;
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [persistent, setPersistent] = useState(false);
+    const [email, setEmail] = useState(props.defaultValues?.email ?? '');
+    const [password, setPassword] = useState(props.defaultValues?.password ?? '');
+    const [persistent, setPersistent] = useState(props.defaultValues?.persistent ?? false);
     function handleSubmit(ev: React.SubmitEvent<HTMLFormElement>) {
         ev.preventDefault();
         onSubmit({ email, password, persistent })
