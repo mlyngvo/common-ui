@@ -45,14 +45,16 @@ export async function mockFetchPageable<T>(data: Array<T>, pageable?: SpringPage
         }
     }
     const totalPages = Math.ceil(filtered.length / size);
-    const isLast = page == totalPages;
+    const last = page == totalPages;
     return {
         content,
         size,
-        isFirst: page === 0,
-        isLast,
+        first: page === 0,
+        last,
         number: page,
         totalElements: filtered.length,
-        totalPages
+        totalPages,
+        numberOfElements: content.length,
+        empty: filtered.length === 0
     };
 }

@@ -36,8 +36,10 @@ const testPage: SpringPage<TestItem> = {
     number: 0,
     totalElements: 3,
     totalPages: 1,
-    isFirst: true,
-    isLast: true,
+    first: true,
+    last: true,
+    numberOfElements: testItems.length,
+    empty: false,
 };
 
 const testPageable: SpringPageable<TestItem> = {

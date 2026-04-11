@@ -9,8 +9,10 @@ export interface SpringPage<T> {
     number: number;
     totalElements: number;
     totalPages: number;
-    isLast: boolean;
-    isFirst: boolean;
+    last: boolean;
+    first: boolean;
+    numberOfElements: number|null;
+    empty: boolean|null;
 }
 
 export interface SortKey<T> {
