@@ -27,6 +27,7 @@ export interface SpringPageable<T> {
     filter?: Record<string, string|number>;
 }
 
+// @deprecated
 export function createPageableParams<T>({size, page, sort, filter}: SpringPageable<T>) {
     const params = [
         `size=${size}`,
@@ -57,6 +58,20 @@ export function createPageableParams<T>({size, page, sort, filter}: SpringPageab
         }
     }
     return params.join('&');
+}
+
+export function toPageableParams<T>({page, size, sort}: SpringPageable<T>) {
+    const params = {
+        page,
+        size,
+        sort: [] as string[]
+    };
+    if (sort !== undefined) {
+        for (const { field, direction } of sort) {
+            params.sort.push(`${String(field)},${direction}`)
+        }
+    }
+    return params;
 }
 
 export function serializePageable<T>(pageable: SpringPageable<T> | undefined) {

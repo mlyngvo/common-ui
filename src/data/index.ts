@@ -1,1 +1,1 @@
-export {createPageableParams, serializePageable, type SortKey, type SpringPage, type SpringPageable, usePagination} from "./page";
+export {createPageableParams, toPageableParams, serializePageable, type SortKey, type SpringPage, type SpringPageable, usePagination} from "./page";
